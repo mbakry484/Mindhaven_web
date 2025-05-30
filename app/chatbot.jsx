@@ -15,6 +15,9 @@ import {
 import { useRouter } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { GROQ_API_URL, GROQ_API_KEY, GROQ_MODEL } from "./config/aiConfig";
+import { VOICE_AI_CONFIG } from "./config/VoiceAiConfig";
+import * as FileSystem from 'expo-file-system';
+import { Audio } from 'expo-av';
 
 const { width } = Dimensions.get("window");
 
@@ -218,6 +221,9 @@ const ChatbotScreen = () => {
   const [messages, setMessages] = useState([]);
   const [inputText, setInputText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isRecording, setIsRecording] = useState(false);
+  const mediaRecorderRef = useRef(null);
+  const audioChunksRef = useRef([]);
   const scrollViewRef = useRef();
 
   // Fetch chat history on mount
@@ -456,6 +462,99 @@ const ChatbotScreen = () => {
     );
   };
 
+  const transcribeAudio = async (audioBlob) => {
+    try {
+      setIsLoading(true);
+
+      // Create form data
+      const formData = new FormData();
+      formData.append('file', audioBlob, 'audio.webm');
+      formData.append('model', VOICE_AI_CONFIG.WHISPER_MODEL);
+      formData.append('response_format', 'json');
+      formData.append('temperature', '0');
+
+      // Send to Groq API
+      const response = await fetch(VOICE_AI_CONFIG.GROQ_API_URL, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${VOICE_AI_CONFIG.GROQ_API_KEY}`,
+        },
+        body: formData,
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error?.message || 'Transcription failed');
+      }
+
+      const data = await response.json();
+
+      // Check if we have valid transcription data
+      if (data && data.text && data.text !== "Transcribe the following audio.") {
+        setInputText(data.text.trim());
+      } else {
+        throw new Error('Invalid transcription response');
+      }
+    } catch (err) {
+      console.error('Failed to transcribe audio:', err);
+      Alert.alert('Error', 'Failed to transcribe audio. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const startRecording = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio: {
+          echoCancellation: true,
+          noiseSuppression: true,
+          autoGainControl: true,
+          sampleRate: 44100,
+          channelCount: 1
+        }
+      });
+
+      const mediaRecorder = new MediaRecorder(stream, {
+        mimeType: 'audio/webm;codecs=opus',
+        audioBitsPerSecond: 128000
+      });
+
+      mediaRecorderRef.current = mediaRecorder;
+      audioChunksRef.current = [];
+
+      mediaRecorder.ondataavailable = (event) => {
+        if (event.data.size > 0) {
+          audioChunksRef.current.push(event.data);
+        }
+      };
+
+      mediaRecorder.onstop = async () => {
+        const audioBlob = new Blob(audioChunksRef.current, {
+          type: 'audio/webm;codecs=opus'
+        });
+        await transcribeAudio(audioBlob);
+
+        // Stop all tracks in the stream
+        stream.getTracks().forEach(track => track.stop());
+      };
+
+      // Start recording with a smaller timeslice to get more frequent data
+      mediaRecorder.start(1000);
+      setIsRecording(true);
+    } catch (err) {
+      console.error('Failed to start recording:', err);
+      Alert.alert('Error', 'Failed to start recording. Please ensure microphone permissions are granted.');
+    }
+  };
+
+  const stopRecording = () => {
+    if (mediaRecorderRef.current && isRecording) {
+      mediaRecorderRef.current.stop();
+      setIsRecording(false);
+    }
+  };
+
   return (
     <View style={{ flex: 1, backgroundColor: '#f8fafc' }}>
       {/* Header */}
@@ -597,6 +696,23 @@ const ChatbotScreen = () => {
           borderTopWidth: 1,
           borderTopColor: '#e5e7eb',
         }}>
+          <TouchableOpacity
+            onPress={isRecording ? stopRecording : startRecording}
+            style={{
+              width: 48,
+              height: 48,
+              borderRadius: 24,
+              backgroundColor: isRecording ? '#ef4444' : '#3b82f6',
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginRight: 10,
+            }}
+          >
+            <Text style={{ color: 'white', fontSize: 18 }}>
+              {isRecording ? '■' : '🎤'}
+            </Text>
+          </TouchableOpacity>
+
           <TextInput
             style={{
               flex: 1,
