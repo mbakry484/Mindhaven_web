@@ -42,6 +42,7 @@ urlpatterns = [
     path("get_blog_posts/", get_blog_posts, name="get_blog_posts"),
     path("create_blog_post/", create_blog_post, name="create_blog_post"),
     path("toggle_like/<str:post_id>/", toggle_like, name="toggle_like"),
+    path("delete_blog_post/<str:post_id>/", delete_blog_post, name="delete_blog_post"),
     # Comments endpoints
     path("add_comment/", add_comment, name="add_comment"),
     path(

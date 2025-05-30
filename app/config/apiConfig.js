@@ -25,6 +25,7 @@ export const API_URLS = {
     ADD_COMMENT: `${API_BASE_URL}/api/add_comment/`,
     TOGGLE_COMMENT_LIKE: `${API_BASE_URL}/api/toggle_comment_like/`,
     ADD_USER: `${API_BASE_URL}/api/add_user/`,
+    DELETE_POST: `${API_BASE_URL}/api/delete_blog_post/`,
 };
 
 export default API_URLS; 

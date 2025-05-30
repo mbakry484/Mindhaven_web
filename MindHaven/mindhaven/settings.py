@@ -27,7 +27,7 @@ SECRET_KEY = "django-insecure-%ru%ev*+z_kyrrlx^sb#vv52ey6h5syc9me!svwr)nxf-q@2vg
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
 
 
 # Application definition
@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    'corsheaders',
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
@@ -59,23 +59,23 @@ CORS_ALLOWED_ORIGINS = [
 ]
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_METHODS = [
-    'DELETE',
-    'GET',
-    'OPTIONS',
-    'PATCH',
-    'POST',
-    'PUT',
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
 ]
 CORS_ALLOW_HEADERS = [
-    'accept',
-    'accept-encoding',
-    'authorization',
-    'content-type',
-    'dnt',
-    'origin',
-    'user-agent',
-    'x-csrftoken',
-    'x-requested-with',
+    "accept",
+    "accept-encoding",
+    "authorization",
+    "content-type",
+    "dnt",
+    "origin",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
 ]
 
 ROOT_URLCONF = "mindhaven.urls"
@@ -98,7 +98,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "mindhaven.wsgi.application"
 
-#THIS IS THE LATEST HAGA 
+# THIS IS THE LATEST HAGA
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
@@ -141,14 +141,14 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # MongoDB Configuration
-MONGODB_HOST = 'mongodb+srv://mbakry484:MindHaven123@cluster0.avclj.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
+MONGODB_HOST = "mongodb+srv://mbakry484:MindHaven123@cluster0.avclj.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 MONGODB_NAME = "mindhaven"
 
 # Using SQLite for Django's ORM
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
 
@@ -157,9 +157,13 @@ DATABASES = {
 # MongoDB connection will be handled in db_connection.py and individual model files
 
 # Media files configuration
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 # Ensure media files are served in development
 if DEBUG:
-    MEDIA_URL = '/media/'
+    MEDIA_URL = "/media/"
+
+# Increase upload size limits for large image uploads
+DATA_UPLOAD_MAX_MEMORY_SIZE = 20 * 1024 * 1024  # 20 MB
+FILE_UPLOAD_MAX_MEMORY_SIZE = 20 * 1024 * 1024  # 20 MB

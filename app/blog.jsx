@@ -22,6 +22,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Svg, Path } from 'react-native-svg';
 import { API_URLS } from "./config/apiConfig";
 import { useUser } from "./UserContext";
+import * as ImagePicker from 'expo-image-picker';
+import { MaterialIcons } from '@expo/vector-icons';
 
 const { width, height } = Dimensions.get("window");
 
@@ -197,6 +199,36 @@ const CreatePostCard = ({ onCreatePost }) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [imageError, setImageError] = useState(false);
+  const [selectedImages, setSelectedImages] = useState([]);
+
+  const pickImage = async () => {
+    try {
+      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+      if (status !== 'granted') {
+        Alert.alert('Permission needed', 'Please grant permission to access your photos');
+        return;
+      }
+
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 0.8,
+      });
+
+      if (!result.canceled && result.assets && result.assets.length > 0) {
+        setSelectedImages(prev => [...prev, result.assets[0].uri]);
+      }
+    } catch (error) {
+      console.error('Error picking image:', error);
+      Alert.alert('Error', 'Failed to pick image');
+    }
+  };
+
+  const removeImage = (index) => {
+    setSelectedImages(prev => prev.filter((_, i) => i !== index));
+  };
 
   const handlePost = () => {
     if (!title.trim() || !content.trim()) {
@@ -204,9 +236,10 @@ const CreatePostCard = ({ onCreatePost }) => {
       return;
     }
 
-    onCreatePost(title, content);
+    onCreatePost(title, content, selectedImages);
     setTitle("");
     setContent("");
+    setSelectedImages([]);
     setIsExpanded(false);
   };
 
@@ -234,7 +267,10 @@ const CreatePostCard = ({ onCreatePost }) => {
         <View style={styles.createPostExpanded}>
           <View style={styles.createPostHeader}>
             <Text style={styles.createPostTitle}>Create Post</Text>
-            <TouchableOpacity onPress={() => setIsExpanded(false)}>
+            <TouchableOpacity onPress={() => {
+              setIsExpanded(false);
+              setSelectedImages([]);
+            }}>
               <Text style={styles.createPostCancel}>Cancel</Text>
             </TouchableOpacity>
           </View>
@@ -261,7 +297,33 @@ const CreatePostCard = ({ onCreatePost }) => {
               textAlignVertical="top"
             />
 
+            {selectedImages.length > 0 && (
+              <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                style={styles.selectedImagesContainer}
+              >
+                {selectedImages.map((uri, index) => (
+                  <View key={index} style={styles.selectedImageWrapper}>
+                    <Image source={{ uri }} style={styles.selectedImage} />
+                    <TouchableOpacity
+                      style={styles.removeImageButton}
+                      onPress={() => removeImage(index)}
+                    >
+                      <Text style={styles.removeImageText}>×</Text>
+                    </TouchableOpacity>
+                  </View>
+                ))}
+              </ScrollView>
+            )}
+
             <View style={styles.createPostActions}>
+              <TouchableOpacity
+                style={styles.addImageButton}
+                onPress={pickImage}
+              >
+                <Text style={styles.addImageButtonText}>Add Photo</Text>
+              </TouchableOpacity>
               <Button
                 title="Post"
                 onPress={handlePost}
@@ -287,6 +349,8 @@ const PostCard = ({
   fetchComments,
   handleCommentLike,
   likedComments,
+  onDelete,
+  user_id,
 }) => {
   const { user } = useUser();
   const [showComments, setShowComments] = useState(false);
@@ -295,6 +359,7 @@ const PostCard = ({
   const slideAnim = useRef(new Animated.Value(0)).current;
   const heartScale = useRef(new Animated.Value(1)).current;
   const [imageError, setImageError] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
 
   const {
     _id,
@@ -388,12 +453,55 @@ const PostCard = ({
           </Text>
           <Text style={styles.postDate}>{formattedDate}</Text>
         </View>
+        {/* 3-dots menu for post owner */}
+        {user_id === post.user_id && (
+          <View style={{ marginLeft: 'auto', position: 'relative' }}>
+            <TouchableOpacity
+              onPress={() => {
+                setShowMenu(!showMenu);
+                console.log('3-dots menu clicked for post', post._id);
+              }}
+              style={{ padding: 8 }}
+            >
+              <MaterialIcons name="more-vert" size={24} color="#626A7C" />
+            </TouchableOpacity>
+            {showMenu && (
+              <View style={styles.menuDropdown}>
+                <TouchableOpacity
+                  onPress={() => {
+                    setShowMenu(false);
+                    console.log('Delete button clicked for post', post._id);
+                    onDelete(post._id);
+                  }}
+                  style={styles.menuDeleteButton}
+                >
+                  <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                    <MaterialIcons name="delete" size={20} color="#E53E3E" style={{ marginRight: 6 }} />
+                    <Text style={styles.menuDeleteText}>Delete</Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+            )}
+          </View>
+        )}
       </View>
 
       {/* Post Content */}
       <View style={styles.postContent}>
         <Text style={styles.postTitle}>{title}</Text>
         <Text style={styles.postText}>{content}</Text>
+        {post.images && post.images.length > 0 && (
+          <ScrollView horizontal style={{ marginTop: 10 }}>
+            {post.images.map((imgUrl, idx) => (
+              <Image
+                key={idx}
+                source={{ uri: imgUrl }}
+                style={{ width: 180, height: 180, borderRadius: 12, marginRight: 8 }}
+                resizeMode="cover"
+              />
+            ))}
+          </ScrollView>
+        )}
       </View>
 
       {/* Simple Likes/Comments Count */}
@@ -454,16 +562,6 @@ const PostCard = ({
             fill={showComments}
           />
           <Text style={[styles.postActionText, showComments && styles.postActionTextActive]}>Comment</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.postActionButton}
-          onPress={() => onShare(_id)}
-        >
-          <ShareIcon
-            size={20}
-          />
-          <Text style={styles.postActionText}>Share</Text>
         </TouchableOpacity>
       </View>
 
@@ -662,7 +760,7 @@ const BlogScreen = () => {
     }
   };
 
-  const handleCreatePost = async (title, content) => {
+  const handleCreatePost = async (title, content, images = []) => {
     if (!title || !content) {
       Alert.alert("Error", "Title and content are required");
       return;
@@ -674,28 +772,70 @@ const BlogScreen = () => {
     }
 
     try {
+      // Convert images to base64 first
+      let base64Images = [];
+      if (images.length > 0) {
+        console.log('Converting images to base64...');
+        const imagePromises = images.map(async (uri) => {
+          try {
+            const response = await fetch(uri);
+            const blob = await response.blob();
+            return new Promise((resolve, reject) => {
+              const reader = new FileReader();
+              reader.onload = () => resolve(reader.result);
+              reader.onerror = reject;
+              reader.readAsDataURL(blob);
+            });
+          } catch (error) {
+            console.error('Error converting image to base64:', error);
+            return null;
+          }
+        });
+
+        base64Images = (await Promise.all(imagePromises)).filter(img => img !== null);
+        console.log(`Successfully converted ${base64Images.length} images to base64`);
+      }
+
+      // Create post data with images
+      const postData = {
+        user_id: user_id,
+        title: title,
+        content: content,
+        is_anonymous: false,
+        images: base64Images
+      };
+
+      console.log('Sending post data with images:', {
+        ...postData,
+        imagesCount: base64Images.length
+      });
+
       const response = await fetch(API_URLS.CREATE_POST, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          user_id: user_id,
-          title: title,
-          content: content,
-          is_anonymous: false,
-        }),
+        body: JSON.stringify(postData),
       });
 
       if (!response.ok) {
-        throw new Error("Failed to create post");
+        const errorData = await response.json().catch(() => null);
+        console.error('Server response:', {
+          status: response.status,
+          statusText: response.statusText,
+          errorData
+        });
+        throw new Error(errorData?.message || "Failed to create post");
       }
+
+      const responseData = await response.json();
+      console.log('Post created successfully:', responseData);
 
       fetchPosts();
       Alert.alert("Success", "Post published successfully");
     } catch (error) {
       console.error("Error creating post:", error);
-      Alert.alert("Error", error.message);
+      Alert.alert("Error", error.message || "Failed to create post. Please try again.");
     }
   };
 
@@ -878,6 +1018,22 @@ const BlogScreen = () => {
     fetchPosts();
   }, []);
 
+  const handleDeletePost = async (postId) => {
+    try {
+      const response = await fetch(`${API_URLS.DELETE_POST}${postId}/`, {
+        method: 'DELETE',
+      });
+      if (!response.ok) {
+        throw new Error('Failed to delete post');
+      }
+      console.log('Post deleted:', postId);
+      setPosts(prevPosts => prevPosts.filter(post => post._id !== postId));
+    } catch (error) {
+      console.error('Error deleting post:', error);
+      Alert.alert('Error', error.message || 'Failed to delete post');
+    }
+  };
+
   // Render post list or empty state
   const renderContent = () => {
     if (isLoading) {
@@ -920,6 +1076,8 @@ const BlogScreen = () => {
             fetchComments={fetchComments}
             handleCommentLike={handleCommentLike}
             likedComments={likedComments}
+            onDelete={handleDeletePost}
+            user_id={user_id}
           />
         )}
         ItemSeparatorComponent={() => <View style={styles.postSeparator} />}
@@ -1135,7 +1293,9 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   createPostActions: {
-    alignItems: "flex-end",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
   },
   createPostInput: {
     flex: 1,
@@ -1502,6 +1662,51 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: '#626A7C',
     marginHorizontal: 4,
+  },
+
+  selectedImagesContainer: {
+    flexDirection: 'row',
+    marginBottom: 16,
+  },
+  selectedImageWrapper: {
+    marginRight: 8,
+    position: 'relative',
+  },
+  selectedImage: {
+    width: 100,
+    height: 100,
+    borderRadius: 8,
+  },
+  removeImageButton: {
+    position: 'absolute',
+    top: -8,
+    right: -8,
+    backgroundColor: '#E53E3E',
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 2,
+    borderColor: '#FFFFFF',
+  },
+  removeImageText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: 'bold',
+    lineHeight: 20,
+  },
+  addImageButton: {
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 8,
+    backgroundColor: '#F0F2F5',
+    marginRight: 12,
+  },
+  addImageButtonText: {
+    color: '#5100F3',
+    fontSize: 14,
+    fontWeight: '600',
   },
 });
 

@@ -139,13 +139,11 @@ class JournalEntries(BaseCollection):
 # =====================
 # Blog Posts
 # =====================
-
-
 class BlogPosts(BaseCollection):
     collection_name = "blog_posts"  # Use collection_name instead of collection
 
     @classmethod
-    def create_post(cls, user_id, title, content, is_anonymous=False):
+    def create_post(cls, user_id, title, content, is_anonymous=False, images=None):
         user = Users.find_by_id(user_id)
         user_name = user.get("name", "Anonymous") if user else "Anonymous"
         user_profile_image = user.get("profile_image") if user else None
@@ -161,6 +159,8 @@ class BlogPosts(BaseCollection):
             "like_count": 0,
             # No need to add created_at, BaseCollection.create() will add it
         }
+        if images and isinstance(images, list):
+            post_data["images"] = images
         return cls.create(**post_data)  # Use the create method from BaseCollection
 
     @classmethod
