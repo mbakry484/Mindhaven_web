@@ -22,9 +22,4 @@ urlpatterns = [
         views.update_journal_entry,
         name="update_journal_entry",
     ),
-    path(
-        "api/detect_mood/",
-        views.detect_mood,
-        name="detect_mood",
-    ),
 ]
