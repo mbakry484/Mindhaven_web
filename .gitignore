@@ -39,3 +39,5 @@ app-example
 
 # Config files with sensitive information
 app/config/aiConfig.js
+
+replacements.txt 
