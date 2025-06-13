@@ -130,10 +130,10 @@ class JournalEntries(BaseCollection):
     collection_name = "journal_entries"
 
     @classmethod
-    def create_entry(cls, user_id, content):
+    def create_entry(cls, user_id, content, title="Untitled Entry"):
         if isinstance(user_id, str):
             user_id = ObjectId(user_id)
-        return cls.create(user_id=user_id, content=content)
+        return cls.create(user_id=user_id, title=title, content=content, date=datetime.utcnow())
 
 
 # =====================

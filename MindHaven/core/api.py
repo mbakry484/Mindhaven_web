@@ -2,6 +2,8 @@ from .views import *
 from django.urls import path
 
 urlpatterns = [
+    # API documentation endpoint
+    path("", list_apis, name="list_apis"),
     # User endpoints
     path("login/", login, name="login"),
     path("add_user/", add_user, name="add_user"),

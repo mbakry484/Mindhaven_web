@@ -35,15 +35,20 @@ const Home = () => {
 
 const Header = ({ onProfilePress }) => {
   const { user } = useUser();
+  const router = useRouter();
+
   return (
     <View style={styles.header}>
-      <View style={styles.logoAndTitle}>
+      <TouchableOpacity
+        style={styles.logoAndTitle}
+        onPress={() => router.push("/landing")}
+      >
         <Image
           source={require("../assets/images/logo.png")}
           style={styles.logo}
         />
         <Text style={styles.title}>MindHaven</Text>
-      </View>
+      </TouchableOpacity>
       <TouchableOpacity onPress={onProfilePress}>
         <Image
           source={
@@ -91,24 +96,29 @@ const MoodTracker = () => (
 const ServicesContainer = ({ onServicePress }) => (
   <View style={styles.servicesContainer}>
     <ServiceBox
-      icon={require("../assets/images/chatbot.png")} // Replace with your icon
+      icon={require("../assets/images/chatbot.png")}
       title="Chatbot"
       onPress={() => onServicePress("chatbot")}
     />
     <ServiceBox
-      icon={require("../assets/images/knowledge.png")} // Replace with your icon
+      icon={require("../assets/images/knowledge.png")}
       title="Resources"
       onPress={() => onServicePress("Resources")}
     />
     <ServiceBox
-      icon={require("../assets/images/brain.png")} // Replace with your icon
+      icon={require("../assets/images/brain.png")}
       title="Exercises"
       onPress={() => onServicePress("exercises")}
     />
     <ServiceBox
-      icon={require("../assets/images/message.png")} // Replace with your icon
+      icon={require("../assets/images/message.png")}
       title="Support Groups"
       onPress={() => onServicePress("blog")}
+    />
+    <ServiceBox
+      icon={require("../assets/images/journal.svg")}
+      title="Journaling"
+      onPress={() => onServicePress("journaling")}
     />
   </View>
 );

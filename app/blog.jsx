@@ -164,17 +164,21 @@ const Button = ({
 const Header = ({ onProfilePress }) => {
   const { user } = useUser();
   const [imageError, setImageError] = useState(false);
+  const router = useRouter();
 
   return (
     <View style={styles.header}>
       <View style={styles.headerContent}>
-        <View style={styles.headerLeft}>
+        <TouchableOpacity
+          style={styles.headerLeft}
+          onPress={() => router.push("/home")}
+        >
           <Image
             source={require("../assets/images/logo.png")}
             style={styles.headerLogo}
           />
           <Text style={styles.headerTitle}>MindHaven</Text>
-        </View>
+        </TouchableOpacity>
 
         <TouchableOpacity onPress={onProfilePress} style={styles.profileButton}>
           <Avatar
