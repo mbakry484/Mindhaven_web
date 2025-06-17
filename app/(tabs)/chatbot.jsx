@@ -20,6 +20,7 @@ import { VOICE_AI_CONFIG } from "../config/VoiceAiConfig";
 import * as FileSystem from 'expo-file-system';
 import { Audio } from 'expo-av';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useUser } from "../UserContext";
 
 const { width } = Dimensions.get("window");
 
@@ -28,6 +29,9 @@ const GET_CHAT_LOGS_API_URL = "http://localhost:8000/api/get_user_chat_logs/";
 const MOOD_LOG_API_URL = "http://localhost:8000/api/add_mood_log/";
 const ACTIVITY_LOG_API_URL = "http://localhost:8000/api/add_activity_log/";
 const EXERCISE_API_URL = "http://localhost:8000/api/add_exercise/";
+
+const DEFAULT_AVATAR = require("../../assets/images/no-profile.png");
+const ROBOT_AVATAR = require("../../assets/images/robot.png");
 
 // List of moods to detect
 const moodList = [
@@ -227,6 +231,7 @@ const ChatbotScreen = () => {
   const mediaRecorderRef = useRef(null);
   const audioChunksRef = useRef([]);
   const scrollViewRef = useRef();
+  const { user } = useUser();
 
   // Fetch chat history on mount
   useEffect(() => {
@@ -385,7 +390,6 @@ const ChatbotScreen = () => {
 
   const renderMessage = (msg, index) => {
     const isUser = msg.sender === "user";
-
     return (
       <View
         key={index}
@@ -402,21 +406,16 @@ const ChatbotScreen = () => {
         }}>
           {!isUser && (
             <View style={{ marginRight: 8, flexShrink: 0 }}>
-              <View style={{
-                width: 36,
-                height: 36,
-                borderRadius: 18,
-                backgroundColor: '#7E57C2',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-                <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 16 }}>AI</Text>
-              </View>
+              <Image
+                source={ROBOT_AVATAR}
+                style={{ width: 36, height: 36, borderRadius: 18, backgroundColor: '#fff' }}
+                resizeMode="cover"
+              />
             </View>
           )}
 
           <View style={{
-            backgroundColor: isUser ? '#3b82f6' : '#f3f4f6',
+            backgroundColor: isUser ? '#5100F3' : '#fff',
             padding: 12,
             borderRadius: 18,
             borderBottomLeftRadius: isUser ? 18 : 4,
@@ -429,7 +428,7 @@ const ChatbotScreen = () => {
             flex: 1,
           }}>
             <Text style={{
-              color: isUser ? 'white' : '#333',
+              color: isUser ? 'white' : '#2c1a4a',
               fontSize: 16,
               lineHeight: 22,
             }}>
@@ -437,7 +436,7 @@ const ChatbotScreen = () => {
             </Text>
             <Text style={{
               fontSize: 10,
-              color: isUser ? 'rgba(255,255,255,0.7)' : '#888',
+              color: isUser ? 'rgba(255,255,255,0.7)' : '#64748b',
               marginTop: 4,
               alignSelf: 'flex-end'
             }}>
@@ -447,16 +446,11 @@ const ChatbotScreen = () => {
 
           {isUser && (
             <View style={{ marginLeft: 8, flexShrink: 0 }}>
-              <View style={{
-                width: 36,
-                height: 36,
-                borderRadius: 18,
-                backgroundColor: '#3b82f6',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-                <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 16 }}>U</Text>
-              </View>
+              <Image
+                source={user?.profile_image ? { uri: user.profile_image } : DEFAULT_AVATAR}
+                style={{ width: 36, height: 36, borderRadius: 18, backgroundColor: '#fff' }}
+                resizeMode="cover"
+              />
             </View>
           )}
         </View>
@@ -563,7 +557,6 @@ const ChatbotScreen = () => {
       style={styles.gradient}
     >
       <View style={styles.container}>
-        <Text style={styles.title}>Chatbot</Text>
         <View style={{ flex: 1, backgroundColor: '#f8fafc' }}>
           {/* Header */}
           <View style={{
@@ -622,7 +615,7 @@ const ChatbotScreen = () => {
                     width: 80,
                     height: 80,
                     borderRadius: 40,
-                    backgroundColor: '#7E57C2',
+                    backgroundColor: '#5100F3',
                     justifyContent: 'center',
                     alignItems: 'center',
                     marginBottom: 20,
@@ -632,14 +625,14 @@ const ChatbotScreen = () => {
                   <Text style={{
                     fontSize: 24,
                     fontWeight: 'bold',
-                    color: '#333',
+                    color: '#2c1a4a',
                     marginBottom: 12,
                   }}>
                     How can I help you today?
                   </Text>
                   <Text style={{
                     fontSize: 16,
-                    color: '#666',
+                    color: '#64748b',
                     textAlign: 'center',
                     maxWidth: '80%',
                   }}>
@@ -666,7 +659,7 @@ const ChatbotScreen = () => {
                         width: 36,
                         height: 36,
                         borderRadius: 18,
-                        backgroundColor: '#7E57C2',
+                        backgroundColor: '#5100F3',
                         justifyContent: 'center',
                         alignItems: 'center',
                       }}>
@@ -674,7 +667,7 @@ const ChatbotScreen = () => {
                       </View>
                     </View>
                     <View style={{
-                      backgroundColor: '#f3f4f6',
+                      backgroundColor: '#fff',
                       padding: 16,
                       borderRadius: 18,
                       borderBottomLeftRadius: 4,
@@ -686,8 +679,8 @@ const ChatbotScreen = () => {
                       flex: 1,
                     }}>
                       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <ActivityIndicator size="small" color="#7E57C2" style={{ marginRight: 8 }} />
-                        <Text style={{ color: '#666' }}>Thinking...</Text>
+                        <ActivityIndicator size="small" color="#5100F3" style={{ marginRight: 8 }} />
+                        <Text style={{ color: '#64748b' }}>Thinking...</Text>
                       </View>
                     </View>
                   </View>
@@ -700,9 +693,9 @@ const ChatbotScreen = () => {
               flexDirection: 'row',
               alignItems: 'center',
               padding: 12,
-              backgroundColor: 'white',
+              backgroundColor: '#fff',
               borderTopWidth: 1,
-              borderTopColor: '#e5e7eb',
+              borderTopColor: '#e0d7f3',
             }}>
               <TouchableOpacity
                 onPress={isRecording ? stopRecording : startRecording}
@@ -710,7 +703,7 @@ const ChatbotScreen = () => {
                   width: 48,
                   height: 48,
                   borderRadius: 24,
-                  backgroundColor: isRecording ? '#ef4444' : '#3b82f6',
+                  backgroundColor: isRecording ? '#ef4444' : '#5100F3',
                   justifyContent: 'center',
                   alignItems: 'center',
                   marginRight: 10,
@@ -724,14 +717,16 @@ const ChatbotScreen = () => {
               <TextInput
                 style={{
                   flex: 1,
-                  backgroundColor: '#f3f4f6',
+                  backgroundColor: '#f8fafc',
                   borderRadius: 24,
                   paddingHorizontal: 18,
                   paddingVertical: 12,
                   fontSize: 16,
                   marginRight: 10,
+                  color: '#2c1a4a',
                 }}
                 placeholder="Type your message..."
+                placeholderTextColor="#64748b"
                 value={inputText}
                 onChangeText={setInputText}
                 multiline
@@ -745,7 +740,7 @@ const ChatbotScreen = () => {
                   width: 48,
                   height: 48,
                   borderRadius: 24,
-                  backgroundColor: inputText.trim() === '' ? '#cbd5e1' : '#3b82f6',
+                  backgroundColor: inputText.trim() === '' ? '#cbd5e1' : '#5100F3',
                   justifyContent: 'center',
                   alignItems: 'center',
                   opacity: isLoading ? 0.7 : 1,
@@ -767,8 +762,6 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    padding: 20,
-    paddingTop: 60,
   },
   title: {
     fontSize: 24,
