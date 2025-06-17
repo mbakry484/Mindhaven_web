@@ -20,25 +20,25 @@ const { width } = Dimensions.get("window");
 const EXERCISE_API_URL = "http://localhost:8000/api/get_user_exercises/";
 
 const DEFAULT_TYPE_COLOR = "#e0e7ff";
-const DEFAULT_TYPE_IMAGE = require("../assets/images/brain.png");
+const DEFAULT_TYPE_IMAGE = require("../../assets/images/brain.png");
 
 // Default description for user-added types
 const DEFAULT_TYPE_DESCRIPTION = "User-added activities and exercises.";
 
 // Flat array of all static exercises, each with a type
 const staticExercises = [
-    { id: 101, title: "Box Breathing", duration: "5 minutes", description: "Inhale for 4 counts, hold for 4, exhale for 4, hold for 4. Repeat.", type: "Breathing Exercises", image: require("../assets/images/brain.png"), color: "#e0e7ff" },
-    { id: 102, title: "4-7-8 Breathing", duration: "5 minutes", description: "Inhale for 4 counts, hold for 7, exhale for 8. Repeat to reduce anxiety.", type: "Breathing Exercises", image: require("../assets/images/brain.png"), color: "#e0e7ff" },
-    { id: 103, title: "Diaphragmatic Breathing", duration: "10 minutes", description: "Deep belly breathing to activate the parasympathetic nervous system.", type: "Breathing Exercises", image: require("../assets/images/brain.png"), color: "#e0e7ff" },
-    { id: 201, title: "Body Scan Meditation", duration: "15 minutes", description: "Progressive relaxation by focusing attention throughout the body.", type: "Meditation", image: require("../assets/images/heart-outline.jpg"), color: "#fae8ff" },
-    { id: 202, title: "Loving-Kindness Meditation", duration: "10 minutes", description: "Develop feelings of goodwill, kindness and warmth towards others.", type: "Meditation", image: require("../assets/images/heart-outline.jpg"), color: "#fae8ff" },
-    { id: 203, title: "Mindfulness Meditation", duration: "10 minutes", description: "Focus on the present moment, observing thoughts without judgment.", type: "Meditation", image: require("../assets/images/heart-outline.jpg"), color: "#fae8ff" },
-    { id: 301, title: "5-4-3-2-1 Technique", duration: "5 minutes", description: "Name 5 things you see, 4 you feel, 3 you hear, 2 you smell, and 1 you taste.", type: "Grounding Techniques", image: require("../assets/images/Icon trophy.png"), color: "#dcfce7" },
-    { id: 302, title: "Progressive Muscle Relaxation", duration: "15 minutes", description: "Tense and then release each muscle group from toes to head.", type: "Grounding Techniques", image: require("../assets/images/Icon trophy.png"), color: "#dcfce7" },
-    { id: 303, title: "Cold Water Technique", duration: "2 minutes", description: "Splash cold water on your face to activate the parasympathetic nervous system.", type: "Grounding Techniques", image: require("../assets/images/Icon trophy.png"), color: "#dcfce7" },
-    { id: 401, title: "Thought Record", duration: "15 minutes", description: "Identify and challenge negative thoughts with evidence.", type: "Cognitive Exercises", image: require("../assets/images/Icon gear.png"), color: "#ffedd5" },
-    { id: 402, title: "Positive Affirmations", duration: "5 minutes", description: "Practice repeating positive statements to build self-confidence.", type: "Cognitive Exercises", image: require("../assets/images/Icon gear.png"), color: "#ffedd5" },
-    { id: 403, title: "Gratitude Journaling", duration: "10 minutes", description: "Write down things you're grateful for to shift focus to the positive.", type: "Cognitive Exercises", image: require("../assets/images/Icon gear.png"), color: "#ffedd5" },
+    { id: 101, title: "Box Breathing", duration: "5 minutes", description: "Inhale for 4 counts, hold for 4, exhale for 4, hold for 4. Repeat.", type: "Breathing Exercises", image: require("../../assets/images/brain.png"), color: "#e0e7ff" },
+    { id: 102, title: "4-7-8 Breathing", duration: "5 minutes", description: "Inhale for 4 counts, hold for 7, exhale for 8. Repeat to reduce anxiety.", type: "Breathing Exercises", image: require("../../assets/images/brain.png"), color: "#e0e7ff" },
+    { id: 103, title: "Diaphragmatic Breathing", duration: "10 minutes", description: "Deep belly breathing to activate the parasympathetic nervous system.", type: "Breathing Exercises", image: require("../../assets/images/brain.png"), color: "#e0e7ff" },
+    { id: 201, title: "Body Scan Meditation", duration: "15 minutes", description: "Progressive relaxation by focusing attention throughout the body.", type: "Meditation", image: require("../../assets/images/heart-outline.jpg"), color: "#fae8ff" },
+    { id: 202, title: "Loving-Kindness Meditation", duration: "10 minutes", description: "Develop feelings of goodwill, kindness and warmth towards others.", type: "Meditation", image: require("../../assets/images/heart-outline.jpg"), color: "#fae8ff" },
+    { id: 203, title: "Mindfulness Meditation", duration: "10 minutes", description: "Focus on the present moment, observing thoughts without judgment.", type: "Meditation", image: require("../../assets/images/heart-outline.jpg"), color: "#fae8ff" },
+    { id: 301, title: "5-4-3-2-1 Technique", duration: "5 minutes", description: "Name 5 things you see, 4 you feel, 3 you hear, 2 you smell, and 1 you taste.", type: "Grounding Techniques", image: require("../../assets/images/Icon trophy.png"), color: "#dcfce7" },
+    { id: 302, title: "Progressive Muscle Relaxation", duration: "15 minutes", description: "Tense and then release each muscle group from toes to head.", type: "Grounding Techniques", image: require("../../assets/images/Icon trophy.png"), color: "#dcfce7" },
+    { id: 303, title: "Cold Water Technique", duration: "2 minutes", description: "Splash cold water on your face to activate the parasympathetic nervous system.", type: "Grounding Techniques", image: require("../../assets/images/Icon trophy.png"), color: "#dcfce7" },
+    { id: 401, title: "Thought Record", duration: "15 minutes", description: "Identify and challenge negative thoughts with evidence.", type: "Cognitive Exercises", image: require("../../assets/images/Icon gear.png"), color: "#ffedd5" },
+    { id: 402, title: "Positive Affirmations", duration: "5 minutes", description: "Practice repeating positive statements to build self-confidence.", type: "Cognitive Exercises", image: require("../../assets/images/Icon gear.png"), color: "#ffedd5" },
+    { id: 403, title: "Gratitude Journaling", duration: "10 minutes", description: "Write down things you're grateful for to shift focus to the positive.", type: "Cognitive Exercises", image: require("../../assets/images/Icon gear.png"), color: "#ffedd5" },
 ];
 
 const ExerciseScreen = () => {
@@ -63,7 +63,7 @@ const ExerciseScreen = () => {
                         duration: ex.duration ? `${ex.duration} minutes` : "",
                         description: ex.description || "",
                         type: ex.type || "activity",
-                        image: require("../assets/images/brain.png"), // fallback image
+                        image: require("../../assets/images/brain.png"), // fallback image
                         color: "#e0e7ff", // fallback color
                         user_id: ex.user_id,
                     }));

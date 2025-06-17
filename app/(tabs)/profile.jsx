@@ -4,10 +4,10 @@ import { useRouter } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Svg, Path } from 'react-native-svg';
 import * as ImagePicker from 'expo-image-picker';
-import { API_URLS } from "./config/apiConfig";
-import { useUser } from "./UserContext";
+import { API_URLS } from "../config/apiConfig";
+import { useUser } from "../UserContext";
 
-const DEFAULT_AVATAR = require("../assets/images/no-profile.png");
+const DEFAULT_AVATAR = require("../../assets/images/no-profile.png");
 
 const ProfileScreen = () => {
   const { user, loading, updateProfileImage, fetchUserProfile } = useUser();

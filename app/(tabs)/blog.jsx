@@ -20,8 +20,8 @@ import {
 import { useRouter } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Svg, Path } from 'react-native-svg';
-import { API_URLS } from "./config/apiConfig";
-import { useUser } from "./UserContext";
+import { API_URLS } from "../config/apiConfig";
+import { useUser } from "../UserContext";
 import * as ImagePicker from 'expo-image-picker';
 import { MaterialIcons } from '@expo/vector-icons';
 
@@ -174,7 +174,7 @@ const Header = ({ onProfilePress }) => {
           onPress={() => router.push("/home")}
         >
           <Image
-            source={require("../assets/images/logo.png")}
+            source={require("../../assets/images/logo.png")}
             style={styles.headerLogo}
           />
           <Text style={styles.headerTitle}>MindHaven</Text>
@@ -184,7 +184,7 @@ const Header = ({ onProfilePress }) => {
           <Avatar
             source={
               imageError || !user?.profile_image
-                ? require("../assets/images/no-profile.png")
+                ? require("../../assets/images/no-profile.png")
                 : { uri: user.profile_image }
             }
             size={36}
@@ -257,7 +257,7 @@ const CreatePostCard = ({ onCreatePost }) => {
           <Avatar
             source={
               imageError || !user?.profile_image
-                ? require("../assets/images/no-profile.png")
+                ? require("../../assets/images/no-profile.png")
                 : { uri: user.profile_image }
             }
             size={40}
@@ -445,7 +445,7 @@ const PostCard = ({
         <Avatar
           source={
             imageError || !image
-              ? require("../assets/images/no-profile.png")
+              ? require("../../assets/images/no-profile.png")
               : { uri: image }
           }
           size={44}
@@ -600,7 +600,7 @@ const PostCard = ({
               <Avatar
                 source={
                   imageError || !user?.profile_image
-                    ? require("../assets/images/no-profile.png")
+                    ? require("../../assets/images/no-profile.png")
                     : { uri: user.profile_image }
                 }
                 size={36}
@@ -681,7 +681,7 @@ const CommentItem = ({ comment, onLike, isLiked }) => {
         <Avatar
           source={
             imageError || !comment.user_image
-              ? require("../assets/images/no-profile.png")
+              ? require("../../assets/images/no-profile.png")
               : { uri: comment.user_image }
           }
           size={32}
@@ -1053,7 +1053,7 @@ const BlogScreen = () => {
       return (
         <View style={styles.centerContainer}>
           <Image
-            source={require("../assets/images/post1.png")}
+            source={require("../../assets/images/post1.png")}
             style={styles.emptyStateImage}
             resizeMode="contain"
           />

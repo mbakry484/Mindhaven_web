@@ -11,13 +11,15 @@ import {
   Image,
   ActivityIndicator,
   Dimensions,
+  StyleSheet,
 } from "react-native";
 import { useRouter } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { GROQ_API_URL, GROQ_API_KEY, GROQ_MODEL } from "./config/aiConfig";
-import { VOICE_AI_CONFIG } from "./config/VoiceAiConfig";
+import { GROQ_API_URL, GROQ_API_KEY, GROQ_MODEL } from "../config/aiConfig";
+import { VOICE_AI_CONFIG } from "../config/VoiceAiConfig";
 import * as FileSystem from 'expo-file-system';
 import { Audio } from 'expo-av';
+import { LinearGradient } from 'expo-linear-gradient';
 
 const { width } = Dimensions.get("window");
 
@@ -556,199 +558,224 @@ const ChatbotScreen = () => {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#f8fafc' }}>
-      {/* Header */}
-      <View style={{
-        backgroundColor: '#1e293b',
-        paddingTop: Platform.OS === 'ios' ? 50 : 20,
-        paddingBottom: 15,
-        paddingHorizontal: 20,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.22,
-        shadowRadius: 2.22,
-        elevation: 3,
-      }}>
-        <TouchableOpacity
-          onPress={handleGoBack}
-          style={{ padding: 8 }}
-          accessibilityLabel="Go back"
-          accessibilityRole="button"
-        >
-          <Text style={{ color: 'white', fontSize: 24 }}>←</Text>
-        </TouchableOpacity>
+    <LinearGradient
+      colors={["#f3e7fa", "#e3e0ff"]}
+      style={styles.gradient}
+    >
+      <View style={styles.container}>
+        <Text style={styles.title}>Chatbot</Text>
+        <View style={{ flex: 1, backgroundColor: '#f8fafc' }}>
+          {/* Header */}
+          <View style={{
+            backgroundColor: '#1e293b',
+            paddingTop: Platform.OS === 'ios' ? 50 : 20,
+            paddingBottom: 15,
+            paddingHorizontal: 20,
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            shadowColor: "#000",
+            shadowOffset: { width: 0, height: 1 },
+            shadowOpacity: 0.22,
+            shadowRadius: 2.22,
+            elevation: 3,
+          }}>
+            <TouchableOpacity
+              onPress={handleGoBack}
+              style={{ padding: 8 }}
+              accessibilityLabel="Go back"
+              accessibilityRole="button"
+            >
+              <Text style={{ color: 'white', fontSize: 24 }}>←</Text>
+            </TouchableOpacity>
 
-        <Text style={{
-          fontSize: 20,
-          fontWeight: 'bold',
-          color: 'white'
-        }}>
-          MindHaven AI Assistant
-        </Text>
-
-        <View style={{ width: 40 }} />
-      </View>
-
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={{ flex: 1 }}
-        keyboardVerticalOffset={Platform.OS === "ios" ? 90 : 0}
-      >
-        {/* Messages Container */}
-        <ScrollView
-          ref={scrollViewRef}
-          contentContainerStyle={{ padding: 16 }}
-        >
-          {messages.length === 0 ? (
-            <View style={{
-              flex: 1,
-              justifyContent: 'center',
-              alignItems: 'center',
-              padding: 20,
-              marginTop: width * 0.3,
+            <Text style={{
+              fontSize: 20,
+              fontWeight: 'bold',
+              color: 'white'
             }}>
-              <View style={{
-                width: 80,
-                height: 80,
-                borderRadius: 40,
-                backgroundColor: '#7E57C2',
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginBottom: 20,
-              }}>
-                <Text style={{ fontSize: 32, color: 'white' }}>AI</Text>
-              </View>
-              <Text style={{
-                fontSize: 24,
-                fontWeight: 'bold',
-                color: '#333',
-                marginBottom: 12,
-              }}>
-                How can I help you today?
-              </Text>
-              <Text style={{
-                fontSize: 16,
-                color: '#666',
-                textAlign: 'center',
-                maxWidth: '80%',
-              }}>
-                Ask me anything about mental health, stress management, or meditation techniques.
-              </Text>
-            </View>
-          ) : (
-            messages.map(renderMessage)
-          )}
+              MindHaven AI Assistant
+            </Text>
 
-          {isLoading && (
-            <View style={{
-              width: '100%',
-              alignItems: 'flex-start',
-              marginVertical: 8,
-            }}>
-              <View style={{
-                flexDirection: 'row',
-                alignItems: 'flex-end',
-                maxWidth: '80%',
-              }}>
-                <View style={{ marginRight: 8, flexShrink: 0 }}>
+            <View style={{ width: 40 }} />
+          </View>
+
+          <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            style={{ flex: 1 }}
+            keyboardVerticalOffset={Platform.OS === "ios" ? 90 : 0}
+          >
+            {/* Messages Container */}
+            <ScrollView
+              ref={scrollViewRef}
+              contentContainerStyle={{ padding: 16 }}
+            >
+              {messages.length === 0 ? (
+                <View style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  padding: 20,
+                  marginTop: width * 0.3,
+                }}>
                   <View style={{
-                    width: 36,
-                    height: 36,
-                    borderRadius: 18,
+                    width: 80,
+                    height: 80,
+                    borderRadius: 40,
                     backgroundColor: '#7E57C2',
                     justifyContent: 'center',
                     alignItems: 'center',
+                    marginBottom: 20,
                   }}>
-                    <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 16 }}>AI</Text>
+                    <Text style={{ fontSize: 32, color: 'white' }}>AI</Text>
                   </View>
+                  <Text style={{
+                    fontSize: 24,
+                    fontWeight: 'bold',
+                    color: '#333',
+                    marginBottom: 12,
+                  }}>
+                    How can I help you today?
+                  </Text>
+                  <Text style={{
+                    fontSize: 16,
+                    color: '#666',
+                    textAlign: 'center',
+                    maxWidth: '80%',
+                  }}>
+                    Ask me anything about mental health, stress management, or meditation techniques.
+                  </Text>
                 </View>
+              ) : (
+                messages.map(renderMessage)
+              )}
+
+              {isLoading && (
                 <View style={{
-                  backgroundColor: '#f3f4f6',
-                  padding: 16,
-                  borderRadius: 18,
-                  borderBottomLeftRadius: 4,
-                  shadowColor: "#000",
-                  shadowOffset: { width: 0, height: 1 },
-                  shadowOpacity: 0.2,
-                  shadowRadius: 1.5,
-                  elevation: 2,
-                  flex: 1,
+                  width: '100%',
+                  alignItems: 'flex-start',
+                  marginVertical: 8,
                 }}>
-                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <ActivityIndicator size="small" color="#7E57C2" style={{ marginRight: 8 }} />
-                    <Text style={{ color: '#666' }}>Thinking...</Text>
+                  <View style={{
+                    flexDirection: 'row',
+                    alignItems: 'flex-end',
+                    maxWidth: '80%',
+                  }}>
+                    <View style={{ marginRight: 8, flexShrink: 0 }}>
+                      <View style={{
+                        width: 36,
+                        height: 36,
+                        borderRadius: 18,
+                        backgroundColor: '#7E57C2',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                      }}>
+                        <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 16 }}>AI</Text>
+                      </View>
+                    </View>
+                    <View style={{
+                      backgroundColor: '#f3f4f6',
+                      padding: 16,
+                      borderRadius: 18,
+                      borderBottomLeftRadius: 4,
+                      shadowColor: "#000",
+                      shadowOffset: { width: 0, height: 1 },
+                      shadowOpacity: 0.2,
+                      shadowRadius: 1.5,
+                      elevation: 2,
+                      flex: 1,
+                    }}>
+                      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <ActivityIndicator size="small" color="#7E57C2" style={{ marginRight: 8 }} />
+                        <Text style={{ color: '#666' }}>Thinking...</Text>
+                      </View>
+                    </View>
                   </View>
                 </View>
-              </View>
+              )}
+            </ScrollView>
+
+            {/* Input Container */}
+            <View style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              padding: 12,
+              backgroundColor: 'white',
+              borderTopWidth: 1,
+              borderTopColor: '#e5e7eb',
+            }}>
+              <TouchableOpacity
+                onPress={isRecording ? stopRecording : startRecording}
+                style={{
+                  width: 48,
+                  height: 48,
+                  borderRadius: 24,
+                  backgroundColor: isRecording ? '#ef4444' : '#3b82f6',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  marginRight: 10,
+                }}
+              >
+                <Text style={{ color: 'white', fontSize: 18 }}>
+                  {isRecording ? '■' : '🎤'}
+                </Text>
+              </TouchableOpacity>
+
+              <TextInput
+                style={{
+                  flex: 1,
+                  backgroundColor: '#f3f4f6',
+                  borderRadius: 24,
+                  paddingHorizontal: 18,
+                  paddingVertical: 12,
+                  fontSize: 16,
+                  marginRight: 10,
+                }}
+                placeholder="Type your message..."
+                value={inputText}
+                onChangeText={setInputText}
+                multiline
+                maxLength={500}
+                editable={!isLoading}
+              />
+              <TouchableOpacity
+                onPress={handleSendMessage}
+                disabled={isLoading || inputText.trim() === ''}
+                style={{
+                  width: 48,
+                  height: 48,
+                  borderRadius: 24,
+                  backgroundColor: inputText.trim() === '' ? '#cbd5e1' : '#3b82f6',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  opacity: isLoading ? 0.7 : 1,
+                }}
+              >
+                <Text style={{ color: 'white', fontSize: 18 }}>→</Text>
+              </TouchableOpacity>
             </View>
-          )}
-        </ScrollView>
-
-        {/* Input Container */}
-        <View style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          padding: 12,
-          backgroundColor: 'white',
-          borderTopWidth: 1,
-          borderTopColor: '#e5e7eb',
-        }}>
-          <TouchableOpacity
-            onPress={isRecording ? stopRecording : startRecording}
-            style={{
-              width: 48,
-              height: 48,
-              borderRadius: 24,
-              backgroundColor: isRecording ? '#ef4444' : '#3b82f6',
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginRight: 10,
-            }}
-          >
-            <Text style={{ color: 'white', fontSize: 18 }}>
-              {isRecording ? '■' : '🎤'}
-            </Text>
-          </TouchableOpacity>
-
-          <TextInput
-            style={{
-              flex: 1,
-              backgroundColor: '#f3f4f6',
-              borderRadius: 24,
-              paddingHorizontal: 18,
-              paddingVertical: 12,
-              fontSize: 16,
-              marginRight: 10,
-            }}
-            placeholder="Type your message..."
-            value={inputText}
-            onChangeText={setInputText}
-            multiline
-            maxLength={500}
-            editable={!isLoading}
-          />
-          <TouchableOpacity
-            onPress={handleSendMessage}
-            disabled={isLoading || inputText.trim() === ''}
-            style={{
-              width: 48,
-              height: 48,
-              borderRadius: 24,
-              backgroundColor: inputText.trim() === '' ? '#cbd5e1' : '#3b82f6',
-              justifyContent: 'center',
-              alignItems: 'center',
-              opacity: isLoading ? 0.7 : 1,
-            }}
-          >
-            <Text style={{ color: 'white', fontSize: 18 }}>→</Text>
-          </TouchableOpacity>
+          </KeyboardAvoidingView>
         </View>
-      </KeyboardAvoidingView>
-    </View>
+      </View>
+    </LinearGradient>
   );
 };
+
+const styles = StyleSheet.create({
+  gradient: {
+    flex: 1,
+  },
+  container: {
+    flex: 1,
+    padding: 20,
+    paddingTop: 60,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#2c1a4a',
+    marginBottom: 20,
+  },
+});
 
 export default ChatbotScreen;

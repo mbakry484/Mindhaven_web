@@ -1,11 +1,49 @@
-import React from 'react';
-import { Slot } from 'expo-router';
-import { UserProvider } from './UserContext';
+import React, { useContext, useEffect } from 'react';
+import { Stack, useRouter } from 'expo-router';
+import { UserProvider, useUser } from './UserContext';
+import AppLayout from './AppLayout';
 
-export default function Layout() {
+export default function RootLayout() {
     return (
         <UserProvider>
-            <Slot />
+            <AuthGate />
         </UserProvider>
+    );
+}
+
+function AuthGate() {
+    const { user, loading } = useUser();
+    const router = useRouter();
+
+    useEffect(() => {
+        if (!loading && !user) {
+            router.replace('/login');
+        }
+    }, [user, loading]);
+
+    if (loading) return null;
+
+    // Only show AppLayout for main app pages
+    const route = router.asPath || '';
+    const isAppPage = [
+        '/home',
+        '/chatbot',
+        '/resources',
+        '/exercises',
+        '/blog',
+    ].some((p) => route.startsWith(p));
+
+    if (user && isAppPage) {
+        return <AppLayout />;
+    }
+
+    return (
+        <Stack>
+            <Stack.Screen name="index" options={{ headerShown: false }} />
+            <Stack.Screen name="login" options={{ headerShown: false }} />
+            <Stack.Screen name="signup" options={{ headerShown: false }} />
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            {/* fallback for other pages if needed */}
+        </Stack>
     );
 } 
