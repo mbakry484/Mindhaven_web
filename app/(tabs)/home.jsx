@@ -38,16 +38,15 @@ const Home = () => {
 
           <DailyQuote />
 
+          <QuickStats />
+
           <TouchableOpacity onPress={handleMoodTrackerPress}>
             <MoodTracker />
           </TouchableOpacity>
 
-          <QuickStats />
+          <ChatAICard />
 
           <View style={styles.divider} />
-
-          <Text style={styles.sectionTitle}>Recent Activities</Text>
-          <RecentActivities />
         </ScrollView>
       </View>
     </LinearGradient>
@@ -137,16 +136,19 @@ const QuickStats = () => {
   const [loading, setLoading] = useState(true);
   const [streak, setStreak] = useState(0);
   const [showStreakModal, setShowStreakModal] = useState(false);
+  const [showJournalModal, setShowJournalModal] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchJournalCount = async () => {
       try {
         const userId = await AsyncStorage.getItem('user_id');
-        const response = await fetch(`http://localhost:8000/api/get_journal_entries/${userId}/`);
+        const response = await fetch(`http://localhost:8000/api/get_user_journal_entries/${userId}/`);
         const data = await response.json();
-        const journalEntries = data.entries || data.journal_entries || [];
-        setJournalCount(Array.isArray(journalEntries) ? journalEntries.length : 0);
+        const entries = data.journal_entries || [];
+        setJournalCount(Array.isArray(entries) ? entries.length : 0);
       } catch (e) {
+        console.error('Error fetching journal count:', e);
         setJournalCount(0);
       }
       setLoading(false);
@@ -159,8 +161,15 @@ const QuickStats = () => {
       const lastDate = await AsyncStorage.getItem('streak_last_date');
       let currentStreak = parseInt(await AsyncStorage.getItem('streak_count') || '0', 10);
 
+      console.log('\n=== Streak Check Log ===');
+      console.log('Current time:', today.toISOString());
+      console.log('Today string:', todayStr);
+      console.log('Last recorded date:', lastDate);
+      console.log('Current streak from storage:', currentStreak);
+
       // If no last date exists, this is the first time using the app
       if (!lastDate) {
+        console.log('No last date found - First time using app');
         await AsyncStorage.setItem('streak_last_date', todayStr);
         await AsyncStorage.setItem('streak_count', '0');
         setStreak(0);
@@ -169,6 +178,7 @@ const QuickStats = () => {
 
       // If we already checked today, just return the current streak
       if (lastDate === todayStr) {
+        console.log('Already checked today - Keeping streak at:', currentStreak);
         setStreak(currentStreak);
         return;
       }
@@ -178,26 +188,28 @@ const QuickStats = () => {
       const timeDiff = today.getTime() - lastDateObj.getTime();
       const daysDiff = Math.floor(timeDiff / (1000 * 3600 * 24));
 
+      console.log('Last date object:', lastDateObj.toISOString());
+      console.log('Time difference in milliseconds:', timeDiff);
+      console.log('Days difference:', daysDiff);
+
       // If the last date was yesterday (exactly 1 day ago), increment the streak
       if (daysDiff === 1) {
+        console.log('Last login was yesterday - Incrementing streak');
         currentStreak += 1;
         await AsyncStorage.setItem('streak_last_date', todayStr);
         await AsyncStorage.setItem('streak_count', currentStreak.toString());
         setStreak(currentStreak);
       } else {
-        // If the last date was before yesterday, reset the streak
+        console.log('Last login was not yesterday - Resetting streak');
         await AsyncStorage.setItem('streak_last_date', todayStr);
         await AsyncStorage.setItem('streak_count', '0');
         setStreak(0);
       }
+      console.log('=== End Streak Check ===\n');
     };
 
-    // Check streak on mount and set up an interval to check every minute
+    fetchJournalCount();
     checkStreak();
-    const intervalId = setInterval(checkStreak, 60000); // Check every minute
-
-    // Cleanup interval on unmount
-    return () => clearInterval(intervalId);
   }, []);
 
   const getStreakMessage = () => {
@@ -206,6 +218,14 @@ const QuickStats = () => {
     if (streak < 7) return `You're on a ${streak}-day streak! Keep up the great work!`;
     if (streak < 30) return `Amazing! You've maintained a ${streak}-day streak!`;
     return `Incredible dedication! You've been using MindHaven for ${streak} days!`;
+  };
+
+  const getJournalMessage = () => {
+    if (journalCount === 0) return "Start your journaling journey today!";
+    if (journalCount === 1) return "You've written your first journal entry! Keep going!";
+    if (journalCount < 5) return `You've written ${journalCount} journal entries. Every entry is a step forward!`;
+    if (journalCount < 10) return `Great progress! You've written ${journalCount} journal entries.`;
+    return `Amazing dedication! You've written ${journalCount} journal entries.`;
   };
 
   return (
@@ -219,18 +239,22 @@ const QuickStats = () => {
           <Text style={styles.statNumber}>{streak}</Text>
           <Text style={styles.statLabel}>Days Streak</Text>
         </TouchableOpacity>
-        <View style={styles.statCard}>
+        <TouchableOpacity
+          style={styles.statCard}
+          onPress={() => setShowJournalModal(true)}
+        >
           <Ionicons name="journal" size={24} color="#5100F3" />
           <Text style={styles.statNumber}>{loading ? '...' : journalCount}</Text>
           <Text style={styles.statLabel}>Journal Entries</Text>
-        </View>
+        </TouchableOpacity>
         <View style={styles.statCard}>
-          <Ionicons name="fitness" size={24} color="#5100F3" />
-          <Text style={styles.statNumber}>5</Text>
-          <Text style={styles.statLabel}>Exercises Done</Text>
+          <Ionicons name="happy" size={24} color="#5100F3" />
+          <Text style={styles.statNumber}>12</Text>
+          <Text style={styles.statLabel}>Mood Entries</Text>
         </View>
       </View>
 
+      {/* Streak Modal */}
       <Modal
         visible={showStreakModal}
         transparent={true}
@@ -252,41 +276,41 @@ const QuickStats = () => {
           </View>
         </View>
       </Modal>
+
+      {/* Journal Modal */}
+      <Modal
+        visible={showJournalModal}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={() => setShowJournalModal(false)}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <View style={styles.modalHeader}>
+              <Text style={styles.modalTitle}>Your Journal</Text>
+              <TouchableOpacity onPress={() => setShowJournalModal(false)}>
+                <Ionicons name="close" size={24} color="#6c4ab6" />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.modalBody}>
+              <Ionicons name="journal" size={48} color="#5100F3" style={styles.modalIcon} />
+              <Text style={styles.modalMessage}>{getJournalMessage()}</Text>
+              <TouchableOpacity
+                style={styles.modalButton}
+                onPress={() => {
+                  setShowJournalModal(false);
+                  router.push("/journaling");
+                }}
+              >
+                <Text style={styles.modalButtonText}>Go to Journal</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </>
   );
 };
-
-const RecentActivities = () => (
-  <View style={styles.activitiesContainer}>
-    <ActivityItem
-      icon="journal"
-      title="Morning Journal Entry"
-      time="2 hours ago"
-    />
-    <ActivityItem
-      icon="fitness"
-      title="Completed Breathing Exercise"
-      time="Yesterday"
-    />
-    <ActivityItem
-      icon="chatbubble"
-      title="Chatbot Session"
-      time="2 days ago"
-    />
-  </View>
-);
-
-const ActivityItem = ({ icon, title, time }) => (
-  <View style={styles.activityItem}>
-    <View style={styles.activityIcon}>
-      <Ionicons name={icon} size={20} color="#5100F3" />
-    </View>
-    <View style={styles.activityContent}>
-      <Text style={styles.activityTitle}>{title}</Text>
-      <Text style={styles.activityTime}>{time}</Text>
-    </View>
-  </View>
-);
 
 const MoodTracker = () => {
   const router = useRouter();
@@ -309,6 +333,23 @@ const MoodTracker = () => {
           <Text style={styles.emoji}>😔</Text>
         </TouchableOpacity>
       </View>
+    </View>
+  );
+};
+
+const ChatAICard = () => {
+  const router = useRouter();
+  return (
+    <View style={styles.moodTrackerCard}>
+      <View style={styles.moodTrackerText}>
+        <Text style={styles.moodTrackerTitle}>Need to talk?</Text>
+        <Text style={styles.moodTrackerSubtitle}>
+          Chat privately with our AI for support, advice, or just to vent.
+        </Text>
+      </View>
+      <TouchableOpacity style={styles.moodEmoji} onPress={() => router.push('/chatbot')}>
+        <Ionicons name="chatbubbles" size={32} color="#5100F3" />
+      </TouchableOpacity>
     </View>
   );
 };
@@ -611,6 +652,19 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#333',
     lineHeight: 24,
+  },
+  modalButton: {
+    backgroundColor: '#5100F3',
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 25,
+    marginTop: 20,
+  },
+  modalButtonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: '600',
+    textAlign: 'center',
   },
 });
 

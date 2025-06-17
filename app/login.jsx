@@ -5,6 +5,7 @@ import AuthScreenWrapper from "../components/AuthScreenWrapper";
 import AuthInput from "../components/AuthInput";
 import AuthButton from "../components/AuthButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useUser } from "./UserContext";
 
 const API_URL = "http://127.0.0.1:8000/api/login/";
 
@@ -12,6 +13,7 @@ const LoginScreen = () => {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { fetchUserProfile } = useUser();
 
   const handleLogin = async () => {
     if (!email || !password) {
@@ -37,6 +39,7 @@ const LoginScreen = () => {
       if (response.ok) {
         if (data.user_id) {
           await AsyncStorage.setItem("user_id", data.user_id);
+          await fetchUserProfile(); // Refresh user context immediately
           Alert.alert("Success", "Logged in successfully");
           router.push("/home");
         } else {
