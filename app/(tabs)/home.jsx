@@ -7,6 +7,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { GROQ_API_URL, GROQ_API_KEY, GROQ_MODEL } from '../config/aiConfig';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import quotes from '../../quotes.json';
 
 const Home = () => {
   const router = useRouter();
@@ -83,50 +84,22 @@ const Header = ({ onProfilePress }) => {
   );
 };
 
-const fetchRandomQuote = async () => {
-  // Use the AI model to generate a new, original mental wellness quote
-  const prompt = `
-  Generate a completely new, original, positive mental wellness message or affirmation. 
-  Do not use a famous quote or attribute it to anyone. 
-  Do not use self-referencing language (no "I", "me", "my", "we", "us", "our").
-  Do not repeat any previous message or affirmation. 
-  Each response must be unique and different from earlier ones. 
-  Keep it under 25 words. 
-  Here is a random seed for uniqueness: ${Math.random().toString(36).substring(2, 10)}
-  `;
-  const body = {
-    model: GROQ_MODEL,
-    messages: [
-      { role: "system", content: "You are a helpful AI assistant that generates original, positive mental wellness messages." },
-      { role: "user", content: prompt }
-    ],
-    max_tokens: 60,
-    temperature: 0.8
-  };
-  const response = await fetch(GROQ_API_URL, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${GROQ_API_KEY}`,
-    },
-    body: JSON.stringify(body),
-  });
-  const data = await response.json();
-  const quote = data.choices?.[0]?.message?.content?.trim() || "Take a deep breath and remember you are enough.";
-  return { quote };
+const fetchRandomQuote = () => {
+  const randomIndex = Math.floor(Math.random() * quotes.length);
+  return quotes[randomIndex];
 };
 
 const DailyQuote = () => {
   const [quote, setQuote] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const getQuote = async () => {
+  const getQuote = () => {
     setLoading(true);
     try {
-      const data = await fetchRandomQuote();
+      const data = fetchRandomQuote();
       setQuote(data);
     } catch (e) {
-      setQuote({ quote: "Could not fetch quote." });
+      setQuote({ quote: "Could not fetch quote.", author: "Unknown" });
     }
     setLoading(false);
   };
@@ -148,9 +121,12 @@ const DailyQuote = () => {
       {loading ? (
         <ActivityIndicator color="#5100F3" style={{ marginVertical: 10 }} />
       ) : (
-        <Text style={styles.quoteText}>
-          {quote?.quote}
-        </Text>
+        <>
+          <Text style={styles.quoteText}>
+            {quote?.quote}
+          </Text>
+          <Text style={styles.quoteAuthor}>- {quote?.author}</Text>
+        </>
       )}
     </View>
   );
