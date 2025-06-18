@@ -559,39 +559,50 @@ const ChatbotScreen = () => {
       <View style={styles.container}>
         <View style={{ flex: 1, backgroundColor: '#f8fafc' }}>
           {/* Header */}
-          <View style={{
-            backgroundColor: '#1e293b',
-            paddingTop: Platform.OS === 'ios' ? 50 : 20,
-            paddingBottom: 15,
-            paddingHorizontal: 20,
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            shadowColor: "#000",
-            shadowOffset: { width: 0, height: 1 },
-            shadowOpacity: 0.22,
-            shadowRadius: 2.22,
-            elevation: 3,
-          }}>
+          <LinearGradient
+            colors={["#e3e0ff", "#f3e7fa"]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={{
+              paddingTop: Platform.OS === 'ios' ? 40 : 10,
+              paddingBottom: 10,
+              paddingHorizontal: 14,
+              borderBottomWidth: 1,
+              borderBottomColor: '#e0d7f3',
+              shadowColor: '#a18aff',
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.12,
+              shadowRadius: 8,
+              elevation: 4,
+              position: 'relative',
+            }}
+          >
             <TouchableOpacity
               onPress={handleGoBack}
-              style={{ padding: 8 }}
+              style={{ position: 'absolute', left: 10, top: Platform.OS === 'ios' ? 40 : 10, padding: 4, zIndex: 2 }}
               accessibilityLabel="Go back"
               accessibilityRole="button"
             >
-              <Text style={{ color: 'white', fontSize: 24 }}>←</Text>
+              <Text style={{ color: '#5100F3', fontSize: 22 }}>←</Text>
             </TouchableOpacity>
-
-            <Text style={{
-              fontSize: 20,
-              fontWeight: 'bold',
-              color: 'white'
-            }}>
-              MindHaven AI Assistant
-            </Text>
-
-            <View style={{ width: 40 }} />
-          </View>
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+              <Image
+                source={ROBOT_AVATAR}
+                style={{ width: 32, height: 32, borderRadius: 16, marginRight: 8, backgroundColor: '#fff' }}
+                resizeMode="cover"
+              />
+              <Text style={{
+                fontSize: 19,
+                fontWeight: 'bold',
+                color: '#5100F3',
+                textShadowColor: '#e3e0ff',
+                textShadowOffset: { width: 0, height: 1 },
+                textShadowRadius: 2,
+              }}>
+                Mindy
+              </Text>
+            </View>
+          </LinearGradient>
 
           <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : "height"}
