@@ -1,0 +1,42 @@
+{
+  "profile": {
+    "edit": "تعديل",
+    "logout": "تسجيل الخروج"
+  },
+  "home": {
+    "welcome": "مرحبًا بعودتك، {{name}}!",
+    "friend": "صديق",
+    "subtitle": "رحلتك نحو العافية النفسية مستمرة",
+    "wellness_quote": "اقتباس للعافية",
+    "refresh": "تحديث",
+    "could_not_fetch_quote": "تعذر جلب الاقتباس.",
+    "unknown": "غير معروف",
+    "days_streak": "أيام متتالية",
+    "journal_entries": "مداخلات اليوميات",
+    "mood_entries": "مداخلات المزاج",
+    "your_journey": "رحلتك",
+    "your_journal": "يومياتك",
+    "your_moods": "مزاجك",
+    "go_to_journal": "اذهب إلى اليوميات",
+    "track_your_mood": "تتبع مزاجك",
+    "how_are_you_feeling": "كيف تشعر اليوم؟",
+    "track_mood_subtitle": "تتبع مزاجك لفهم أنماطك العاطفية",
+    "need_to_talk": "تحتاج للتحدث؟",
+    "chat_privately": "تحدث مع الذكاء الاصطناعي للدعم أو النصيحة أو الفضفضة.",
+    "start_your_journey": "ابدأ رحلتك اليوم!",
+    "just_started": "لقد بدأت رحلتك للتو! استمر!",
+    "streak_keep_up": "لديك سلسلة من {{streak}} يومًا! واصل العمل الرائع!",
+    "amazing_streak": "رائع! لقد حافظت على سلسلة من {{streak}} يومًا!",
+    "incredible_dedication": "تفانٍ مذهل! لقد استخدمت MindHaven لمدة {{streak}} يومًا!",
+    "start_journaling": "ابدأ رحلتك في كتابة اليوميات اليوم!",
+    "first_journal": "لقد كتبت أول مدخلة في يومياتك! استمر!",
+    "journal_entries_count": "لقد كتبت {{count}} مدخلة في اليوميات. كل مدخلة خطوة للأمام!",
+    "great_progress_journal": "تقدم رائع! لقد كتبت {{count}} مدخلة في اليوميات.",
+    "amazing_dedication_journal": "تفانٍ مذهل! لقد كتبت {{count}} مدخلة في اليوميات.",
+    "start_tracking_moods": "ابدأ تتبع مزاجك اليوم!",
+    "first_mood": "لقد سجلت أول مزاج لك! استمر!",
+    "moods_logged": "لقد سجلت {{count}} مزاجًا. كل مدخلة تساعدك على فهم أنماطك العاطفية!",
+    "great_progress_mood": "تقدم رائع! لقد سجلت {{count}} مزاجًا.",
+    "amazing_dedication_mood": "تفانٍ مذهل! لقد سجلت {{count}} مزاجًا."
+  }
+}

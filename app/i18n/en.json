@@ -1,0 +1,42 @@
+{
+  "profile": {
+    "edit": "Edit",
+    "logout": "Logout"
+  },
+  "home": {
+    "welcome": "Welcome back, {{name}}!",
+    "friend": "Friend",
+    "subtitle": "Your mental wellness journey continues",
+    "wellness_quote": "Wellness Quote",
+    "refresh": "Refresh",
+    "could_not_fetch_quote": "Could not fetch quote.",
+    "unknown": "Unknown",
+    "days_streak": "Days Streak",
+    "journal_entries": "Journal Entries",
+    "mood_entries": "Mood Entries",
+    "your_journey": "Your Journey",
+    "your_journal": "Your Journal",
+    "your_moods": "Your Moods",
+    "go_to_journal": "Go to Journal",
+    "track_your_mood": "Track Your Mood",
+    "how_are_you_feeling": "How are you feeling today?",
+    "track_mood_subtitle": "Track your mood to understand your emotional patterns",
+    "need_to_talk": "Need to talk?",
+    "chat_privately": "Chat privately with our AI for support, advice, or just to vent.",
+    "start_your_journey": "Start your journey today!",
+    "just_started": "You've just started your journey! Keep going!",
+    "streak_keep_up": "You're on a {{streak}}-day streak! Keep up the great work!",
+    "amazing_streak": "Amazing! You've maintained a {{streak}}-day streak!",
+    "incredible_dedication": "Incredible dedication! You've been using MindHaven for {{streak}} days!",
+    "start_journaling": "Start your journaling journey today!",
+    "first_journal": "You've written your first journal entry! Keep going!",
+    "journal_entries_count": "You've written {{count}} journal entries. Every entry is a step forward!",
+    "great_progress_journal": "Great progress! You've written {{count}} journal entries.",
+    "amazing_dedication_journal": "Amazing dedication! You've written {{count}} journal entries.",
+    "start_tracking_moods": "Start tracking your moods today!",
+    "first_mood": "You've logged your first mood! Keep going!",
+    "moods_logged": "You've logged {{count}} moods. Every entry helps understand your emotional patterns!",
+    "great_progress_mood": "Great progress! You've logged {{count}} moods.",
+    "amazing_dedication_mood": "Amazing dedication! You've logged {{count}} moods."
+  }
+}

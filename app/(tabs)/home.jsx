@@ -8,10 +8,13 @@ import { Ionicons } from '@expo/vector-icons';
 import { GROQ_API_URL, GROQ_API_KEY, GROQ_MODEL } from '../config/aiConfig';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import quotes from '../../quotes.json';
+import '../i18n';
+import { useTranslation } from 'react-i18next';
 
 const Home = () => {
   const router = useRouter();
   const { user } = useUser();
+  const { t } = useTranslation();
 
   const handleProfilePress = () => {
     router.push("/profile");
@@ -33,8 +36,8 @@ const Home = () => {
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.scrollViewContent}
         >
-          <Text style={styles.welcomeText}>Welcome back, {user?.name || 'Friend'}!</Text>
-          <Text style={styles.subtitle}>Your mental wellness journey continues</Text>
+          <Text style={styles.welcomeText}>{t('home.welcome', { name: user?.name || t('home.friend') })}</Text>
+          <Text style={styles.subtitle}>{t('home.subtitle')}</Text>
 
           <DailyQuote />
 
@@ -140,6 +143,7 @@ const QuickStats = () => {
   const [showJournalModal, setShowJournalModal] = useState(false);
   const [showMoodModal, setShowMoodModal] = useState(false);
   const router = useRouter();
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchJournalCount = async () => {
@@ -233,27 +237,27 @@ const QuickStats = () => {
   }, []);
 
   const getStreakMessage = () => {
-    if (streak === 0) return "Start your journey today!";
-    if (streak === 1) return "You've just started your journey! Keep going!";
-    if (streak < 7) return `You're on a ${streak}-day streak! Keep up the great work!`;
-    if (streak < 30) return `Amazing! You've maintained a ${streak}-day streak!`;
-    return `Incredible dedication! You've been using MindHaven for ${streak} days!`;
+    if (streak === 0) return t('home.start_your_journey');
+    if (streak === 1) return t('home.just_started');
+    if (streak < 7) return t('home.streak_keep_up', { streak });
+    if (streak < 30) return t('home.amazing_streak', { streak });
+    return t('home.incredible_dedication', { streak });
   };
 
   const getJournalMessage = () => {
-    if (journalCount === 0) return "Start your journaling journey today!";
-    if (journalCount === 1) return "You've written your first journal entry! Keep going!";
-    if (journalCount < 5) return `You've written ${journalCount} journal entries. Every entry is a step forward!`;
-    if (journalCount < 10) return `Great progress! You've written ${journalCount} journal entries.`;
-    return `Amazing dedication! You've written ${journalCount} journal entries.`;
+    if (journalCount === 0) return t('home.start_journaling');
+    if (journalCount === 1) return t('home.first_journal');
+    if (journalCount < 5) return t('home.journal_entries_count', { count: journalCount });
+    if (journalCount < 10) return t('home.great_progress_journal', { count: journalCount });
+    return t('home.amazing_dedication_journal', { count: journalCount });
   };
 
   const getMoodMessage = () => {
-    if (moodCount === 0) return "Start tracking your moods today!";
-    if (moodCount === 1) return "You've logged your first mood! Keep going!";
-    if (moodCount < 5) return `You've logged ${moodCount} moods. Every entry helps understand your emotional patterns!`;
-    if (moodCount < 10) return `Great progress! You've ${moodCount} logged moods.`;
-    return `Amazing dedication! You've logged ${moodCount} moods.`;
+    if (moodCount === 0) return t('home.start_tracking_moods');
+    if (moodCount === 1) return t('home.first_mood');
+    if (moodCount < 5) return t('home.moods_logged', { count: moodCount });
+    if (moodCount < 10) return t('home.great_progress_mood', { count: moodCount });
+    return t('home.amazing_dedication_mood', { count: moodCount });
   };
 
   return (
@@ -265,7 +269,7 @@ const QuickStats = () => {
         >
           <Ionicons name="calendar" size={24} color="#5100F3" />
           <Text style={styles.statNumber}>{streak}</Text>
-          <Text style={styles.statLabel}>Days Streak</Text>
+          <Text style={styles.statLabel}>{t('home.days_streak')}</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.statCard}
@@ -273,7 +277,7 @@ const QuickStats = () => {
         >
           <Ionicons name="journal" size={24} color="#5100F3" />
           <Text style={styles.statNumber}>{loading ? '...' : journalCount}</Text>
-          <Text style={styles.statLabel}>Journal Entries</Text>
+          <Text style={styles.statLabel}>{t('home.journal_entries')}</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.statCard}
@@ -281,7 +285,7 @@ const QuickStats = () => {
         >
           <Ionicons name="happy" size={24} color="#5100F3" />
           <Text style={styles.statNumber}>{loading ? '...' : moodCount}</Text>
-          <Text style={styles.statLabel}>Mood Entries</Text>
+          <Text style={styles.statLabel}>{t('home.mood_entries')}</Text>
         </TouchableOpacity>
       </View>
 
@@ -295,7 +299,7 @@ const QuickStats = () => {
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
             <View style={styles.modalHeader}>
-              <Text style={styles.modalTitle}>Your Journey</Text>
+              <Text style={styles.modalTitle}>{t('home.your_journey')}</Text>
               <TouchableOpacity onPress={() => setShowStreakModal(false)}>
                 <Ionicons name="close" size={24} color="#6c4ab6" />
               </TouchableOpacity>
@@ -318,7 +322,7 @@ const QuickStats = () => {
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
             <View style={styles.modalHeader}>
-              <Text style={styles.modalTitle}>Your Journal</Text>
+              <Text style={styles.modalTitle}>{t('home.your_journal')}</Text>
               <TouchableOpacity onPress={() => setShowJournalModal(false)}>
                 <Ionicons name="close" size={24} color="#6c4ab6" />
               </TouchableOpacity>
@@ -333,7 +337,7 @@ const QuickStats = () => {
                   router.push("/journaling");
                 }}
               >
-                <Text style={styles.modalButtonText}>Go to Journal</Text>
+                <Text style={styles.modalButtonText}>{t('home.go_to_journal')}</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -350,7 +354,7 @@ const QuickStats = () => {
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
             <View style={styles.modalHeader}>
-              <Text style={styles.modalTitle}>Your Moods</Text>
+              <Text style={styles.modalTitle}>{t('home.your_moods')}</Text>
               <TouchableOpacity onPress={() => setShowMoodModal(false)}>
                 <Ionicons name="close" size={24} color="#6c4ab6" />
               </TouchableOpacity>
@@ -365,7 +369,7 @@ const QuickStats = () => {
                   router.push("/mood-tracker");
                 }}
               >
-                <Text style={styles.modalButtonText}>Track Your Mood</Text>
+                <Text style={styles.modalButtonText}>{t('home.track_your_mood')}</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -377,12 +381,13 @@ const QuickStats = () => {
 
 const MoodTracker = () => {
   const router = useRouter();
+  const { t } = useTranslation();
   return (
     <View style={styles.moodTrackerCard}>
       <View style={styles.moodTrackerText}>
-        <Text style={styles.moodTrackerTitle}>How are you feeling today?</Text>
+        <Text style={styles.moodTrackerTitle}>{t('home.how_are_you_feeling')}</Text>
         <Text style={styles.moodTrackerSubtitle}>
-          Track your mood to understand your emotional patterns
+          {t('home.track_mood_subtitle')}
         </Text>
       </View>
       <View style={styles.moodEmojis}>
@@ -402,12 +407,13 @@ const MoodTracker = () => {
 
 const ChatAICard = () => {
   const router = useRouter();
+  const { t } = useTranslation();
   return (
     <View style={styles.moodTrackerCard}>
       <View style={styles.moodTrackerText}>
-        <Text style={styles.moodTrackerTitle}>Need to talk?</Text>
+        <Text style={styles.moodTrackerTitle}>{t('home.need_to_talk')}</Text>
         <Text style={styles.moodTrackerSubtitle}>
-          Chat privately with our AI for support, advice, or just to vent.
+          {t('home.chat_privately')}
         </Text>
       </View>
       <TouchableOpacity style={styles.moodEmoji} onPress={() => router.push('/chatbot')}>

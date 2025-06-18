@@ -6,14 +6,34 @@ import { Svg, Path } from 'react-native-svg';
 import * as ImagePicker from 'expo-image-picker';
 import { API_URLS } from "../config/apiConfig";
 import { useUser } from "../UserContext";
+import { LinearGradient } from 'expo-linear-gradient';
+import { Ionicons } from '@expo/vector-icons';
+import '../i18n';
+import { useTranslation } from 'react-i18next';
 
 const DEFAULT_AVATAR = require("../../assets/images/no-profile.png");
+const LOGO = require("../../assets/images/logo.png");
 
 const ProfileScreen = () => {
   const { user, loading, updateProfileImage, fetchUserProfile } = useUser();
+  const { t, i18n } = useTranslation();
   const [uploading, setUploading] = useState(false);
   const [imageError, setImageError] = useState(false);
   const router = useRouter();
+  const [language, setLanguage] = useState('en');
+  const [dropdownVisible, setDropdownVisible] = useState(false);
+
+  const languageOptions = [
+    { code: 'en', label: 'English', flag: '🇬🇧' },
+    { code: 'ar', label: 'العربية', flag: '🇸🇦' },
+    { code: 'de', label: 'Deutsch', flag: '🇩🇪' },
+  ];
+
+  const handleLanguageSelect = (code) => {
+    setLanguage(code);
+    setDropdownVisible(false);
+    i18n.changeLanguage(code);
+  };
 
   // Function to get CSRF token from cookies
   const getCSRFToken = () => {
@@ -186,13 +206,9 @@ const ProfileScreen = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-          <Svg width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="#5100F3" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-            <Path d="M15 18l-6-6 6-6" />
-          </Svg>
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>Profile</Text>
+      <View style={styles.centeredHeader}>
+        <Image source={LOGO} style={styles.headerLogo} resizeMode="contain" />
+        <Text style={styles.headerBrand}>MindHaven</Text>
       </View>
       <View style={styles.profileCard}>
         <View style={styles.imageContainer}>
@@ -209,18 +225,38 @@ const ProfileScreen = () => {
             {uploading ? (
               <ActivityIndicator size="small" color="#fff" />
             ) : (
-              <Text style={styles.editButtonText}>Edit</Text>
+              <Text style={styles.editButtonText}>{t('profile.edit')}</Text>
             )}
           </TouchableOpacity>
         </View>
         <View style={styles.profileInfo}>
-          <Text style={styles.name}>{user.name}</Text>
+          <View style={styles.nameRow}>
+            <Text style={styles.name}>{user.name}</Text>
+            <TouchableOpacity onPress={() => setDropdownVisible(!dropdownVisible)} style={styles.languageDropdownIcon}>
+              <Ionicons name={dropdownVisible ? 'chevron-up' : 'chevron-down'} size={22} color="#5100F3" />
+            </TouchableOpacity>
+          </View>
           <Text style={styles.email}>{user.email}</Text>
         </View>
       </View>
       <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-        <Text style={styles.logoutButtonText}>Logout</Text>
+        <Text style={styles.logoutButtonText}>{t('profile.logout')}</Text>
       </TouchableOpacity>
+      {/* Render dropdown menu at the root level for proper overlay */}
+      {dropdownVisible && (
+        <View style={styles.languageDropdownMenuRoot}>
+          {languageOptions.map(option => (
+            <TouchableOpacity
+              key={option.code}
+              style={styles.languageDropdownItem}
+              onPress={() => handleLanguageSelect(option.code)}
+            >
+              <Text style={styles.languageFlag}>{option.flag}</Text>
+              <Text style={[styles.languageDropdownText, language === option.code && { fontWeight: 'bold', color: '#5100F3' }]}>{option.label}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+      )}
     </View>
   );
 };
@@ -230,22 +266,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#f5f5f5',
     padding: 20,
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: '#E9EEF6',
-  },
-  backButton: {
-    padding: 8,
-    marginRight: 8,
-  },
-  headerTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#5100F3',
   },
   profileCard: {
     backgroundColor: '#fff',
@@ -259,6 +279,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
+    overflow: 'visible',
   },
   imageContainer: {
     alignItems: 'center',
@@ -284,10 +305,17 @@ const styles = StyleSheet.create({
   profileInfo: {
     alignItems: 'center',
   },
+  nameRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'relative',
+  },
   name: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 5,
+    marginRight: 4,
   },
   email: {
     fontSize: 16,
@@ -309,6 +337,68 @@ const styles = StyleSheet.create({
     color: 'red',
     fontSize: 16,
     textAlign: 'center',
+  },
+  centeredHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 18,
+    marginTop: 8,
+    position: 'relative',
+    paddingBottom: 40,
+  },
+  headerLogo: {
+    width: 32,
+    height: 32,
+    marginRight: 8,
+  },
+  headerBrand: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    color: '#5100F3',
+    letterSpacing: 0.5,
+    marginRight: 2,
+  },
+  languageDropdownIcon: {
+    marginLeft: 2,
+    padding: 4,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  languageDropdownMenuRoot: {
+    position: 'absolute',
+    top: 140,
+    left: 0,
+    right: 0,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    width: 150,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.18,
+    shadowRadius: 8,
+    elevation: 20,
+    zIndex: 1000,
+    borderWidth: 1,
+    borderColor: '#eee',
+    paddingVertical: 4,
+  },
+  languageDropdownItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    gap: 8,
+  },
+  languageFlag: {
+    fontSize: 20,
+    marginRight: 8,
+  },
+  languageDropdownText: {
+    fontSize: 16,
+    color: '#2c1a4a',
   },
 });
 

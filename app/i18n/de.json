@@ -1,0 +1,42 @@
+{
+  "profile": {
+    "edit": "Bearbeiten",
+    "logout": "Abmelden"
+  },
+  "home": {
+    "welcome": "Willkommen zurück, {{name}}!",
+    "friend": "Freund",
+    "subtitle": "Deine Reise zum mentalen Wohlbefinden geht weiter",
+    "wellness_quote": "Wohlfühl-Zitat",
+    "refresh": "Aktualisieren",
+    "could_not_fetch_quote": "Zitat konnte nicht abgerufen werden.",
+    "unknown": "Unbekannt",
+    "days_streak": "Tage in Folge",
+    "journal_entries": "Tagebucheinträge",
+    "mood_entries": "Stimmungseinträge",
+    "your_journey": "Deine Reise",
+    "your_journal": "Dein Tagebuch",
+    "your_moods": "Deine Stimmungen",
+    "go_to_journal": "Zum Tagebuch",
+    "track_your_mood": "Stimmung verfolgen",
+    "how_are_you_feeling": "Wie fühlst du dich heute?",
+    "track_mood_subtitle": "Verfolge deine Stimmung, um deine emotionalen Muster zu verstehen",
+    "need_to_talk": "Möchtest du reden?",
+    "chat_privately": "Chatte privat mit unserer KI für Unterstützung, Rat oder einfach zum Reden.",
+    "start_your_journey": "Beginne deine Reise heute!",
+    "just_started": "Du hast gerade erst angefangen! Mach weiter so!",
+    "streak_keep_up": "Du bist seit {{streak}} Tagen dabei! Weiter so!",
+    "amazing_streak": "Erstaunlich! Du hast eine Serie von {{streak}} Tagen aufrechterhalten!",
+    "incredible_dedication": "Unglaubliche Hingabe! Du nutzt MindHaven seit {{streak}} Tagen!",
+    "start_journaling": "Beginne heute mit deinem Tagebuch!",
+    "first_journal": "Du hast deinen ersten Tagebucheintrag geschrieben! Mach weiter so!",
+    "journal_entries_count": "Du hast {{count}} Tagebucheinträge geschrieben. Jeder Eintrag ist ein Schritt nach vorne!",
+    "great_progress_journal": "Großartige Fortschritte! Du hast {{count}} Tagebucheinträge geschrieben.",
+    "amazing_dedication_journal": "Erstaunliche Hingabe! Du hast {{count}} Tagebucheinträge geschrieben.",
+    "start_tracking_moods": "Beginne heute, deine Stimmungen zu verfolgen!",
+    "first_mood": "Du hast deine erste Stimmung erfasst! Mach weiter so!",
+    "moods_logged": "Du hast {{count}} Stimmungen erfasst. Jeder Eintrag hilft, deine emotionalen Muster zu verstehen!",
+    "great_progress_mood": "Großartige Fortschritte! Du hast {{count}} Stimmungen erfasst.",
+    "amazing_dedication_mood": "Erstaunliche Hingabe! Du hast {{count}} Stimmungen erfasst."
+  }
+}
