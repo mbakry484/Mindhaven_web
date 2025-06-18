@@ -21,6 +21,8 @@ import * as FileSystem from 'expo-file-system';
 import { Audio } from 'expo-av';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useUser } from "../UserContext";
+import '../i18n';
+import { useTranslation } from 'react-i18next';
 
 const { width } = Dimensions.get("window");
 
@@ -232,6 +234,7 @@ const ChatbotScreen = () => {
   const audioChunksRef = useRef([]);
   const scrollViewRef = useRef();
   const { user } = useUser();
+  const { t } = useTranslation();
 
   // Fetch chat history on mount
   useEffect(() => {
@@ -580,7 +583,7 @@ const ChatbotScreen = () => {
             <TouchableOpacity
               onPress={handleGoBack}
               style={{ position: 'absolute', left: 10, top: Platform.OS === 'ios' ? 40 : 10, padding: 4, zIndex: 2 }}
-              accessibilityLabel="Go back"
+              accessibilityLabel={t('chatbot.go_back')}
               accessibilityRole="button"
             >
               <Text style={{ color: '#5100F3', fontSize: 22 }}>←</Text>
@@ -599,7 +602,7 @@ const ChatbotScreen = () => {
                 textShadowOffset: { width: 0, height: 1 },
                 textShadowRadius: 2,
               }}>
-                Mindy
+                {t('chatbot.mindy')}
               </Text>
             </View>
           </LinearGradient>
@@ -639,7 +642,7 @@ const ChatbotScreen = () => {
                     color: '#2c1a4a',
                     marginBottom: 12,
                   }}>
-                    How can I help you today?
+                    {t('chatbot.empty_title')}
                   </Text>
                   <Text style={{
                     fontSize: 16,
@@ -647,7 +650,7 @@ const ChatbotScreen = () => {
                     textAlign: 'center',
                     maxWidth: '80%',
                   }}>
-                    Ask me anything about mental health, stress management, or meditation techniques.
+                    {t('chatbot.empty_subtitle')}
                   </Text>
                 </View>
               ) : (
@@ -691,7 +694,7 @@ const ChatbotScreen = () => {
                     }}>
                       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <ActivityIndicator size="small" color="#5100F3" style={{ marginRight: 8 }} />
-                        <Text style={{ color: '#64748b' }}>Thinking...</Text>
+                        <Text style={{ color: '#64748b' }}>{t('chatbot.thinking')}</Text>
                       </View>
                     </View>
                   </View>
@@ -736,7 +739,7 @@ const ChatbotScreen = () => {
                   marginRight: 10,
                   color: '#2c1a4a',
                 }}
-                placeholder="Type your message..."
+                placeholder={t('chatbot.input_placeholder')}
                 placeholderTextColor="#64748b"
                 value={inputText}
                 onChangeText={setInputText}

@@ -38,5 +38,13 @@
     "moods_logged": "You've logged {{count}} moods. Every entry helps understand your emotional patterns!",
     "great_progress_mood": "Great progress! You've logged {{count}} moods.",
     "amazing_dedication_mood": "Amazing dedication! You've logged {{count}} moods."
+  },
+  "chatbot": {
+    "mindy": "Mindy",
+    "go_back": "Go back",
+    "empty_title": "How can I help you today?",
+    "empty_subtitle": "Ask me anything about mental health, stress management, or meditation techniques.",
+    "thinking": "Thinking...",
+    "input_placeholder": "Type your message..."
   }
 }

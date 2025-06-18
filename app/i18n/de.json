@@ -38,5 +38,13 @@
     "moods_logged": "Du hast {{count}} Stimmungen erfasst. Jeder Eintrag hilft, deine emotionalen Muster zu verstehen!",
     "great_progress_mood": "Großartige Fortschritte! Du hast {{count}} Stimmungen erfasst.",
     "amazing_dedication_mood": "Erstaunliche Hingabe! Du hast {{count}} Stimmungen erfasst."
+  },
+  "chatbot": {
+    "mindy": "Mindy",
+    "go_back": "Zurück",
+    "empty_title": "Wie kann ich dir heute helfen?",
+    "empty_subtitle": "Frag mich alles zu mentaler Gesundheit, Stressmanagement oder Meditationstechniken.",
+    "thinking": "Denkt...",
+    "input_placeholder": "Schreibe deine Nachricht..."
   }
 }
