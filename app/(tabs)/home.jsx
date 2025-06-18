@@ -40,11 +40,11 @@ const Home = () => {
 
           <QuickStats />
 
+          <ChatAICard />
+
           <TouchableOpacity onPress={handleMoodTrackerPress}>
             <MoodTracker />
           </TouchableOpacity>
-
-          <ChatAICard />
 
           <View style={styles.divider} />
         </ScrollView>
@@ -138,6 +138,7 @@ const QuickStats = () => {
   const [streak, setStreak] = useState(0);
   const [showStreakModal, setShowStreakModal] = useState(false);
   const [showJournalModal, setShowJournalModal] = useState(false);
+  const [showMoodModal, setShowMoodModal] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -247,6 +248,14 @@ const QuickStats = () => {
     return `Amazing dedication! You've written ${journalCount} journal entries.`;
   };
 
+  const getMoodMessage = () => {
+    if (moodCount === 0) return "Start tracking your moods today!";
+    if (moodCount === 1) return "You've logged your first mood! Keep going!";
+    if (moodCount < 5) return `You've logged ${moodCount} moods. Every entry helps understand your emotional patterns!`;
+    if (moodCount < 10) return `Great progress! You've ${moodCount} logged moods.`;
+    return `Amazing dedication! You've logged ${moodCount} moods.`;
+  };
+
   return (
     <>
       <View style={styles.statsContainer}>
@@ -266,11 +275,14 @@ const QuickStats = () => {
           <Text style={styles.statNumber}>{loading ? '...' : journalCount}</Text>
           <Text style={styles.statLabel}>Journal Entries</Text>
         </TouchableOpacity>
-        <View style={styles.statCard}>
+        <TouchableOpacity
+          style={styles.statCard}
+          onPress={() => setShowMoodModal(true)}
+        >
           <Ionicons name="happy" size={24} color="#5100F3" />
           <Text style={styles.statNumber}>{loading ? '...' : moodCount}</Text>
           <Text style={styles.statLabel}>Mood Entries</Text>
-        </View>
+        </TouchableOpacity>
       </View>
 
       {/* Streak Modal */}
@@ -322,6 +334,38 @@ const QuickStats = () => {
                 }}
               >
                 <Text style={styles.modalButtonText}>Go to Journal</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
+
+      {/* Mood Modal */}
+      <Modal
+        visible={showMoodModal}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={() => setShowMoodModal(false)}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <View style={styles.modalHeader}>
+              <Text style={styles.modalTitle}>Your Moods</Text>
+              <TouchableOpacity onPress={() => setShowMoodModal(false)}>
+                <Ionicons name="close" size={24} color="#6c4ab6" />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.modalBody}>
+              <Ionicons name="happy" size={48} color="#5100F3" style={styles.modalIcon} />
+              <Text style={styles.modalMessage}>{getMoodMessage()}</Text>
+              <TouchableOpacity
+                style={styles.modalButton}
+                onPress={() => {
+                  setShowMoodModal(false);
+                  router.push("/mood-tracker");
+                }}
+              >
+                <Text style={styles.modalButtonText}>Track Your Mood</Text>
               </TouchableOpacity>
             </View>
           </View>
