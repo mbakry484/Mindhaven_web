@@ -133,6 +133,7 @@ const DailyQuote = () => {
 
 const QuickStats = () => {
   const [journalCount, setJournalCount] = useState(null);
+  const [moodCount, setMoodCount] = useState(null);
   const [loading, setLoading] = useState(true);
   const [streak, setStreak] = useState(0);
   const [showStreakModal, setShowStreakModal] = useState(false);
@@ -151,13 +152,27 @@ const QuickStats = () => {
         console.error('Error fetching journal count:', e);
         setJournalCount(0);
       }
+    };
+
+    const fetchMoodCount = async () => {
+      try {
+        const userId = await AsyncStorage.getItem('user_id');
+        const response = await fetch(`http://localhost:8000/api/get_user_mood_logs/${userId}/`);
+        const data = await response.json();
+        const entries = data.mood_logs || [];
+        setMoodCount(Array.isArray(entries) ? entries.length : 0);
+      } catch (e) {
+        console.error('Error fetching mood count:', e);
+        setMoodCount(0);
+      }
       setLoading(false);
     };
 
     const checkStreak = async () => {
       const today = new Date();
-      // Convert to local date string to handle timezone differences
-      const todayStr = today.toLocaleDateString('en-US', { timeZone: 'UTC' });
+      // Get the start of today in local timezone
+      const startOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+      const todayStr = startOfToday.toLocaleDateString('en-US');
       const lastDate = await AsyncStorage.getItem('streak_last_date');
       let currentStreak = parseInt(await AsyncStorage.getItem('streak_count') || '0', 10);
 
@@ -183,9 +198,12 @@ const QuickStats = () => {
         return;
       }
 
+      // Parse the last date string
+      const [month, day, year] = lastDate.split('/');
+      const lastDateObj = new Date(year, month - 1, day);
+
       // Calculate the time difference in days
-      const lastDateObj = new Date(lastDate);
-      const timeDiff = today.getTime() - lastDateObj.getTime();
+      const timeDiff = startOfToday.getTime() - lastDateObj.getTime();
       const daysDiff = Math.floor(timeDiff / (1000 * 3600 * 24));
 
       console.log('Last date object:', lastDateObj.toISOString());
@@ -209,6 +227,7 @@ const QuickStats = () => {
     };
 
     fetchJournalCount();
+    fetchMoodCount();
     checkStreak();
   }, []);
 
@@ -249,7 +268,7 @@ const QuickStats = () => {
         </TouchableOpacity>
         <View style={styles.statCard}>
           <Ionicons name="happy" size={24} color="#5100F3" />
-          <Text style={styles.statNumber}>12</Text>
+          <Text style={styles.statNumber}>{loading ? '...' : moodCount}</Text>
           <Text style={styles.statLabel}>Mood Entries</Text>
         </View>
       </View>
