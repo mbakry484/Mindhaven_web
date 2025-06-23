@@ -102,5 +102,25 @@
     "like_singular": "like",
     "comments_plural": "comments",
     "comment_singular": "comment"
+  },
+  "journal": {
+    "journal": "Journal",
+    "title_optional": "Title (optional)",
+    "write_thoughts": "Write your thoughts...",
+    "save_entry": "Save Entry",
+    "edit_entry": "Edit Entry",
+    "update_entry": "Update Entry",
+    "untitled_entry": "Untitled Entry",
+    "please_enter_content": "Please enter some content",
+    "entry_saved": "Journal entry saved successfully!",
+    "entry_updated": "Journal entry updated successfully!",
+    "entry_deleted": "Journal entry deleted successfully!",
+    "failed_load_entries": "Failed to load journal entries",
+    "failed_save_entry": "Failed to save journal entry",
+    "failed_update_entry": "Failed to update journal entry",
+    "failed_delete_entry": "Failed to delete journal entry",
+    "unexpected_format": "Unexpected response format for journal entries",
+    "no_entries": "No journal entries yet",
+    "start_journaling_message": "Start your journaling journey by writing your first entry"
   }
 }

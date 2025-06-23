@@ -71,7 +71,7 @@
     "post_published": "تم نشر المنشور بنجاح",
     "failed_create_post": "فشل في إنشاء المنشور. يرجى المحاولة مرة أخرى.",
     "must_login_like": "يجب أن تكون مسجل الدخول للإعجاب بالمنشورات",
-    "failed_toggle_like": " فشل الاعجاب بالمنشور",
+    "failed_toggle_like": "فشل في تبديل الإعجاب",
     "failed_fetch_posts": "فشل في جلب المنشورات",
     "failed_fetch_comments": "فشل في جلب التعليقات",
     "comment_empty": "لا يمكن أن يكون التعليق فارغًا",
@@ -102,8 +102,25 @@
     "like_singular": "إعجاب",
     "comments_plural": "تعليقات",
     "comment_singular": "تعليق"
+  },
+  "journal": {
+    "journal": "اليوميات",
+    "title_optional": "العنوان (اختياري)",
+    "write_thoughts": "اكتب أفكارك...",
+    "save_entry": "حفظ المدخلة",
+    "edit_entry": "تعديل المدخلة",
+    "update_entry": "تحديث المدخلة",
+    "untitled_entry": "مدخلة بدون عنوان",
+    "please_enter_content": "يرجى إدخال بعض المحتوى",
+    "entry_saved": "تم حفظ مدخلة اليوميات بنجاح!",
+    "entry_updated": "تم تحديث مدخلة اليوميات بنجاح!",
+    "entry_deleted": "تم حذف مدخلة اليوميات بنجاح!",
+    "failed_load_entries": "فشل في تحميل مداخلات اليوميات",
+    "failed_save_entry": "فشل في حفظ مدخلة اليوميات",
+    "failed_update_entry": "فشل في تحديث مدخلة اليوميات",
+    "failed_delete_entry": "فشل في حذف مدخلة اليوميات",
+    "unexpected_format": "تنسيق استجابة غير متوقع لمداخلات اليوميات",
+    "no_entries": "لا توجد مداخلات يوميات بعد",
+    "start_journaling_message": "ابدأ رحلتك في كتابة اليوميات بكتابة أول مدخلة لك"
   }
-
-
-  
 }

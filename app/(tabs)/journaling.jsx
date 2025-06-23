@@ -13,9 +13,12 @@ import {
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useTranslation } from 'react-i18next';
+import '../i18n';
 
 const JournalingScreen = () => {
     const router = useRouter();
+    const { t } = useTranslation();
     const [entries, setEntries] = useState([]);
     const [currentEntry, setCurrentEntry] = useState('');
     const [title, setTitle] = useState('');
@@ -32,7 +35,7 @@ const JournalingScreen = () => {
             const userId = await AsyncStorage.getItem('user_id');
             const response = await fetch(`http://localhost:8000/api/get_journal_entries/${userId}/`);
             if (!response.ok) {
-                Alert.alert('Error', 'Failed to load journal entries');
+                Alert.alert('Error', t('journal.failed_load_entries'));
                 setEntries([]);
                 return;
             }
@@ -41,20 +44,20 @@ const JournalingScreen = () => {
             const journalEntries = data.entries || data.journal_entries || [];
             if (!Array.isArray(journalEntries)) {
                 setEntries([]);
-                Alert.alert('Error', 'Unexpected response format for journal entries');
+                Alert.alert('Error', t('journal.unexpected_format'));
                 return;
             }
             setEntries(journalEntries);
         } catch (error) {
             console.error('Error loading entries:', error);
-            Alert.alert('Error', 'Failed to load journal entries');
+            Alert.alert('Error', t('journal.failed_load_entries'));
             setEntries([]);
         }
     };
 
     const saveEntry = async () => {
         if (!currentEntry.trim()) {
-            Alert.alert('Error', 'Please enter some content');
+            Alert.alert('Error', t('journal.please_enter_content'));
             return;
         }
 
@@ -67,7 +70,7 @@ const JournalingScreen = () => {
                 },
                 body: JSON.stringify({
                     user_id: userId,
-                    title: title.trim() || 'Untitled Entry',
+                    title: title.trim() || t('journal.untitled_entry'),
                     content: currentEntry.trim(),
                     date: new Date().toISOString(),
                 }),
@@ -77,13 +80,13 @@ const JournalingScreen = () => {
                 await loadEntries(); // Reload entries from database
                 setTitle('');
                 setCurrentEntry('');
-                Alert.alert('Success', 'Journal entry saved successfully!');
+                Alert.alert('Success', t('journal.entry_saved'));
             } else {
                 throw new Error('Failed to save entry');
             }
         } catch (error) {
             console.error('Error saving entry:', error);
-            Alert.alert('Error', 'Failed to save journal entry');
+            Alert.alert('Error', t('journal.failed_save_entry'));
         }
     };
 
@@ -97,7 +100,7 @@ const JournalingScreen = () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    title: title.trim() || 'Untitled Entry',
+                    title: title.trim() || t('journal.untitled_entry'),
                     content: currentEntry.trim(),
                 }),
             });
@@ -109,13 +112,13 @@ const JournalingScreen = () => {
                 setEditingEntry(null);
                 setTitle('');
                 setCurrentEntry('');
-                Alert.alert('Success', 'Journal entry updated successfully!');
+                Alert.alert('Success', t('journal.entry_updated'));
             } else {
                 throw new Error('Failed to update entry');
             }
         } catch (error) {
             console.error('Error updating entry:', error);
-            Alert.alert('Error', 'Failed to update journal entry');
+            Alert.alert('Error', t('journal.failed_update_entry'));
         }
     };
 
@@ -127,13 +130,13 @@ const JournalingScreen = () => {
 
             if (response.ok) {
                 await loadEntries(); // Reload entries from database
-                Alert.alert('Success', 'Journal entry deleted successfully!');
+                Alert.alert('Success', t('journal.entry_deleted'));
             } else {
                 throw new Error('Failed to delete entry');
             }
         } catch (error) {
             console.error('Error deleting entry:', error);
-            Alert.alert('Error', 'Failed to delete journal entry');
+            Alert.alert('Error', t('journal.failed_delete_entry'));
         }
     };
 
@@ -166,7 +169,7 @@ const JournalingScreen = () => {
                 >
                     <Text style={styles.backButtonText}>←</Text>
                 </TouchableOpacity>
-                <Text style={styles.headerTitle}>Journal</Text>
+                <Text style={styles.headerTitle}>{t('journal.journal')}</Text>
                 <View style={{ width: 40 }} />
             </View>
 
@@ -179,14 +182,14 @@ const JournalingScreen = () => {
                     <View style={styles.newEntryContainer}>
                         <TextInput
                             style={styles.titleInput}
-                            placeholder="Title (optional)"
+                            placeholder={t('journal.title_optional')}
                             value={title}
                             onChangeText={setTitle}
                             maxLength={100}
                         />
                         <TextInput
                             style={styles.contentInput}
-                            placeholder="Write your thoughts..."
+                            placeholder={t('journal.write_thoughts')}
                             value={currentEntry}
                             onChangeText={setCurrentEntry}
                             multiline
@@ -196,32 +199,39 @@ const JournalingScreen = () => {
                             style={styles.saveButton}
                             onPress={saveEntry}
                         >
-                            <Text style={styles.saveButtonText}>Save Entry</Text>
+                            <Text style={styles.saveButtonText}>{t('journal.save_entry')}</Text>
                         </TouchableOpacity>
                     </View>
 
                     {/* Previous Entries */}
-                    {entries.map((entry) => (
-                        <TouchableOpacity
-                            key={entry._id}
-                            style={styles.entryCard}
-                            onPress={() => handleEditEntry(entry)}
-                        >
-                            <View style={styles.entryHeader}>
-                                <Text style={styles.entryTitle}>{entry.title}</Text>
-                                <TouchableOpacity
-                                    onPress={() => deleteEntry(entry._id)}
-                                    style={styles.deleteButton}
-                                >
-                                    <Text style={styles.deleteButtonText}>×</Text>
-                                </TouchableOpacity>
-                            </View>
-                            <Text style={styles.entryDate}>{formatDate(entry.date)}</Text>
-                            <Text style={styles.entryContent} numberOfLines={3}>
-                                {entry.content}
-                            </Text>
-                        </TouchableOpacity>
-                    ))}
+                    {entries.length === 0 ? (
+                        <View style={styles.emptyStateContainer}>
+                            <Text style={styles.emptyStateText}>{t('journal.no_entries')}</Text>
+                            <Text style={styles.emptyStateSubtext}>{t('journal.start_journaling_message')}</Text>
+                        </View>
+                    ) : (
+                        entries.map((entry) => (
+                            <TouchableOpacity
+                                key={entry._id}
+                                style={styles.entryCard}
+                                onPress={() => handleEditEntry(entry)}
+                            >
+                                <View style={styles.entryHeader}>
+                                    <Text style={styles.entryTitle}>{entry.title}</Text>
+                                    <TouchableOpacity
+                                        onPress={() => deleteEntry(entry._id)}
+                                        style={styles.deleteButton}
+                                    >
+                                        <Text style={styles.deleteButtonText}>×</Text>
+                                    </TouchableOpacity>
+                                </View>
+                                <Text style={styles.entryDate}>{formatDate(entry.date)}</Text>
+                                <Text style={styles.entryContent} numberOfLines={3}>
+                                    {entry.content}
+                                </Text>
+                            </TouchableOpacity>
+                        ))
+                    )}
                 </ScrollView>
             </KeyboardAvoidingView>
 
@@ -241,7 +251,7 @@ const JournalingScreen = () => {
                 <View style={styles.modalContainer}>
                     <View style={styles.modalContent}>
                         <View style={styles.modalHeader}>
-                            <Text style={styles.modalTitle}>Edit Entry</Text>
+                            <Text style={styles.modalTitle}>{t('journal.edit_entry')}</Text>
                             <TouchableOpacity
                                 onPress={() => {
                                     setIsModalVisible(false);
@@ -257,14 +267,14 @@ const JournalingScreen = () => {
                         </View>
                         <TextInput
                             style={styles.modalTitleInput}
-                            placeholder="Title (optional)"
+                            placeholder={t('journal.title_optional')}
                             value={title}
                             onChangeText={setTitle}
                             maxLength={100}
                         />
                         <TextInput
                             style={styles.modalContentInput}
-                            placeholder="Write your thoughts..."
+                            placeholder={t('journal.write_thoughts')}
                             value={currentEntry}
                             onChangeText={setCurrentEntry}
                             multiline
@@ -274,7 +284,7 @@ const JournalingScreen = () => {
                             style={styles.updateButton}
                             onPress={updateEntry}
                         >
-                            <Text style={styles.updateButtonText}>Update Entry</Text>
+                            <Text style={styles.updateButtonText}>{t('journal.update_entry')}</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -462,6 +472,25 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 16,
         fontWeight: 'bold',
+    },
+    emptyStateContainer: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 60,
+        paddingHorizontal: 20,
+    },
+    emptyStateText: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: '#2c1a4a',
+        marginBottom: 10,
+        textAlign: 'center',
+    },
+    emptyStateSubtext: {
+        fontSize: 16,
+        color: '#64748b',
+        textAlign: 'center',
+        lineHeight: 24,
     },
 });
 

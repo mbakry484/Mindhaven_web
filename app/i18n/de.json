@@ -102,5 +102,25 @@
     "like_singular": "Gefällt mir",
     "comments_plural": "Kommentare",
     "comment_singular": "Kommentar"
+  },
+  "journal": {
+    "journal": "Tagebuch",
+    "title_optional": "Titel (optional)",
+    "write_thoughts": "Schreibe deine Gedanken...",
+    "save_entry": "Eintrag speichern",
+    "edit_entry": "Eintrag bearbeiten",
+    "update_entry": "Eintrag aktualisieren",
+    "untitled_entry": "Unbenannter Eintrag",
+    "please_enter_content": "Bitte gib etwas Inhalt ein",
+    "entry_saved": "Tagebucheintrag erfolgreich gespeichert!",
+    "entry_updated": "Tagebucheintrag erfolgreich aktualisiert!",
+    "entry_deleted": "Tagebucheintrag erfolgreich gelöscht!",
+    "failed_load_entries": "Tagebucheinträge konnten nicht geladen werden",
+    "failed_save_entry": "Tagebucheintrag konnte nicht gespeichert werden",
+    "failed_update_entry": "Tagebucheintrag konnte nicht aktualisiert werden",
+    "failed_delete_entry": "Tagebucheintrag konnte nicht gelöscht werden",
+    "unexpected_format": "Unerwartetes Antwortformat für Tagebucheinträge",
+    "no_entries": "Noch keine Tagebucheinträge",
+    "start_journaling_message": "Beginne deine Tagebuchreise, indem du deinen ersten Eintrag schreibst"
   }
 }
