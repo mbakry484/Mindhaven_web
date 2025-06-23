@@ -24,6 +24,8 @@ import { API_URLS } from "../config/apiConfig";
 import { useUser } from "../UserContext";
 import * as ImagePicker from 'expo-image-picker';
 import { MaterialIcons } from '@expo/vector-icons';
+import { useTranslation } from 'react-i18next';
+import '../i18n';
 
 const { width, height } = Dimensions.get("window");
 
@@ -199,6 +201,7 @@ const Header = ({ onProfilePress }) => {
 // Create post component
 const CreatePostCard = ({ onCreatePost }) => {
   const { user } = useUser();
+  const { t } = useTranslation();
   const [isExpanded, setIsExpanded] = useState(false);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -210,7 +213,7 @@ const CreatePostCard = ({ onCreatePost }) => {
       const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
       if (status !== 'granted') {
-        Alert.alert('Permission needed', 'Please grant permission to access your photos');
+        Alert.alert(t('blog.permission_needed'), t('blog.grant_photo_permission'));
         return;
       }
 
@@ -226,7 +229,7 @@ const CreatePostCard = ({ onCreatePost }) => {
       }
     } catch (error) {
       console.error('Error picking image:', error);
-      Alert.alert('Error', 'Failed to pick image');
+      Alert.alert('Error', t('blog.error_picking_image'));
     }
   };
 
@@ -236,7 +239,7 @@ const CreatePostCard = ({ onCreatePost }) => {
 
   const handlePost = () => {
     if (!title.trim() || !content.trim()) {
-      Alert.alert("Error", "Please enter both a title and content for your post");
+      Alert.alert("Error", t('blog.title_required'));
       return;
     }
 
@@ -264,18 +267,18 @@ const CreatePostCard = ({ onCreatePost }) => {
             onError={() => setImageError(true)}
           />
           <View style={styles.createPostPrompt}>
-            <Text style={styles.createPostPromptText}>Share your thoughts with the community...</Text>
+            <Text style={styles.createPostPromptText}>{t('blog.share_thoughts')}</Text>
           </View>
         </Pressable>
       ) : (
         <View style={styles.createPostExpanded}>
           <View style={styles.createPostHeader}>
-            <Text style={styles.createPostTitle}>Create Post</Text>
+            <Text style={styles.createPostTitle}>{t('blog.create_post')}</Text>
             <TouchableOpacity onPress={() => {
               setIsExpanded(false);
               setSelectedImages([]);
             }}>
-              <Text style={styles.createPostCancel}>Cancel</Text>
+              <Text style={styles.createPostCancel}>{t('blog.cancel')}</Text>
             </TouchableOpacity>
           </View>
 
@@ -284,7 +287,7 @@ const CreatePostCard = ({ onCreatePost }) => {
           <View style={styles.createPostForm}>
             <TextInput
               style={styles.createPostTitleInput}
-              placeholder="Add a title..."
+              placeholder={t('blog.add_title')}
               value={title}
               onChangeText={setTitle}
               placeholderTextColor="#9E9E9E"
@@ -293,7 +296,7 @@ const CreatePostCard = ({ onCreatePost }) => {
 
             <TextInput
               style={styles.createPostContentInput}
-              placeholder="What's on your mind?"
+              placeholder={t('blog.whats_on_mind')}
               value={content}
               onChangeText={setContent}
               multiline
@@ -326,10 +329,10 @@ const CreatePostCard = ({ onCreatePost }) => {
                 style={styles.addImageButton}
                 onPress={pickImage}
               >
-                <Text style={styles.addImageButtonText}>Add Photo</Text>
+                <Text style={styles.addImageButtonText}>{t('blog.add_photo')}</Text>
               </TouchableOpacity>
               <Button
-                title="Post"
+                title={t('blog.post')}
                 onPress={handlePost}
                 disabled={!title.trim() || !content.trim()}
                 size="medium"
@@ -357,6 +360,7 @@ const PostCard = ({
   user_id,
 }) => {
   const { user } = useUser();
+  const { t } = useTranslation();
   const [showComments, setShowComments] = useState(false);
   const [commentInput, setCommentInput] = useState("");
   const [isCommentsLoaded, setIsCommentsLoaded] = useState(false);
@@ -387,7 +391,7 @@ const PostCard = ({
       day: 'numeric',
       year: 'numeric'
     })
-    : 'Recent';
+    : t('blog.recent');
 
   useEffect(() => {
     if (showComments && !isCommentsLoaded) {
@@ -453,7 +457,7 @@ const PostCard = ({
         />
         <View style={styles.postHeaderInfo}>
           <Text style={styles.postAuthor}>
-            {is_anonymous ? "Anonymous" : author_name || "Unknown User"}
+            {is_anonymous ? t('blog.anonymous') : author_name || t('blog.unknown_user')}
           </Text>
           <Text style={styles.postDate}>{formattedDate}</Text>
         </View>
@@ -481,7 +485,7 @@ const PostCard = ({
                 >
                   <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
                     <MaterialIcons name="delete" size={20} color="#E53E3E" style={{ marginRight: 6 }} />
-                    <Text style={styles.menuDeleteText}>Delete</Text>
+                    <Text style={styles.menuDeleteText}>{t('blog.delete')}</Text>
                   </View>
                 </TouchableOpacity>
               </View>
@@ -526,7 +530,7 @@ const PostCard = ({
         <View style={styles.simpleCountsRow}>
           {like_count > 0 && (
             <Text style={styles.simpleLikesText}>
-              {like_count === 1 ? '1 like' : `${like_count} likes`}
+              {like_count === 1 ? `1 ${t('blog.like_singular')}` : `${like_count} ${t('blog.likes')}`}
             </Text>
           )}
 
@@ -537,7 +541,7 @@ const PostCard = ({
           {comment_count > 0 && (
             <TouchableOpacity onPress={toggleComments} activeOpacity={0.7}>
               <Text style={styles.simpleLikesText}>
-                {comment_count === 1 ? '1 comment' : `${comment_count} comments`}
+                {comment_count === 1 ? `1 ${t('blog.comment_singular')}` : `${comment_count} ${t('blog.comments_plural')}`}
               </Text>
             </TouchableOpacity>
           )}
@@ -554,7 +558,7 @@ const PostCard = ({
           onPress={handleLike}
         >
           <LikeIcon liked={isLiked} size={20} />
-          <Text style={[styles.postActionText, isLiked && styles.postActionTextLiked]}>Like</Text>
+          <Text style={[styles.postActionText, isLiked && styles.postActionTextLiked]}>{t('blog.like')}</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -565,7 +569,7 @@ const PostCard = ({
             size={20}
             fill={showComments}
           />
-          <Text style={[styles.postActionText, showComments && styles.postActionTextActive]}>Comment</Text>
+          <Text style={[styles.postActionText, showComments && styles.postActionTextActive]}>{t('blog.comment')}</Text>
         </TouchableOpacity>
       </View>
 
@@ -588,10 +592,10 @@ const PostCard = ({
 
             <View style={styles.commentsSectionHeader}>
               <Text style={styles.commentsSectionTitle}>
-                Comments {postComments.length > 0 ? `(${postComments.length})` : ''}
+                {t('blog.comments')} {postComments.length > 0 ? `(${postComments.length})` : ''}
               </Text>
               <TouchableOpacity onPress={() => setShowComments(false)}>
-                <Text style={styles.commentsSectionHide}>Hide</Text>
+                <Text style={styles.commentsSectionHide}>{t('blog.hide')}</Text>
               </TouchableOpacity>
             </View>
 
@@ -609,7 +613,7 @@ const PostCard = ({
               <View style={styles.commentInputWrapper}>
                 <TextInput
                   style={styles.commentInput}
-                  placeholder="Write a comment..."
+                  placeholder={t('blog.write_comment')}
                   value={commentInput}
                   onChangeText={setCommentInput}
                   multiline
@@ -619,7 +623,7 @@ const PostCard = ({
                     style={styles.sendCommentButton}
                     onPress={handleSubmitComment}
                   >
-                    <Text style={styles.sendCommentButtonText}>Post</Text>
+                    <Text style={styles.sendCommentButtonText}>{t('blog.post')}</Text>
                   </TouchableOpacity>
                 )}
               </View>
@@ -646,14 +650,14 @@ const PostCard = ({
                 <View style={{ height: 4 }} />
                 {postComments.length > 3 && (
                   <View style={styles.moreCommentsIndicator}>
-                    <Text style={styles.moreCommentsText}>Scroll to see more comments</Text>
+                    <Text style={styles.moreCommentsText}>{t('blog.scroll_more_comments')}</Text>
                   </View>
                 )}
               </ScrollView>
             ) : (
               <View style={styles.noCommentsContainer}>
                 <Text style={styles.noCommentsText}>
-                  No comments yet. Be the first to comment!
+                  {t('blog.no_comments_yet')}
                 </Text>
               </View>
             )}
@@ -667,13 +671,14 @@ const PostCard = ({
 // Comment component
 const CommentItem = ({ comment, onLike, isLiked }) => {
   const { user } = useUser();
+  const { t } = useTranslation();
   const [imageError, setImageError] = useState(false);
   const formattedDate = comment.created_at
     ? new Date(comment.created_at).toLocaleDateString('en-US', {
       month: 'short',
       day: 'numeric',
     })
-    : 'Recent';
+    : t('blog.recent');
 
   return (
     <View style={styles.commentItem}>
@@ -689,7 +694,7 @@ const CommentItem = ({ comment, onLike, isLiked }) => {
         />
         <View style={styles.commentInfo}>
           <Text style={styles.commentAuthor}>
-            {comment.user_name || "Anonymous"}
+            {comment.user_name || t('blog.anonymous')}
           </Text>
           <Text style={styles.commentDate}>{formattedDate}</Text>
         </View>
@@ -707,7 +712,7 @@ const CommentItem = ({ comment, onLike, isLiked }) => {
             styles.commentLikeText,
             isLiked && styles.commentLikeTextLiked
           ]}>
-            {isLiked ? 'Liked' : 'Like'} {comment.like_count > 0 && `· ${comment.like_count}`}
+            {isLiked ? t('blog.like') : t('blog.like')} {comment.like_count > 0 && `· ${comment.like_count}`}
           </Text>
         </View>
       </TouchableOpacity>
@@ -718,6 +723,7 @@ const CommentItem = ({ comment, onLike, isLiked }) => {
 // Main blog feed component
 const BlogScreen = () => {
   const router = useRouter();
+  const { t } = useTranslation();
   const [posts, setPosts] = useState([]);
   const [user_id, setUserId] = useState(null);
   const [comments, setComments] = useState({});
@@ -738,7 +744,7 @@ const BlogScreen = () => {
       if (userId !== null) {
         setUserId(userId);
       } else {
-        Alert.alert("Error", "User not logged in");
+        Alert.alert("Error", t('blog.user_not_logged_in'));
         router.push("/login");
       }
     } catch (error) {
@@ -751,12 +757,12 @@ const BlogScreen = () => {
     setIsLoading(true);
     try {
       const response = await fetch(API_URLS.BLOG_POSTS);
-      if (!response.ok) throw new Error("Failed to fetch posts");
+      if (!response.ok) throw new Error(t('blog.failed_fetch_posts'));
       const data = await response.json();
       setPosts(Array.isArray(data.blog_posts) ? data.blog_posts : []);
     } catch (error) {
       console.error("Error fetching posts:", error);
-      Alert.alert("Error", error.message || "Failed to fetch posts");
+      Alert.alert("Error", error.message || t('blog.failed_fetch_posts'));
       setPosts([]);
     } finally {
       setIsLoading(false);
@@ -766,12 +772,12 @@ const BlogScreen = () => {
 
   const handleCreatePost = async (title, content, images = []) => {
     if (!title || !content) {
-      Alert.alert("Error", "Title and content are required");
+      Alert.alert("Error", t('blog.title_required'));
       return;
     }
 
     if (!user_id) {
-      Alert.alert("Error", "User ID is required");
+      Alert.alert("Error", t('blog.user_id_required'));
       return;
     }
 
@@ -829,23 +835,23 @@ const BlogScreen = () => {
           statusText: response.statusText,
           errorData
         });
-        throw new Error(errorData?.message || "Failed to create post");
+        throw new Error(errorData?.message || t('blog.failed_create_post'));
       }
 
       const responseData = await response.json();
       console.log('Post created successfully:', responseData);
 
       fetchPosts();
-      Alert.alert("Success", "Post published successfully");
+      Alert.alert("Success", t('blog.post_published'));
     } catch (error) {
       console.error("Error creating post:", error);
-      Alert.alert("Error", error.message || "Failed to create post. Please try again.");
+      Alert.alert("Error", error.message || t('blog.failed_create_post'));
     }
   };
 
   const handlePostLike = async (postId) => {
     if (!user_id) {
-      Alert.alert("Error", "You must be logged in to like posts");
+      Alert.alert("Error", t('blog.must_login_like'));
       return;
     }
 
@@ -900,7 +906,7 @@ const BlogScreen = () => {
           )
         );
 
-        throw new Error("Failed to toggle like");
+        throw new Error(t('blog.failed_toggle_like'));
       }
 
       // Server might return a different state than we expected
@@ -932,7 +938,7 @@ const BlogScreen = () => {
   const fetchComments = async (postId) => {
     try {
       const response = await fetch(`${API_URLS.POST_COMMENTS}${postId}/`);
-      if (!response.ok) throw new Error("Failed to fetch comments");
+      if (!response.ok) throw new Error(t('blog.failed_fetch_comments'));
       const data = await response.json();
       setComments(prev => ({
         ...prev,
@@ -940,7 +946,7 @@ const BlogScreen = () => {
       }));
     } catch (error) {
       console.error("Error fetching comments:", error);
-      Alert.alert("Error", "Failed to fetch comments");
+      Alert.alert("Error", t('blog.failed_fetch_comments'));
     }
   };
 
@@ -953,12 +959,12 @@ const BlogScreen = () => {
 
   const handleSubmitComment = async (postId, text) => {
     if (!text?.trim()) {
-      Alert.alert("Error", "Comment cannot be empty");
+      Alert.alert("Error", t('blog.comment_empty'));
       return;
     }
 
     if (!user_id) {
-      Alert.alert("Error", "You must be logged in to comment");
+      Alert.alert("Error", t('blog.must_login_comment'));
       return;
     }
 
@@ -976,7 +982,7 @@ const BlogScreen = () => {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to submit comment");
+        throw new Error(t('blog.failed_submit_comment'));
       }
 
       setCommentText((prev) => ({
@@ -985,7 +991,7 @@ const BlogScreen = () => {
       }));
 
       await fetchComments(postId);
-      Alert.alert("Success", "Comment added successfully");
+      Alert.alert("Success", t('blog.comment_added'));
     } catch (error) {
       console.error("Error submitting comment:", error);
       Alert.alert("Error", error.message);
@@ -1002,15 +1008,19 @@ const BlogScreen = () => {
         body: JSON.stringify({ user_id }),
       });
 
-      if (!response.ok) throw new Error("Failed to toggle comment like");
-      fetchComments(selectedPost);
+      if (!response.ok) throw new Error(t('blog.failed_toggle_comment_like'));
+      // Refresh comments for all posts that might have this comment
+      // This is a simplified approach - in a real app you might want to track which post the comment belongs to
+      Object.keys(comments).forEach(postId => {
+        fetchComments(postId);
+      });
     } catch (error) {
       console.error("Error toggling comment like:", error);
     }
   };
 
   const handleShare = (postId) => {
-    Alert.alert("Share", "Sharing feature coming soon!");
+    Alert.alert("Share", t('blog.share_coming_soon'));
   };
 
   const handleProfilePress = () => {
@@ -1028,13 +1038,13 @@ const BlogScreen = () => {
         method: 'DELETE',
       });
       if (!response.ok) {
-        throw new Error('Failed to delete post');
+        throw new Error(t('blog.failed_delete_post'));
       }
       console.log('Post deleted:', postId);
       setPosts(prevPosts => prevPosts.filter(post => post._id !== postId));
     } catch (error) {
       console.error('Error deleting post:', error);
-      Alert.alert('Error', error.message || 'Failed to delete post');
+      Alert.alert('Error', error.message || t('blog.failed_delete_post'));
     }
   };
 
@@ -1044,7 +1054,7 @@ const BlogScreen = () => {
       return (
         <View style={styles.centerContainer}>
           <ActivityIndicator size="large" color="#5100F3" />
-          <Text style={styles.loadingText}>Loading posts...</Text>
+          <Text style={styles.loadingText}>{t('blog.loading_posts')}</Text>
         </View>
       );
     }
@@ -1057,9 +1067,9 @@ const BlogScreen = () => {
             style={styles.emptyStateImage}
             resizeMode="contain"
           />
-          <Text style={styles.emptyStateTitle}>No posts yet</Text>
+          <Text style={styles.emptyStateTitle}>{t('blog.no_posts_yet')}</Text>
           <Text style={styles.emptyStateMessage}>
-            Be the first to share your thoughts with the community
+            {t('blog.be_first_share')}
           </Text>
         </View>
       );
@@ -1711,6 +1721,31 @@ const styles = StyleSheet.create({
     color: '#5100F3',
     fontSize: 14,
     fontWeight: '600',
+  },
+  menuDropdown: {
+    position: 'absolute',
+    top: 40,
+    right: 0,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 4,
+    zIndex: 1000,
+    minWidth: 120,
+  },
+  menuDeleteButton: {
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#E9EEF6',
+  },
+  menuDeleteText: {
+    color: '#E53E3E',
+    fontSize: 14,
+    fontWeight: '500',
   },
 });
 

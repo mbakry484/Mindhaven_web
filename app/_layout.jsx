@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import { Stack, useRouter } from 'expo-router';
 import { UserProvider, useUser } from './UserContext';
 import AppLayout from './AppLayout';
+import './i18n';
 
 export default function RootLayout() {
     return (

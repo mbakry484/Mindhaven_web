@@ -10,6 +10,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import '../i18n';
 import { useTranslation } from 'react-i18next';
+import { changeLanguage, getCurrentLanguage } from '../i18n';
 
 const DEFAULT_AVATAR = require("../../assets/images/no-profile.png");
 const LOGO = require("../../assets/images/logo.png");
@@ -29,10 +30,42 @@ const ProfileScreen = () => {
     { code: 'de', label: 'Deutsch', flag: '🇩🇪' },
   ];
 
-  const handleLanguageSelect = (code) => {
+  // Initialize language state with stored language
+  useEffect(() => {
+    const initializeLanguage = async () => {
+      try {
+        const storedLanguage = await AsyncStorage.getItem('selected_language');
+        if (storedLanguage) {
+          setLanguage(storedLanguage);
+        } else {
+          // If no stored language, use current i18n language
+          setLanguage(getCurrentLanguage());
+        }
+      } catch (error) {
+        console.error('Error getting stored language:', error);
+        setLanguage(getCurrentLanguage());
+      }
+    };
+
+    initializeLanguage();
+
+    // Listen for language changes
+    const handleLanguageChange = (lng) => {
+      setLanguage(lng);
+    };
+
+    i18n.on('languageChanged', handleLanguageChange);
+
+    // Cleanup listener
+    return () => {
+      i18n.off('languageChanged', handleLanguageChange);
+    };
+  }, []);
+
+  const handleLanguageSelect = async (code) => {
     setLanguage(code);
     setDropdownVisible(false);
-    i18n.changeLanguage(code);
+    await changeLanguage(code);
   };
 
   // Function to get CSRF token from cookies

@@ -1,8 +1,12 @@
 import React from 'react';
 import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import { useTranslation } from 'react-i18next';
+import './i18n';
 
 export default function AppLayout() {
+    const { t } = useTranslation();
+
     return (
         <Tabs
             screenOptions={{
@@ -24,23 +28,23 @@ export default function AppLayout() {
             }}
         >
             <Tabs.Screen name="home" options={{
-                title: 'Home',
+                title: t('navigation.home'),
                 tabBarIcon: ({ color, size }) => <Ionicons name="home" size={size} color={color} />,
             }} />
             <Tabs.Screen name="chatbot" options={{
-                title: 'Chatbot',
+                title: t('navigation.chat'),
                 tabBarIcon: ({ color, size }) => <Ionicons name="chatbubble" size={size} color={color} />,
             }} />
             <Tabs.Screen name="resources" options={{
-                title: 'Resources',
+                title: t('navigation.resources'),
                 tabBarIcon: ({ color, size }) => <Ionicons name="book" size={size} color={color} />,
             }} />
             <Tabs.Screen name="exercises" options={{
-                title: 'Exercises',
+                title: t('navigation.exercises'),
                 tabBarIcon: ({ color, size }) => <Ionicons name="fitness" size={size} color={color} />,
             }} />
             <Tabs.Screen name="blog" options={{
-                title: 'Blog',
+                title: t('navigation.blog'),
                 tabBarIcon: ({ color, size }) => <Ionicons name="newspaper" size={size} color={color} />,
             }} />
         </Tabs>
