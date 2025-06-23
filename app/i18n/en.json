@@ -154,5 +154,69 @@
       "stressed": "Stressed",
       "tired": "Tired"
     }
+  },
+  "exercises": {
+    "mental_health_exercises": "Mental Health Exercises",
+    "welcome_message": "Choose from various exercises designed to improve your mental well-being",
+    "available_exercises": "Available Exercises",
+    "start": "Start",
+    "user_added_description": "User-added activities and exercises.",
+    "exercise_types": {
+      "breathing_exercises": "Breathing Exercises",
+      "meditation": "Meditation",
+      "grounding_techniques": "Grounding Techniques",
+      "cognitive_exercises": "Cognitive Exercises"
+    },
+    "exercises": {
+      "box_breathing": {
+        "title": "Box Breathing",
+        "description": "Inhale for 4 counts, hold for 4, exhale for 4, hold for 4. Repeat."
+      },
+      "478_breathing": {
+        "title": "4-7-8 Breathing",
+        "description": "Inhale for 4 counts, hold for 7, exhale for 8. Repeat to reduce anxiety."
+      },
+      "diaphragmatic_breathing": {
+        "title": "Diaphragmatic Breathing",
+        "description": "Deep belly breathing to activate the parasympathetic nervous system."
+      },
+      "body_scan_meditation": {
+        "title": "Body Scan Meditation",
+        "description": "Progressive relaxation by focusing attention throughout the body."
+      },
+      "loving_kindness_meditation": {
+        "title": "Loving-Kindness Meditation",
+        "description": "Develop feelings of goodwill, kindness and warmth towards others."
+      },
+      "mindfulness_meditation": {
+        "title": "Mindfulness Meditation",
+        "description": "Focus on the present moment, observing thoughts without judgment."
+      },
+      "54321_technique": {
+        "title": "5-4-3-2-1 Technique",
+        "description": "Name 5 things you see, 4 you feel, 3 you hear, 2 you smell, and 1 you taste."
+      },
+      "progressive_muscle_relaxation": {
+        "title": "Progressive Muscle Relaxation",
+        "description": "Tense and then release each muscle group from toes to head."
+      },
+      "cold_water_technique": {
+        "title": "Cold Water Technique",
+        "description": "Splash cold water on your face to activate the parasympathetic nervous system."
+      },
+      "thought_record": {
+        "title": "Thought Record",
+        "description": "Identify and challenge negative thoughts with evidence."
+      },
+      "positive_affirmations": {
+        "title": "Positive Affirmations",
+        "description": "Practice repeating positive statements to build self-confidence."
+      },
+      "gratitude_journaling": {
+        "title": "Gratitude Journaling",
+        "description": "Write down things you're grateful for to shift focus to the positive."
+      }
+    },
+    "my_exercises": "My Exercises"
   }
 }

@@ -154,5 +154,69 @@
       "stressed": "Gestresst",
       "tired": "Müde"
     }
+  },
+  "exercises": {
+    "mental_health_exercises": "Psychische Gesundheitsübungen",
+    "welcome_message": "Wähle aus verschiedenen Übungen, die entwickelt wurden, um dein psychisches Wohlbefinden zu verbessern",
+    "available_exercises": "Verfügbare Übungen",
+    "start": "Starten",
+    "user_added_description": "Vom Benutzer hinzugefügte Aktivitäten und Übungen.",
+    "exercise_types": {
+      "breathing_exercises": "Atemübungen",
+      "meditation": "Meditation",
+      "grounding_techniques": "Grounding-Techniken",
+      "cognitive_exercises": "Kognitive Übungen"
+    },
+    "exercises": {
+      "box_breathing": {
+        "title": "Box-Atmung",
+        "description": "4 Zählungen einatmen, 4 halten, 4 ausatmen, 4 halten. Wiederholen."
+      },
+      "478_breathing": {
+        "title": "4-7-8 Atmung",
+        "description": "4 Zählungen einatmen, 7 halten, 8 ausatmen. Wiederholen, um Angst zu reduzieren."
+      },
+      "diaphragmatic_breathing": {
+        "title": "Zwerchfellatmung",
+        "description": "Tiefe Bauchatmung, um das parasympathische Nervensystem zu aktivieren."
+      },
+      "body_scan_meditation": {
+        "title": "Body-Scan-Meditation",
+        "description": "Progressive Entspannung durch Fokussierung der Aufmerksamkeit im ganzen Körper."
+      },
+      "loving_kindness_meditation": {
+        "title": "Loving-Kindness-Meditation",
+        "description": "Entwickle Gefühle des Wohlwollens, der Güte und Wärme gegenüber anderen."
+      },
+      "mindfulness_meditation": {
+        "title": "Achtsamkeitsmeditation",
+        "description": "Fokussiere dich auf den gegenwärtigen Moment, beobachte Gedanken ohne Urteil."
+      },
+      "54321_technique": {
+        "title": "5-4-3-2-1 Technik",
+        "description": "Nenne 5 Dinge, die du siehst, 4 die du fühlst, 3 die du hörst, 2 die du riechst und 1 die du schmeckst."
+      },
+      "progressive_muscle_relaxation": {
+        "title": "Progressive Muskelentspannung",
+        "description": "Spanne und entspanne dann jede Muskelgruppe von den Zehen bis zum Kopf."
+      },
+      "cold_water_technique": {
+        "title": "Kaltwasser-Technik",
+        "description": "Spritze kaltes Wasser ins Gesicht, um das parasympathische Nervensystem zu aktivieren."
+      },
+      "thought_record": {
+        "title": "Gedankenprotokoll",
+        "description": "Identifiziere und hinterfrage negative Gedanken mit Beweisen."
+      },
+      "positive_affirmations": {
+        "title": "Positive Affirmationen",
+        "description": "Übe das Wiederholen positiver Aussagen, um das Selbstvertrauen aufzubauen."
+      },
+      "gratitude_journaling": {
+        "title": "Dankbarkeits-Tagebuch",
+        "description": "Schreibe Dinge auf, für die du dankbar bist, um den Fokus auf das Positive zu lenken."
+      }
+    },
+    "my_exercises": "Meine Übungen"
   }
 }

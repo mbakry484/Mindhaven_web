@@ -14,6 +14,7 @@ import {
 } from "react-native";
 import { useRouter } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useTranslation } from "react-i18next";
 
 const { width } = Dimensions.get("window");
 
@@ -23,7 +24,7 @@ const DEFAULT_TYPE_COLOR = "#e0e7ff";
 const DEFAULT_TYPE_IMAGE = require("../../assets/images/brain.png");
 
 // Default description for user-added types
-const DEFAULT_TYPE_DESCRIPTION = "User-added activities and exercises.";
+const DEFAULT_TYPE_DESCRIPTION = "";
 
 // Flat array of all static exercises, each with a type
 const staticExercises = [
@@ -43,23 +44,142 @@ const staticExercises = [
 
 const ExerciseScreen = () => {
     const router = useRouter();
-    const [exercises, setExercises] = useState(staticExercises);
+    const { t } = useTranslation();
+    const [exercises, setExercises] = useState([]);
     const [selectedType, setSelectedType] = useState(null);
+
+    // Create static exercises with translation keys
+    const staticExercises = [
+        {
+            id: 101,
+            titleKey: "exercises.exercises.box_breathing.title",
+            descriptionKey: "exercises.exercises.box_breathing.description",
+            duration: "5 minutes",
+            type: "Breathing Exercises",
+            image: require("../../assets/images/brain.png"),
+            color: "#e0e7ff"
+        },
+        {
+            id: 102,
+            titleKey: "exercises.exercises.478_breathing.title",
+            descriptionKey: "exercises.exercises.478_breathing.description",
+            duration: "5 minutes",
+            type: "Breathing Exercises",
+            image: require("../../assets/images/brain.png"),
+            color: "#e0e7ff"
+        },
+        {
+            id: 103,
+            titleKey: "exercises.exercises.diaphragmatic_breathing.title",
+            descriptionKey: "exercises.exercises.diaphragmatic_breathing.description",
+            duration: "10 minutes",
+            type: "Breathing Exercises",
+            image: require("../../assets/images/brain.png"),
+            color: "#e0e7ff"
+        },
+        {
+            id: 201,
+            titleKey: "exercises.exercises.body_scan_meditation.title",
+            descriptionKey: "exercises.exercises.body_scan_meditation.description",
+            duration: "15 minutes",
+            type: "Meditation",
+            image: require("../../assets/images/heart-outline.jpg"),
+            color: "#fae8ff"
+        },
+        {
+            id: 202,
+            titleKey: "exercises.exercises.loving_kindness_meditation.title",
+            descriptionKey: "exercises.exercises.loving_kindness_meditation.description",
+            duration: "10 minutes",
+            type: "Meditation",
+            image: require("../../assets/images/heart-outline.jpg"),
+            color: "#fae8ff"
+        },
+        {
+            id: 203,
+            titleKey: "exercises.exercises.mindfulness_meditation.title",
+            descriptionKey: "exercises.exercises.mindfulness_meditation.description",
+            duration: "10 minutes",
+            type: "Meditation",
+            image: require("../../assets/images/heart-outline.jpg"),
+            color: "#fae8ff"
+        },
+        {
+            id: 301,
+            titleKey: "exercises.exercises.54321_technique.title",
+            descriptionKey: "exercises.exercises.54321_technique.description",
+            duration: "5 minutes",
+            type: "Grounding Techniques",
+            image: require("../../assets/images/Icon trophy.png"),
+            color: "#dcfce7"
+        },
+        {
+            id: 302,
+            titleKey: "exercises.exercises.progressive_muscle_relaxation.title",
+            descriptionKey: "exercises.exercises.progressive_muscle_relaxation.description",
+            duration: "15 minutes",
+            type: "Grounding Techniques",
+            image: require("../../assets/images/Icon trophy.png"),
+            color: "#dcfce7"
+        },
+        {
+            id: 303,
+            titleKey: "exercises.exercises.cold_water_technique.title",
+            descriptionKey: "exercises.exercises.cold_water_technique.description",
+            duration: "2 minutes",
+            type: "Grounding Techniques",
+            image: require("../../assets/images/Icon trophy.png"),
+            color: "#dcfce7"
+        },
+        {
+            id: 401,
+            titleKey: "exercises.exercises.thought_record.title",
+            descriptionKey: "exercises.exercises.thought_record.description",
+            duration: "15 minutes",
+            type: "Cognitive Exercises",
+            image: require("../../assets/images/Icon gear.png"),
+            color: "#ffedd5"
+        },
+        {
+            id: 402,
+            titleKey: "exercises.exercises.positive_affirmations.title",
+            descriptionKey: "exercises.exercises.positive_affirmations.description",
+            duration: "5 minutes",
+            type: "Cognitive Exercises",
+            image: require("../../assets/images/Icon gear.png"),
+            color: "#ffedd5"
+        },
+        {
+            id: 403,
+            titleKey: "exercises.exercises.gratitude_journaling.title",
+            descriptionKey: "exercises.exercises.gratitude_journaling.description",
+            duration: "10 minutes",
+            type: "Cognitive Exercises",
+            image: require("../../assets/images/Icon gear.png"),
+            color: "#ffedd5"
+        },
+    ];
 
     // Fetch user exercises from backend and merge with static exercises
     useEffect(() => {
         const fetchUserExercises = async () => {
             try {
                 const userId = await AsyncStorage.getItem('user_id');
-                if (!userId) return;
+                if (!userId) {
+                    setExercises(staticExercises);
+                    return;
+                }
                 const res = await fetch(`${EXERCISE_API_URL}${userId}/`);
-                if (!res.ok) return;
+                if (!res.ok) {
+                    setExercises(staticExercises);
+                    return;
+                }
                 const data = await res.json();
                 if (Array.isArray(data.exercises)) {
                     // Map backend exercises to match static format
                     const userExercises = data.exercises.map(ex => ({
                         id: ex._id || Math.random().toString(36).slice(2),
-                        title: ex.name,
+                        title: ex.name, // Use direct title for user exercises
                         duration: ex.duration ? `${ex.duration} minutes` : "",
                         description: ex.description || "",
                         type: ex.type || "activity",
@@ -75,9 +195,12 @@ const ExerciseScreen = () => {
                         }
                     });
                     setExercises(merged);
+                } else {
+                    setExercises(staticExercises);
                 }
             } catch (err) {
                 console.error("Failed to fetch user exercises:", err);
+                setExercises(staticExercises);
             }
         };
         fetchUserExercises();
@@ -95,15 +218,38 @@ const ExerciseScreen = () => {
 
     // Get type meta (image/color) from the first exercise of that type, or use defaults
     const getTypeMeta = (type) => {
-        const ex = groupedByType[type][0];
+        const ex = groupedByType[type]?.[0];
         return {
-            image: ex.image || DEFAULT_TYPE_IMAGE,
-            color: ex.color || DEFAULT_TYPE_COLOR
+            image: ex?.image || DEFAULT_TYPE_IMAGE,
+            color: ex?.color || DEFAULT_TYPE_COLOR
         };
     };
 
-    // Capitalize type name for display
-    const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+    // Get translated type name
+    const getTranslatedTypeName = (type) => {
+        if (type === "activity") {
+            return t("exercises.my_exercises");
+        }
+        const typeKey = type.toLowerCase().replace(/\s+/g, '_');
+        return t(`exercises.exercise_types.${typeKey}`, type);
+    };
+
+    // Get translated exercise title and description
+    const getTranslatedExercise = (exercise) => {
+        if (exercise.titleKey) {
+            // Static exercise with translation keys
+            return {
+                title: t(exercise.titleKey),
+                description: t(exercise.descriptionKey)
+            };
+        } else {
+            // User exercise with direct title/description
+            return {
+                title: exercise.title,
+                description: exercise.description
+            };
+        }
+    };
 
     const handleGoBack = () => {
         if (selectedType) {
@@ -120,7 +266,7 @@ const ExerciseScreen = () => {
     const handleExerciseSelect = (exercise) => {
         // In a real app, this would navigate to the exercise details
         // For now, we'll just show an alert
-        console.log(`Selected exercise: ${exercise.title}`);
+        console.log(`Selected exercise: ${exercise.title || t(exercise.titleKey)}`);
         // router.push(`/exercise-detail/${exercise.id}`);
     };
 
@@ -138,7 +284,7 @@ const ExerciseScreen = () => {
                 </TouchableOpacity>
 
                 <Text style={styles.headerTitle}>
-                    {selectedType ? selectedType : "Mental Health Exercises"}
+                    {selectedType ? getTranslatedTypeName(selectedType) : t("exercises.mental_health_exercises")}
                 </Text>
 
                 <View style={{ width: 40 }} />
@@ -148,43 +294,48 @@ const ExerciseScreen = () => {
                 {selectedType ? (
                     // Show exercises for the selected type
                     <>
-                        <View style={[styles.typeBanner, { backgroundColor: getTypeMeta(selectedType).color }]}>\
+                        <View style={[styles.typeBanner, { backgroundColor: getTypeMeta(selectedType).color }]}>
                             <Image source={getTypeMeta(selectedType).image} style={styles.bannerImage} />
-                            <Text style={styles.bannerTitle}>{capitalize(selectedType)}</Text>
-                            <Text style={styles.bannerDescription}>
-                                {groupedByType[selectedType][0].description || DEFAULT_TYPE_DESCRIPTION}
-                            </Text>
+                            <Text style={styles.bannerTitle}>{getTranslatedTypeName(selectedType)}</Text>
+                            {groupedByType[selectedType]?.[0]?.description ? (
+                                <Text style={styles.bannerDescription}>
+                                    {groupedByType[selectedType][0].description}
+                                </Text>
+                            ) : null}
                         </View>
-                        <Text style={styles.sectionTitle}>Available Exercises</Text>
-                        {groupedByType[selectedType].map((exercise) => (
-                            <TouchableOpacity
-                                key={exercise.id}
-                                style={styles.exerciseItem}
-                                onPress={() => handleExerciseSelect(exercise)}
-                            >
-                                <View style={styles.exerciseContent}>
-                                    <View style={styles.exerciseHeader}>
-                                        <Text style={styles.exerciseTitle}>{capitalize(exercise.title)}</Text>
-                                        <Text style={styles.exerciseDuration}>{exercise.duration}</Text>
+                        <Text style={styles.sectionTitle}>{t("exercises.available_exercises")}</Text>
+                        {groupedByType[selectedType]?.map((exercise) => {
+                            const translatedExercise = getTranslatedExercise(exercise);
+                            return (
+                                <TouchableOpacity
+                                    key={exercise.id}
+                                    style={styles.exerciseItem}
+                                    onPress={() => handleExerciseSelect(exercise)}
+                                >
+                                    <View style={styles.exerciseContent}>
+                                        <View style={styles.exerciseHeader}>
+                                            <Text style={styles.exerciseTitle}>{translatedExercise.title}</Text>
+                                            <Text style={styles.exerciseDuration}>{exercise.duration}</Text>
+                                        </View>
+                                        <Text style={styles.exerciseDescription}>{translatedExercise.description}</Text>
+                                        <View style={styles.startButtonContainer}>
+                                            <TouchableOpacity
+                                                style={styles.startButton}
+                                                onPress={() => handleExerciseSelect(exercise)}
+                                            >
+                                                <Text style={styles.startButtonText}>{t("exercises.start")}</Text>
+                                            </TouchableOpacity>
+                                        </View>
                                     </View>
-                                    <Text style={styles.exerciseDescription}>{exercise.description}</Text>
-                                    <View style={styles.startButtonContainer}>
-                                        <TouchableOpacity
-                                            style={styles.startButton}
-                                            onPress={() => handleExerciseSelect(exercise)}
-                                        >
-                                            <Text style={styles.startButtonText}>Start</Text>
-                                        </TouchableOpacity>
-                                    </View>
-                                </View>
-                            </TouchableOpacity>
-                        ))}
+                                </TouchableOpacity>
+                            );
+                        })}
                     </>
                 ) : (
                     // Show exercise categories dynamically
                     <>
                         <Text style={styles.welcomeText}>
-                            Choose from various exercises designed to improve your mental well-being
+                            {t("exercises.welcome_message")}
                         </Text>
                         {Object.keys(groupedByType).map((type) => (
                             <TouchableOpacity
@@ -194,7 +345,7 @@ const ExerciseScreen = () => {
                             >
                                 <Image source={getTypeMeta(type).image} style={styles.exerciseTypeImage} />
                                 <View style={styles.exerciseTypeContent}>
-                                    <Text style={styles.exerciseTypeTitle}>{capitalize(type)}</Text>
+                                    <Text style={styles.exerciseTypeTitle}>{getTranslatedTypeName(type)}</Text>
                                 </View>
                             </TouchableOpacity>
                         ))}

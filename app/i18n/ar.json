@@ -154,5 +154,69 @@
       "stressed": "متوتر",
       "tired": "متعب"
     }
+  },
+  "exercises": {
+    "mental_health_exercises": "تمارين الصحة النفسية",
+    "welcome_message": "اختر من بين تمارين متنوعة مصممة لتحسين صحتك النفسية",
+    "available_exercises": "التمارين المتاحة",
+    "start": "ابدأ",
+    "user_added_description": "الأنشطة والتمارين المضافة من قبل المستخدم.",
+    "exercise_types": {
+      "breathing_exercises": "تمارين التنفس",
+      "meditation": "التأمل",
+      "grounding_techniques": "تقنيات التأريض",
+      "cognitive_exercises": "التمارين المعرفية"
+    },
+    "exercises": {
+      "box_breathing": {
+        "title": "التنفس المربع",
+        "description": "استنشق لمدة 4 عدات، احبس لمدة 4، ازفر لمدة 4، احبس لمدة 4. كرر."
+      },
+      "478_breathing": {
+        "title": "التنفس 4-7-8",
+        "description": "استنشق لمدة 4 عدات، احبس لمدة 7، ازفر لمدة 8. كرر لتقليل القلق."
+      },
+      "diaphragmatic_breathing": {
+        "title": "التنفس الحجابي",
+        "description": "التنفس العميق من البطن لتفعيل الجهاز العصبي الودي."
+      },
+      "body_scan_meditation": {
+        "title": "تأمل مسح الجسم",
+        "description": "الاسترخاء التدريجي من خلال التركيز على الانتباه في جميع أنحاء الجسم."
+      },
+      "loving_kindness_meditation": {
+        "title": "تأمل المحبة واللطف",
+        "description": "تطوير مشاعر الخير واللطف والدفء تجاه الآخرين."
+      },
+      "mindfulness_meditation": {
+        "title": "تأمل اليقظة الذهنية",
+        "description": "التركيز على اللحظة الحالية، مراقبة الأفكار دون حكم."
+      },
+      "54321_technique": {
+        "title": "تقنية 5-4-3-2-1",
+        "description": "اذكر 5 أشياء تراها، 4 تشعر بها، 3 تسمعها، 2 تشمها، و1 تتذوقها."
+      },
+      "progressive_muscle_relaxation": {
+        "title": "الاسترخاء العضلي التدريجي",
+        "description": "شد ثم أرخِ كل مجموعة عضلية من أصابع القدم إلى الرأس."
+      },
+      "cold_water_technique": {
+        "title": "تقنية الماء البارد",
+        "description": "رش الماء البارد على وجهك لتفعيل الجهاز العصبي الودي."
+      },
+      "thought_record": {
+        "title": "سجل الأفكار",
+        "description": "حدد وتحدى الأفكار السلبية بالأدلة."
+      },
+      "positive_affirmations": {
+        "title": "التأكيدات الإيجابية",
+        "description": "مارس تكرار العبارات الإيجابية لبناء الثقة بالنفس."
+      },
+      "gratitude_journaling": {
+        "title": "يوميات الامتنان",
+        "description": "اكتب الأشياء التي تشعر بالامتنان لها لتحويل التركيز إلى الإيجابي."
+      }
+    },
+    "my_exercises": "تماريني"
   }
 }
