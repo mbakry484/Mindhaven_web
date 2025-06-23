@@ -8,6 +8,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { GROQ_API_URL, GROQ_API_KEY, GROQ_MODEL } from '../config/aiConfig';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import quotes from '../../quotes.json';
+import quotesArabic from '../../quotes_arabic.json';
+import quotesGerman from '../../quotes_german.json';
 import '../i18n';
 import { useTranslation } from 'react-i18next';
 
@@ -86,19 +88,31 @@ const Header = ({ onProfilePress }) => {
   );
 };
 
-const fetchRandomQuote = () => {
-  const randomIndex = Math.floor(Math.random() * quotes.length);
-  return quotes[randomIndex];
+const fetchRandomQuote = (language) => {
+  let quoteArray;
+  switch (language) {
+    case 'ar':
+      quoteArray = quotesArabic;
+      break;
+    case 'de':
+      quoteArray = quotesGerman;
+      break;
+    default:
+      quoteArray = quotes; // English quotes for 'en' and fallback
+  }
+  const randomIndex = Math.floor(Math.random() * quoteArray.length);
+  return quoteArray[randomIndex];
 };
 
 const DailyQuote = () => {
   const [quote, setQuote] = useState(null);
   const [loading, setLoading] = useState(true);
+  const { i18n, t } = useTranslation();
 
   const getQuote = () => {
     setLoading(true);
     try {
-      const data = fetchRandomQuote();
+      const data = fetchRandomQuote(i18n.language);
       setQuote(data);
     } catch (e) {
       setQuote({ quote: "Could not fetch quote.", author: "Unknown" });
@@ -108,13 +122,13 @@ const DailyQuote = () => {
 
   useEffect(() => {
     getQuote();
-  }, []);
+  }, [i18n.language]);
 
   return (
     <View style={styles.quoteCard}>
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Text style={{ marginLeft: 8, fontWeight: 'bold', color: '#6c4ab6', fontSize: 16 }}>Wellness Quote</Text>
+          <Text style={{ marginLeft: 8, fontWeight: 'bold', color: '#6c4ab6', fontSize: 16 }}>{t('home.wellness_quote')}</Text>
         </View>
         <TouchableOpacity onPress={getQuote}>
           <Ionicons name="refresh" size={24} color="#5100F3" />

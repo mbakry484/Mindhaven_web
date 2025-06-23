@@ -1,7 +1,11 @@
 import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import '../i18n';
+import { useTranslation } from 'react-i18next';
 
 export default function TabsLayout() {
+    const { t } = useTranslation();
+
     return (
         <Tabs
             screenOptions={{
@@ -30,7 +34,7 @@ export default function TabsLayout() {
             <Tabs.Screen
                 name="home"
                 options={{
-                    title: 'Home',
+                    title: t('navigation.home'),
                     tabBarIcon: ({ color, size }) => <Ionicons name="home" size={size} color={color} />,
                 }}
                 href="/home"
@@ -38,7 +42,7 @@ export default function TabsLayout() {
             <Tabs.Screen
                 name="chatbot"
                 options={{
-                    title: 'Chat',
+                    title: t('navigation.chat'),
                     tabBarIcon: ({ color, size }) => <Ionicons name="chatbubble" size={size} color={color} />,
                 }}
                 href="/chatbot"
@@ -46,7 +50,7 @@ export default function TabsLayout() {
             <Tabs.Screen
                 name="resources"
                 options={{
-                    title: 'Resources',
+                    title: t('navigation.resources'),
                     tabBarIcon: ({ color, size }) => <Ionicons name="book" size={size} color={color} />,
                 }}
                 href="/resources"
@@ -54,7 +58,7 @@ export default function TabsLayout() {
             <Tabs.Screen
                 name="exercises"
                 options={{
-                    title: 'Exercises',
+                    title: t('navigation.exercises'),
                     tabBarIcon: ({ color, size }) => <Ionicons name="fitness" size={size} color={color} />,
                 }}
                 href="/exercises"
@@ -62,7 +66,7 @@ export default function TabsLayout() {
             <Tabs.Screen
                 name="blog"
                 options={{
-                    title: 'Blog',
+                    title: t('navigation.blog'),
                     tabBarIcon: ({ color, size }) => <Ionicons name="newspaper" size={size} color={color} />,
                 }}
                 href="/blog"
@@ -70,14 +74,14 @@ export default function TabsLayout() {
             <Tabs.Screen
                 name="journaling"
                 options={{
-                    title: 'Journal',
+                    title: t('navigation.journal'),
                     tabBarIcon: ({ color, size }) => <Ionicons name="create-outline" size={size} color={color} />,
                 }}
             />
             <Tabs.Screen
                 name="mood-tracker"
                 options={{
-                    title: 'Mood',
+                    title: t('navigation.mood'),
                     tabBarIcon: ({ color, size }) => <Ionicons name="happy" size={size} color={color} />,
                 }}
                 href="/mood-tracking"
@@ -85,7 +89,7 @@ export default function TabsLayout() {
             <Tabs.Screen
                 name="profile"
                 options={{
-                    title: 'Profile',
+                    title: t('navigation.profile'),
                     tabBarIcon: ({ color, size }) => <Ionicons name="person" size={size} color={color} />,
                 }}
                 href="/profile"

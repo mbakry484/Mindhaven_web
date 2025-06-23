@@ -3,6 +3,16 @@
     "edit": "Edit",
     "logout": "Logout"
   },
+  "navigation": {
+    "home": "Home",
+    "chat": "Chat",
+    "resources": "Resources",
+    "exercises": "Exercises",
+    "blog": "Blog",
+    "journal": "Journal",
+    "mood": "Mood",
+    "profile": "Profile"
+  },
   "home": {
     "welcome": "Welcome back, {{name}}!",
     "friend": "Friend",

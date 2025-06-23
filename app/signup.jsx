@@ -4,10 +4,12 @@ import { useRouter } from "expo-router";
 import AuthScreenWrapper from "../components/AuthScreenWrapper";
 import AuthInput from "../components/AuthInput";
 import AuthButton from "../components/AuthButton";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useUser } from "./UserContext";
 
 const API_URL = "http://localhost:8000/api/add_user/";
 
-const CreateNewAccount = async (name, email, password, router) => {
+const CreateNewAccount = async (name, email, password, router, fetchUserProfile) => {
   if (!name || !email || !password) {
     Alert.alert("Error", "All fields are required");
     return;
@@ -28,6 +30,7 @@ const CreateNewAccount = async (name, email, password, router) => {
         return {
           success: true,
           message: data.message || "User created successfully",
+          user_id: data.user_id,
         };
       } else {
         return { success: false, message: data.error || "Signup failed" };
@@ -40,6 +43,10 @@ const CreateNewAccount = async (name, email, password, router) => {
   const result = await SaveUser(name, email, password);
 
   if (result.success) {
+    if (result.user_id) {
+      await AsyncStorage.setItem("user_id", result.user_id);
+      await fetchUserProfile();
+    }
     Alert.alert("Success", "Account created successfully");
     router.push("/home");
   } else {
@@ -52,9 +59,10 @@ const SignUpScreen = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { fetchUserProfile } = useUser();
 
   const handleSignUp = () => {
-    CreateNewAccount(name, email, password, router);
+    CreateNewAccount(name, email, password, router, fetchUserProfile);
   };
 
   return (
