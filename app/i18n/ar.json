@@ -122,5 +122,37 @@
     "unexpected_format": "تنسيق استجابة غير متوقع لمداخلات اليوميات",
     "no_entries": "لا توجد مداخلات يوميات بعد",
     "start_journaling_message": "ابدأ رحلتك في كتابة اليوميات بكتابة أول مدخلة لك"
+  },
+  "mood": {
+    "mood_tracker": "متتبع المزاج",
+    "new_entry": "مدخلة جديدة",
+    "history": "السجل",
+    "how_are_you_feeling": "كيف تشعر اليوم؟",
+    "how_intense_mood": "ما مدى شدة مزاجك؟",
+    "add_note_optional": "أضف ملاحظة (اختياري)",
+    "save_mood": "حفظ المزاج",
+    "mood_history": "سجل مزاجك",
+    "loading_history": "جاري تحميل سجل مزاجك...",
+    "no_mood_entries": "لا توجد مداخلات مزاج بعد",
+    "start_tracking_message": "ابدأ تتبع مزاجك بإضافة مدخلة جديدة",
+    "no_notes_added": "لم يتم إضافة ملاحظات",
+    "mood_saved": "تم تسجيل وحفظ مزاجك!",
+    "failed_save_mood": "فشل في حفظ المزاج",
+    "failed_fetch_history": "فشل في جلب سجل المزاج",
+    "user_not_logged_in": "المستخدم غير مسجل الدخول",
+    "missing_mood": "يرجى اختيار مزاج قبل الحفظ.",
+    "note_placeholder": "كيف كان يومك؟ ما الذي أثار هذا المزاج؟",
+    "mild": "خفيف",
+    "intense": "شديد",
+    "mood_labels": {
+      "happy": "سعيد",
+      "calm": "هادئ",
+      "neutral": "محايد",
+      "sad": "حزين",
+      "angry": "غاضب",
+      "anxious": "قلق",
+      "stressed": "متوتر",
+      "tired": "متعب"
+    }
   }
 }

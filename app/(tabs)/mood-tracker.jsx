@@ -14,6 +14,7 @@ import {
 import { useRouter } from "expo-router";
 import { FontAwesome } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useTranslation } from 'react-i18next';
 
 // Mock data for previous mood entries
 const previousMoodData = [
@@ -42,14 +43,14 @@ const previousMoodData = [
 
 // Mood options
 const moodOptions = [
-    { emoji: "😊", label: "Happy" },
-    { emoji: "😌", label: "Calm" },
-    { emoji: "😐", label: "Neutral" },
-    { emoji: "😢", label: "Sad" },
-    { emoji: "😠", label: "Angry" },
-    { emoji: "😰", label: "Anxious" },
-    { emoji: "😩", label: "Stressed" },
-    { emoji: "😴", label: "Tired" }
+    { emoji: "😊", label: "happy" },
+    { emoji: "😌", label: "calm" },
+    { emoji: "😐", label: "neutral" },
+    { emoji: "😢", label: "sad" },
+    { emoji: "😠", label: "angry" },
+    { emoji: "😰", label: "anxious" },
+    { emoji: "😩", label: "stressed" },
+    { emoji: "😴", label: "tired" }
 ];
 
 const MOOD_API_URL = "http://127.0.0.1:8000/api/add_mood_log/";
@@ -57,6 +58,7 @@ const MOOD_HISTORY_API_URL = "http://127.0.0.1:8000/api/get_user_mood_logs/";
 
 const MoodTrackerScreen = () => {
     const router = useRouter();
+    const { t } = useTranslation();
     const [selectedMood, setSelectedMood] = useState(null);
     const [intensity, setIntensity] = useState(5);
     const [note, setNote] = useState("");
@@ -74,7 +76,7 @@ const MoodTrackerScreen = () => {
         try {
             const userId = await AsyncStorage.getItem('user_id');
             if (!userId) {
-                Alert.alert('Error', 'User not logged in');
+                Alert.alert('Error', t('mood.user_not_logged_in'));
                 router.push("/login");
                 return;
             }
@@ -92,15 +94,16 @@ const MoodTrackerScreen = () => {
                         year: "numeric"
                     }),
                     mood: entry.mood,
+                    moodKey: entry.mood.toLowerCase(),
                     intensity: entry.score,
                     note: entry.notes
                 })));
             } else {
-                Alert.alert('Error', data.error || 'Failed to fetch mood history');
+                Alert.alert('Error', data.error || t('mood.failed_fetch_history'));
             }
         } catch (err) {
             console.error("Error fetching mood history:", err);
-            Alert.alert('Error', 'Failed to fetch mood history');
+            Alert.alert('Error', t('mood.failed_fetch_history'));
         } finally {
             setIsLoading(false);
         }
@@ -120,14 +123,14 @@ const MoodTrackerScreen = () => {
 
     const handleSaveMood = async () => {
         if (!selectedMood) {
-            Alert.alert("Missing Information", "Please select a mood before saving.");
+            Alert.alert("Missing Information", t('mood.missing_mood'));
             return;
         }
 
         try {
             const userId = await AsyncStorage.getItem('user_id');
             if (!userId) {
-                Alert.alert('Error', 'User not logged in');
+                Alert.alert('Error', t('mood.user_not_logged_in'));
                 router.push("/login");
                 return;
             }
@@ -148,7 +151,7 @@ const MoodTrackerScreen = () => {
 
             const data = await response.json();
             if (response.ok) {
-                Alert.alert('Success', 'Your mood has been recorded and saved!');
+                Alert.alert('Success', t('mood.mood_saved'));
                 setSelectedMood(null);
                 setIntensity(5);
                 setNote("");
@@ -158,11 +161,11 @@ const MoodTrackerScreen = () => {
                     fetchMoodHistory();
                 }
             } else {
-                Alert.alert('Error', data.error || 'Failed to save mood');
+                Alert.alert('Error', data.error || t('mood.failed_save_mood'));
             }
         } catch (err) {
             console.error("Error saving mood:", err);
-            Alert.alert('Error', 'Failed to save mood');
+            Alert.alert('Error', t('mood.failed_save_mood'));
         }
     };
 
@@ -179,7 +182,7 @@ const MoodTrackerScreen = () => {
                     <Text style={styles.backButtonText}>←</Text>
                 </TouchableOpacity>
 
-                <Text style={styles.headerTitle}>Mood Tracker</Text>
+                <Text style={styles.headerTitle}>{t('mood.mood_tracker')}</Text>
 
                 <View style={{ width: 40 }} />
             </View>
@@ -191,7 +194,7 @@ const MoodTrackerScreen = () => {
                     onPress={() => setActiveTab("new")}
                 >
                     <Text style={[styles.tabText, activeTab === "new" && styles.activeTabText]}>
-                        New Entry
+                        {t('mood.new_entry')}
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -199,7 +202,7 @@ const MoodTrackerScreen = () => {
                     onPress={() => setActiveTab("history")}
                 >
                     <Text style={[styles.tabText, activeTab === "history" && styles.activeTabText]}>
-                        History
+                        {t('mood.history')}
                     </Text>
                 </TouchableOpacity>
             </View>
@@ -212,7 +215,7 @@ const MoodTrackerScreen = () => {
                     {activeTab === "new" ? (
                         // New Entry Form
                         <View style={styles.newEntryContainer}>
-                            <Text style={styles.sectionTitle}>How are you feeling today?</Text>
+                            <Text style={styles.sectionTitle}>{t('mood.how_are_you_feeling')}</Text>
 
                             <View style={styles.moodOptionsContainer}>
                                 <ScrollView horizontal showsHorizontalScrollIndicator={false}>
@@ -226,18 +229,18 @@ const MoodTrackerScreen = () => {
                                             onPress={() => handleMoodSelect(mood)}
                                         >
                                             <Text style={styles.moodEmoji}>{mood.emoji}</Text>
-                                            <Text style={styles.moodLabel}>{mood.label}</Text>
+                                            <Text style={styles.moodLabel}>{t(`mood.mood_labels.${mood.label}`)}</Text>
                                         </TouchableOpacity>
                                     ))}
                                 </ScrollView>
                             </View>
 
-                            <Text style={styles.sectionTitle}>How intense is your mood?</Text>
+                            <Text style={styles.sectionTitle}>{t('mood.how_intense_mood')}</Text>
                             <View style={styles.sliderContainer}>
                                 <View style={styles.sliderValueContainer}>
-                                    <Text style={styles.sliderLabel}>Mild</Text>
+                                    <Text style={styles.sliderLabel}>{t('mood.mild')}</Text>
                                     <Text style={styles.intensityValue}>{intensity}</Text>
-                                    <Text style={styles.sliderLabel}>Intense</Text>
+                                    <Text style={styles.sliderLabel}>{t('mood.intense')}</Text>
                                 </View>
                                 <View style={styles.sliderTrack}>
                                     <View style={[styles.sliderFill, { width: `${(intensity / 10) * 100}%` }]} />
@@ -256,10 +259,10 @@ const MoodTrackerScreen = () => {
                                 </View>
                             </View>
 
-                            <Text style={styles.sectionTitle}>Add a note (optional)</Text>
+                            <Text style={styles.sectionTitle}>{t('mood.add_note_optional')}</Text>
                             <TextInput
                                 style={styles.noteInput}
-                                placeholder="How was your day? What triggered this mood?"
+                                placeholder={t('mood.note_placeholder')}
                                 value={note}
                                 onChangeText={setNote}
                                 multiline
@@ -267,21 +270,21 @@ const MoodTrackerScreen = () => {
                             />
 
                             <TouchableOpacity style={styles.saveButton} onPress={handleSaveMood}>
-                                <Text style={styles.saveButtonText}>Save Mood</Text>
+                                <Text style={styles.saveButtonText}>{t('mood.save_mood')}</Text>
                             </TouchableOpacity>
                         </View>
                     ) : (
                         // History View
                         <View style={styles.historyContainer}>
-                            <Text style={styles.historyTitle}>Your Mood History</Text>
+                            <Text style={styles.historyTitle}>{t('mood.mood_history')}</Text>
                             {isLoading ? (
                                 <View style={styles.loadingContainer}>
-                                    <Text style={styles.loadingText}>Loading your mood history...</Text>
+                                    <Text style={styles.loadingText}>{t('mood.loading_history')}</Text>
                                 </View>
                             ) : moodEntries.length === 0 ? (
                                 <View style={styles.emptyContainer}>
-                                    <Text style={styles.emptyText}>No mood entries yet</Text>
-                                    <Text style={styles.emptySubText}>Start tracking your mood by adding a new entry</Text>
+                                    <Text style={styles.emptyText}>{t('mood.no_mood_entries')}</Text>
+                                    <Text style={styles.emptySubText}>{t('mood.start_tracking_message')}</Text>
                                 </View>
                             ) : (
                                 moodEntries.map((entry) => (
@@ -289,7 +292,9 @@ const MoodTrackerScreen = () => {
                                         <View style={styles.historyCardHeader}>
                                             <Text style={styles.historyDate}>{entry.date}</Text>
                                             <View style={styles.moodBadge}>
-                                                <Text style={styles.moodBadgeText}>{entry.mood}</Text>
+                                                <Text style={styles.moodBadgeText}>
+                                                    {t(`mood.mood_labels.${entry.moodKey || entry.mood.toLowerCase()}`)}
+                                                </Text>
                                                 <Text style={styles.intensityBadge}>
                                                     {entry.intensity}/10
                                                 </Text>
@@ -298,7 +303,7 @@ const MoodTrackerScreen = () => {
                                         {entry.note ? (
                                             <Text style={styles.historyNote}>{entry.note}</Text>
                                         ) : (
-                                            <Text style={styles.noNote}>No notes added</Text>
+                                            <Text style={styles.noNote}>{t('mood.no_notes_added')}</Text>
                                         )}
                                     </View>
                                 ))

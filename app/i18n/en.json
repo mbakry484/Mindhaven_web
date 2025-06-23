@@ -122,5 +122,37 @@
     "unexpected_format": "Unexpected response format for journal entries",
     "no_entries": "No journal entries yet",
     "start_journaling_message": "Start your journaling journey by writing your first entry"
+  },
+  "mood": {
+    "mood_tracker": "Mood Tracker",
+    "new_entry": "New Entry",
+    "history": "History",
+    "how_are_you_feeling": "How are you feeling today?",
+    "how_intense_mood": "How intense is your mood?",
+    "add_note_optional": "Add a note (optional)",
+    "save_mood": "Save Mood",
+    "mood_history": "Your Mood History",
+    "loading_history": "Loading your mood history...",
+    "no_mood_entries": "No mood entries yet",
+    "start_tracking_message": "Start tracking your mood by adding a new entry",
+    "no_notes_added": "No notes added",
+    "mood_saved": "Your mood has been recorded and saved!",
+    "failed_save_mood": "Failed to save mood",
+    "failed_fetch_history": "Failed to fetch mood history",
+    "user_not_logged_in": "User not logged in",
+    "missing_mood": "Please select a mood before saving.",
+    "note_placeholder": "How was your day? What triggered this mood?",
+    "mild": "Mild",
+    "intense": "Intense",
+    "mood_labels": {
+      "happy": "Happy",
+      "calm": "Calm",
+      "neutral": "Neutral",
+      "sad": "Sad",
+      "angry": "Angry",
+      "anxious": "Anxious",
+      "stressed": "Stressed",
+      "tired": "Tired"
+    }
   }
 }
