@@ -26,6 +26,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import '../i18n';
+import { Ionicons } from '@expo/vector-icons';
 
 const { width, height } = Dimensions.get("window");
 
@@ -207,6 +208,7 @@ const CreatePostCard = ({ onCreatePost }) => {
   const [content, setContent] = useState("");
   const [imageError, setImageError] = useState(false);
   const [selectedImages, setSelectedImages] = useState([]);
+  const [isAnonymous, setIsAnonymous] = useState(false);
 
   const pickImage = async () => {
     try {
@@ -243,10 +245,11 @@ const CreatePostCard = ({ onCreatePost }) => {
       return;
     }
 
-    onCreatePost(title, content, selectedImages);
+    onCreatePost(title, content, selectedImages, isAnonymous);
     setTitle("");
     setContent("");
     setSelectedImages([]);
+    setIsAnonymous(false);
     setIsExpanded(false);
   };
 
@@ -277,6 +280,7 @@ const CreatePostCard = ({ onCreatePost }) => {
             <TouchableOpacity onPress={() => {
               setIsExpanded(false);
               setSelectedImages([]);
+              setIsAnonymous(false);
             }}>
               <Text style={styles.createPostCancel}>{t('blog.cancel')}</Text>
             </TouchableOpacity>
@@ -303,6 +307,30 @@ const CreatePostCard = ({ onCreatePost }) => {
               placeholderTextColor="#9E9E9E"
               textAlignVertical="top"
             />
+
+            {/* Anonymous Posting Toggle */}
+            <View style={styles.anonymousToggleContainer}>
+              <View style={styles.anonymousToggleInfo}>
+                <Ionicons
+                  name="eye-off"
+                  size={20}
+                  color={isAnonymous ? "#5100F3" : "#626A7C"}
+                />
+                <Text style={styles.anonymousToggleLabel}>Post anonymously</Text>
+              </View>
+              <TouchableOpacity
+                style={[
+                  styles.anonymousToggle,
+                  isAnonymous && styles.anonymousToggleActive
+                ]}
+                onPress={() => setIsAnonymous(!isAnonymous)}
+              >
+                <View style={[
+                  styles.anonymousToggleThumb,
+                  isAnonymous && styles.anonymousToggleThumbActive
+                ]} />
+              </TouchableOpacity>
+            </View>
 
             {selectedImages.length > 0 && (
               <ScrollView
@@ -448,9 +476,11 @@ const PostCard = ({
       <View style={styles.postHeader}>
         <Avatar
           source={
-            imageError || !image
-              ? require("../../assets/images/no-profile.png")
-              : { uri: image }
+            is_anonymous
+              ? require("../../assets/images/Anonymous.png")
+              : (imageError || !image)
+                ? require("../../assets/images/no-profile.png")
+                : { uri: image }
           }
           size={44}
           onError={() => setImageError(true)}
@@ -770,7 +800,7 @@ const BlogScreen = () => {
     }
   };
 
-  const handleCreatePost = async (title, content, images = []) => {
+  const handleCreatePost = async (title, content, images = [], isAnonymous = false) => {
     if (!title || !content) {
       Alert.alert("Error", t('blog.title_required'));
       return;
@@ -811,7 +841,7 @@ const BlogScreen = () => {
         user_id: user_id,
         title: title,
         content: content,
-        is_anonymous: false,
+        is_anonymous: isAnonymous,
         images: base64Images
       };
 
@@ -1746,6 +1776,55 @@ const styles = StyleSheet.create({
     color: '#E53E3E',
     fontSize: 14,
     fontWeight: '500',
+  },
+
+  // Anonymous posting toggle styles
+  anonymousToggleContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    backgroundColor: '#F7F9FC',
+    borderRadius: 8,
+    marginBottom: 16,
+  },
+  anonymousToggleInfo: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+  },
+  anonymousToggleLabel: {
+    fontSize: 14,
+    color: '#626A7C',
+    fontWeight: '500',
+    marginLeft: 8,
+  },
+  anonymousToggle: {
+    width: 44,
+    height: 24,
+    borderRadius: 12,
+    backgroundColor: '#E2E8F0',
+    padding: 2,
+    justifyContent: 'center',
+  },
+  anonymousToggleActive: {
+    backgroundColor: '#5100F3',
+  },
+  anonymousToggleThumb: {
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    backgroundColor: '#FFFFFF',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.2,
+    shadowRadius: 1,
+    elevation: 2,
+    transform: [{ translateX: 0 }],
+  },
+  anonymousToggleThumbActive: {
+    transform: [{ translateX: 20 }],
   },
 });
 
