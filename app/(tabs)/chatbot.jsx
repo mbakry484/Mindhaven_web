@@ -36,117 +36,10 @@ const EXERCISE_API_URL = "http://localhost:8000/api/add_exercise/";
 const DEFAULT_AVATAR = require("../../assets/images/no-profile.png");
 const ROBOT_AVATAR = require("../../assets/images/robot.png");
 
-// List of moods to detect
-const moodList = [
-  "happy", "sad", "angry", "anxious", "stressed", "calm", "tired", "excited"
-];
+// REMOVE all hardcoded mood/activity lists and detection logic
+// (positiveKeywords, negativeKeywords, activityVerbs, knownActivities, detectActivity)
 
-// Keywords that indicate positive feelings about activities
-const positiveKeywords = [
-  "love", "enjoy", "like", "good", "great", "helpful", "comfortable",
-  "relaxing", "calming", "therapeutic", "makes me feel better", "helps me",
-  "favorite", "best", "wonderful", "amazing", "perfect"
-];
-
-// Keywords that indicate negative feelings about activities
-const negativeKeywords = [
-  "hate", "dislike", "don't like", "bad", "terrible", "uncomfortable",
-  "stressful", "anxiety", "makes me feel worse", "worst", "awful",
-  "difficult", "hard", "tiring", "exhausting"
-];
-
-// Common activity verbs
-const activityVerbs = [
-  "doing", "performing", "practicing", "playing", "reading", "exercising",
-  "going", "running", "walking", "swimming", "dancing", "singing", "writing",
-  "drawing", "painting", "cooking", "baking", "gardening", "meditating",
-  "yoga", "stretching", "lifting", "cycling", "hiking", "climbing"
-];
-
-// List of common sports/activities
-const knownActivities = [
-  "running", "basketball", "chess", "tennis", "kayaking", "swimming", "cycling", "yoga", "meditation", "soccer", "football", "baseball", "volleyball", "hiking", "dancing", "skiing", "surfing", "climbing", "golf", "boxing", "skating", "rowing", "badminton", "table tennis", "ping pong", "rugby", "cricket", "handball", "squash", "martial arts", "pilates", "stretching", "jogging", "walking"
-];
-
-const detectMood = (text) => {
-  const lower = text.toLowerCase();
-  for (const mood of moodList) {
-    if (lower.includes(mood)) {
-      return mood;
-    }
-  }
-  return null;
-};
-
-const detectActivity = (text) => {
-  const lower = text.toLowerCase();
-
-  // Check if the message contains positive or negative feelings
-  const hasPositive = positiveKeywords.some(keyword => lower.includes(keyword));
-  const hasNegative = negativeKeywords.some(keyword => lower.includes(keyword));
-
-  if (!hasPositive && !hasNegative) return null;
-
-  // Always scan the entire message for any known activity
-  let detected = null;
-  for (const activity of knownActivities) {
-    if (lower.includes(activity)) {
-      detected = activity;
-      break;
-    }
-  }
-  if (detected) {
-    return {
-      activity: detected.charAt(0).toUpperCase() + detected.slice(1),
-      isPositive: hasPositive
-    };
-  }
-
-  // Fallback to previous extraction logic
-  let activity = null;
-  const pattern1 = lower.match(/(?:i|me|my)\s+(?:love|enjoy|like|hate|dislike)\s+(?:to\s+)?([^,.!?]+)/i);
-  if (pattern1) {
-    activity = pattern1[1].trim();
-  }
-  const pattern2 = lower.match(/([^,.!?]+)\s+makes\s+me\s+feel\s+(?:good|better|bad|worse)/i);
-  if (pattern2) {
-    activity = pattern2[1].trim();
-  }
-  const pattern3 = lower.match(/(?:i|me|my)\s+(?:am|was|were)\s+(?:doing\s+)?([^,.!?]+)/i);
-  if (pattern3) {
-    activity = pattern3[1].trim();
-  }
-  if (!activity) {
-    for (const verb of activityVerbs) {
-      if (lower.includes(verb)) {
-        const parts = lower.split(verb);
-        if (parts[1]) {
-          activity = parts[1].trim();
-          break;
-        }
-      }
-    }
-  }
-  if (activity) {
-    activity = activity.replace(/^(to|the|a|an)\s+/i, '').trim();
-    const firstWord = activity.split(/\s|,|\.|!|\?/)[0];
-    // Ignore pronouns as activity names
-    const ignoreWords = ["it", "this", "that", "they", "he", "she", "we", "you"];
-    if (knownActivities.includes(firstWord)) {
-      return {
-        activity: firstWord.charAt(0).toUpperCase() + firstWord.slice(1),
-        isPositive: hasPositive
-      };
-    } else if (!ignoreWords.includes(firstWord)) {
-      return {
-        activity: activity.charAt(0).toUpperCase() + activity.slice(1),
-        isPositive: hasPositive
-      };
-    }
-  }
-  return null;
-};
-
+// Only use LLM-based extraction for mood and activity
 const predictMoodScore = async (userMessage, mood) => {
   // Use the LLM to predict the score
   try {
@@ -225,12 +118,71 @@ const saveChatLog = async (userId, message, sender) => {
   }
 };
 
+// New: Extract mood and activity using LLM (language-agnostic)
+const extractMoodAndActivity = async (userMessage) => {
+  try {
+    const prompt = `Extract the user's mood (if any) and any activity (sport/exercise) mentioned in the following message, regardless of language. Return a JSON object like: {"mood": "...", "activity": "...", "activitySentiment": "positive/negative/neutral"}. The activity value must be exactly as written by the user, not translated. If nothing is found, use null for the value.\n\nRules:\n- If the message describes an action or something the user is doing (e.g., \"I love playing football\"), extract it as an activity, not a mood.\n- If the message describes a feeling or emotional state (e.g., \"I feel happy\"), extract it as a mood, not an activity.\n- If both are present, extract both separately.\n- Never duplicate the same phrase in both mood and activity.\n\nMessage: "${userMessage}"`;
+    const response = await fetch(GROQ_API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${GROQ_API_KEY}`
+      },
+      body: JSON.stringify({
+        model: GROQ_MODEL,
+        messages: [
+          { role: "system", content: "You are an expert at extracting mood and activity from user messages in any language. Only return a valid JSON object as specified. The activity value must be exactly as written by the user, not translated." },
+          { role: "user", content: prompt }
+        ],
+        temperature: 0.2,
+        max_tokens: 128,
+        top_p: 1
+      })
+    });
+    if (!response.ok) return null;
+    const data = await response.json();
+    let content = data.choices[0].message.content.trim();
+    // Robustly extract the first JSON object from the response
+    const jsonMatch = content.match(/\{[\s\S]*?\}/);
+    if (jsonMatch) {
+      try {
+        return JSON.parse(jsonMatch[0]);
+      } catch (e) {
+        console.error('Failed to parse extracted JSON:', jsonMatch[0]);
+        return null;
+      }
+    } else {
+      console.error('No JSON object found in LLM response:', content);
+      return null;
+    }
+  } catch (err) {
+    console.error('Failed to extract mood/activity:', err);
+    return null;
+  }
+};
+
+// Check if activity exists in the activity table (any language)
+const activityExists = async (activityName) => {
+  try {
+    // You need to implement this endpoint in your backend to search activities by name (case-insensitive, any language)
+    const response = await fetch(`${EXERCISE_API_URL}exists/?name=${encodeURIComponent(activityName)}`);
+    if (!response.ok) return false;
+    const data = await response.json();
+    // Should return { exists: true/false }
+    return !!data.exists;
+  } catch (err) {
+    console.error('Failed to check if activity exists:', err);
+    return false;
+  }
+};
+
 const ChatbotScreen = () => {
   const router = useRouter();
   const [messages, setMessages] = useState([]);
   const [inputText, setInputText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
+  const [showScrollToBottom, setShowScrollToBottom] = useState(false);
   const mediaRecorderRef = useRef(null);
   const audioChunksRef = useRef([]);
   const scrollViewRef = useRef();
@@ -274,25 +226,35 @@ const ChatbotScreen = () => {
     setInputText("");
     setIsLoading(true);
 
-    // Save user message to chat log
     try {
       const userId = await AsyncStorage.getItem('user_id');
       if (userId) {
         saveChatLog(userId, inputText, "user");
 
-        // Mood detection and logging
-        const mood = detectMood(inputText);
-        if (mood) {
-          const score = await predictMoodScore(inputText, mood);
-          if (score) {
-            saveMoodLog(userId, mood, inputText, score);
-          }
+        // Only use LLM extraction for mood and activity
+        let extraction = null;
+        try {
+          extraction = await extractMoodAndActivity(inputText);
+          console.log('LLM extraction result:', extraction);
+        } catch (e) {
+          console.error('LLM extraction error:', e);
         }
 
-        // Activity detection and logging
-        const activityData = detectActivity(inputText);
-        if (activityData && activityData.isPositive) {
-          saveExercise(userId, activityData.activity);
+        // Only save mood if found and not a duplicate of activity
+        if (extraction && extraction.mood && (!extraction.activity || extraction.mood !== extraction.activity)) {
+          const score = await predictMoodScore(inputText, extraction.mood);
+          if (score) {
+            saveMoodLog(userId, extraction.mood, inputText, score);
+          }
+        }
+        // Only save activity if found and not a duplicate of mood
+        if (extraction && extraction.activity && (extraction.activitySentiment === 'positive' || extraction.activitySentiment === 'neutral') && (!extraction.mood || extraction.activity !== extraction.mood)) {
+          const exists = await activityExists(extraction.activity);
+          if (!exists) {
+            saveExercise(userId, extraction.activity);
+          } else {
+            console.log('Activity already exists in any language, not saving:', extraction.activity);
+          }
         }
       }
     } catch (err) {
@@ -384,6 +346,19 @@ const ChatbotScreen = () => {
       scrollViewRef.current.scrollToEnd({ animated: true });
     }
   }, [messages]);
+
+  const handleScroll = (event) => {
+    const { layoutMeasurement, contentOffset, contentSize } = event.nativeEvent;
+    // If user is not at the bottom, show the arrow
+    const isAtBottom = contentOffset.y + layoutMeasurement.height >= contentSize.height - 20;
+    setShowScrollToBottom(!isAtBottom && messages.length > 0);
+  };
+
+  const scrollToBottom = () => {
+    if (scrollViewRef.current) {
+      scrollViewRef.current.scrollToEnd({ animated: true });
+    }
+  };
 
   const formatTime = (date) => {
     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -614,6 +589,8 @@ const ChatbotScreen = () => {
             <ScrollView
               ref={scrollViewRef}
               contentContainerStyle={{ padding: 16 }}
+              onScroll={handleScroll}
+              scrollEventThrottle={16}
             >
               {messages.length === 0 ? (
                 <View style={{
@@ -699,6 +676,40 @@ const ChatbotScreen = () => {
                 </View>
               )}
             </ScrollView>
+
+            {/* Scroll to bottom arrow - floating, centered, in a bubble */}
+            {showScrollToBottom && (
+              <TouchableOpacity
+                onPress={scrollToBottom}
+                style={{
+                  position: 'absolute',
+                  left: 0,
+                  right: 0,
+                  bottom: 100, // floats above input, adjust as needed
+                  zIndex: 10,
+                  alignItems: 'center',
+                }}
+                accessibilityLabel={t('chatbot.scroll_to_bottom')}
+                accessibilityRole="button"
+                activeOpacity={0.7}
+              >
+                <View style={{
+                  width: 40,
+                  height: 40,
+                  borderRadius: 20,
+                  backgroundColor: '#5100F3',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  shadowColor: '#000',
+                  shadowOffset: { width: 0, height: 2 },
+                  shadowOpacity: 0.18,
+                  shadowRadius: 4,
+                  elevation: 4,
+                }}>
+                  <Text style={{ fontSize: 24, color: '#fff', fontWeight: 'bold', lineHeight: 26 }}>↓</Text>
+                </View>
+              </TouchableOpacity>
+            )}
 
             {/* Input Container */}
             <View style={{

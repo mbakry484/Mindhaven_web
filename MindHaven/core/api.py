@@ -33,6 +33,8 @@ urlpatterns = [
         get_user_activity_logs,
         name="get_user_activity_logs",
     ),
+    # Add exercise_exists endpoint for POST requests
+    path("exercise_exists/", exercise_exists, name="exercise_exists"),
     # Journal entries endpoints
     path("add_journal_entry/", add_journal_entry, name="add_journal_entry"),
     path(

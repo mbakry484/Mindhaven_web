@@ -4,7 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
 import json
 from bson import ObjectId
-from .models import BlogPosts, JournalEntries, Users, Comments, Exercises, ChatLogs, ActivityLogs
+from .models import BlogPosts, JournalEntries, Users, Comments, Exercises, ChatLogs, ActivityLogs, Challenges, HappyUserTracking
 import traceback
 from .models import MoodLogs
 from datetime import datetime
@@ -651,6 +651,35 @@ def get_user_exercises(request, user_id):
     return JsonResponse({"error": "Invalid request method"}, status=405)
 
 
+@csrf_exempt
+def exercise_exists(request):
+    """
+    POST endpoint to check if an activity (exercise) already exists for a user (case-insensitive, any language).
+    Expects JSON: {"user_id": ..., "activity_name": ...}
+    Returns: {"exists": true/false}
+    """
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            user_id = data.get("user_id")
+            activity_name = data.get("activity_name")
+            if not user_id or not activity_name:
+                return JsonResponse({"error": "user_id and activity_name are required"}, status=400)
+            # Check both possible field names: 'activity' and 'activity_name'
+            query = {
+                "user_id": ObjectId(user_id),
+                "$or": [
+                    {"activity": {"$regex": f"^{activity_name}$", "$options": "i"}},
+                    {"activity_name": {"$regex": f"^{activity_name}$", "$options": "i"}}
+                ]
+            }
+            exists = ActivityLogs.get_collection().find_one(query) is not None
+            return JsonResponse({"exists": exists})
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=500)
+    return JsonResponse({"error": "Invalid request method"}, status=405)
+
+
 # Challenges Views
 @csrf_exempt
 def add_challenge(request):
@@ -1010,4 +1039,4 @@ def list_apis(request):
         return JsonResponse(api_endpoints)
     return JsonResponse({"error": "Invalid request method"}, status=405)
 
-#.
+#

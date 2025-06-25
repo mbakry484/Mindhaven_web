@@ -65,6 +65,7 @@ const MoodTrackerScreen = () => {
     const [moodEntries, setMoodEntries] = useState([]);
     const [activeTab, setActiveTab] = useState("new"); // "new" or "history"
     const [isLoading, setIsLoading] = useState(false);
+    const [showSupportiveMessage, setShowSupportiveMessage] = useState(false);
 
     useEffect(() => {
         if (activeTab === "history") {
@@ -151,7 +152,9 @@ const MoodTrackerScreen = () => {
 
             const data = await response.json();
             if (response.ok) {
-                Alert.alert('Success', t('mood.mood_saved'));
+                // Show a prominent supportive message using a custom modal-like view
+                setShowSupportiveMessage(true);
+                setTimeout(() => setShowSupportiveMessage(false), 3500); // Hide after 3.5 seconds
                 setSelectedMood(null);
                 setIntensity(5);
                 setNote("");
@@ -171,6 +174,33 @@ const MoodTrackerScreen = () => {
 
     return (
         <View style={styles.container}>
+            {/* Supportive Message Overlay */}
+            {showSupportiveMessage && (
+                <View style={{
+                    position: 'absolute',
+                    top: 60,
+                    left: 20,
+                    right: 20,
+                    zIndex: 100,
+                    backgroundColor: '#fff',
+                    borderRadius: 16,
+                    padding: 24,
+                    alignItems: 'center',
+                    shadowColor: '#5100F3',
+                    shadowOffset: { width: 0, height: 8 },
+                    shadowOpacity: 0.25,
+                    shadowRadius: 16,
+                    elevation: 10,
+                    borderWidth: 2,
+                    borderColor: '#5100F3',
+                }}>
+                    <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#5100F3', marginBottom: 8 }}>🎉 Great job!</Text>
+                    <Text style={{ fontSize: 16, color: '#2c1a4a', textAlign: 'center' }}>
+                        You are taking a positive step for your well-being. Keep tracking your moods!
+                    </Text>
+                </View>
+            )}
+
             {/* Header */}
             <View style={styles.header}>
                 <TouchableOpacity
@@ -293,7 +323,7 @@ const MoodTrackerScreen = () => {
                                             <Text style={styles.historyDate}>{entry.date}</Text>
                                             <View style={styles.moodBadge}>
                                                 <Text style={styles.moodBadgeText}>
-                                                    {t(`mood.mood_labels.${entry.moodKey || entry.mood.toLowerCase()}`)}
+                                                    {entry.mood}
                                                 </Text>
                                                 <Text style={styles.intensityBadge}>
                                                     {entry.intensity}/10
@@ -606,4 +636,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default MoodTrackerScreen; 
+export default MoodTrackerScreen;
