@@ -17,6 +17,7 @@ import { useRouter } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { GROQ_API_URL, GROQ_API_KEY, GROQ_MODEL } from "../config/aiConfig";
 import { VOICE_AI_CONFIG } from "../config/VoiceAiConfig";
+import { AI_INSTRUCTIONS } from "../config/aiConfig.example";
 import * as FileSystem from 'expo-file-system';
 import { Audio } from 'expo-av';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -325,10 +326,7 @@ const ChatbotScreen = () => {
   const fetchBotReply = async (userInput) => {
     try {
       // Prepare conversation history for the model
-      const systemPrompt = {
-        role: "system",
-        content: "You are a compassionate and professional CBT (Cognitive Behavioral Therapy) therapist. Respond to the user using CBT techniques, such as Socratic questioning, cognitive restructuring, and behavioral activation. Keep your responses concise and focused, and ask no more than 2 questions in each reply. Wait for the user's answer before moving to the next step. Help the user identify and challenge unhelpful thoughts, and encourage practical steps for well-being. Always be supportive, non-judgmental, and evidence-based."
-      };
+      const systemPrompt = AI_INSTRUCTIONS;
 
       const messageHistory = [
         systemPrompt,

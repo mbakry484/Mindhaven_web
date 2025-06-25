@@ -25,6 +25,8 @@ const JournalingScreen = () => {
     const [isEditing, setIsEditing] = useState(false);
     const [editingEntry, setEditingEntry] = useState(null);
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const [supportiveMessage, setSupportiveMessage] = useState('');
+    const [showSupportiveMessage, setShowSupportiveMessage] = useState(false);
 
     useEffect(() => {
         loadEntries();
@@ -80,7 +82,17 @@ const JournalingScreen = () => {
                 await loadEntries(); // Reload entries from database
                 setTitle('');
                 setCurrentEntry('');
-                Alert.alert('Success', t('journal.entry_saved'));
+                const encouragingMessages = [
+                    "Great job expressing yourself! Writing down your thoughts is a powerful step towards self-awareness.",
+                    "Well done on taking time for self-reflection! Each entry is a step towards better mental well-being.",
+                    "Wonderful! Journaling is a great way to process your emotions and track your growth.",
+                    "Amazing work! Your commitment to journaling shows you're taking care of your mental health.",
+                    "Excellent! Every journal entry helps you understand yourself better."
+                ];
+                const randomMessage = encouragingMessages[Math.floor(Math.random() * encouragingMessages.length)];
+                setSupportiveMessage(randomMessage);
+                setShowSupportiveMessage(true);
+                setTimeout(() => setShowSupportiveMessage(false), 4000);
             } else {
                 throw new Error('Failed to save entry');
             }
@@ -161,6 +173,13 @@ const JournalingScreen = () => {
 
     return (
         <View style={styles.container}>
+            {/* Supportive Message Banner */}
+            {showSupportiveMessage && (
+                <View style={styles.supportiveBanner}>
+                    <Text style={styles.supportiveBannerIcon}>💜</Text>
+                    <Text style={styles.supportiveBannerText}>{supportiveMessage}</Text>
+                </View>
+            )}
             {/* Header */}
             <View style={styles.header}>
                 <TouchableOpacity
@@ -571,6 +590,41 @@ const styles = StyleSheet.create({
         lineHeight: 24,
         fontWeight: '400',
     },
+    supportiveBanner: {
+        position: 'absolute',
+        top: Platform.OS === 'ios' ? 50 : 20,
+        left: 16,
+        right: 16,
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: 'rgba(99,102,241,0.98)', // fallback for gradient
+        paddingVertical: 18,
+        paddingHorizontal: 20,
+        borderRadius: 18,
+        borderWidth: 1.5,
+        borderColor: '#a5b4fc',
+        shadowColor: '#6366f1',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.18,
+        shadowRadius: 10,
+        elevation: 16,
+        zIndex: 100,
+        overflow: 'hidden',
+    },
+    supportiveBannerIcon: {
+        fontSize: 22,
+        marginRight: 10,
+    },
+    supportiveBannerText: {
+        color: '#fff',
+        fontSize: 17,
+        fontWeight: '700',
+        textAlign: 'center',
+        flex: 1,
+        textShadowColor: 'rgba(49, 46, 129, 0.15)',
+        textShadowOffset: { width: 0, height: 1 },
+        textShadowRadius: 2,
+    },
 });
 
-export default JournalingScreen; 
+export default JournalingScreen;
