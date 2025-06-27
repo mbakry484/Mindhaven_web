@@ -188,12 +188,19 @@ const QuickStats = () => {
     };
 
     const checkStreak = async () => {
+      const userId = await AsyncStorage.getItem('user_id');
+      if (!userId) {
+        setStreak(0);
+        return;
+      }
+      const lastDateKey = `streak_last_date_${userId}`;
+      const countKey = `streak_count_${userId}`;
       const today = new Date();
       // Get the start of today in local timezone
       const startOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate());
       const todayStr = startOfToday.toLocaleDateString('en-US');
-      const lastDate = await AsyncStorage.getItem('streak_last_date');
-      let currentStreak = parseInt(await AsyncStorage.getItem('streak_count') || '0', 10);
+      const lastDate = await AsyncStorage.getItem(lastDateKey);
+      let currentStreak = parseInt(await AsyncStorage.getItem(countKey) || '0', 10);
 
       console.log('\n=== Streak Check Log ===');
       console.log('Current time:', today.toISOString());
@@ -201,11 +208,11 @@ const QuickStats = () => {
       console.log('Last recorded date:', lastDate);
       console.log('Current streak from storage:', currentStreak);
 
-      // If no last date exists, this is the first time using the app
+      // If no last date exists, this is the first time using the app for this user
       if (!lastDate) {
-        console.log('No last date found - First time using app');
-        await AsyncStorage.setItem('streak_last_date', todayStr);
-        await AsyncStorage.setItem('streak_count', '0');
+        console.log('No last date found - First time using app for this user');
+        await AsyncStorage.setItem(lastDateKey, todayStr);
+        await AsyncStorage.setItem(countKey, '0');
         setStreak(0);
         return;
       }
@@ -233,13 +240,13 @@ const QuickStats = () => {
       if (daysDiff === 1) {
         console.log('Last login was yesterday - Incrementing streak');
         currentStreak += 1;
-        await AsyncStorage.setItem('streak_last_date', todayStr);
-        await AsyncStorage.setItem('streak_count', currentStreak.toString());
+        await AsyncStorage.setItem(lastDateKey, todayStr);
+        await AsyncStorage.setItem(countKey, currentStreak.toString());
         setStreak(currentStreak);
       } else {
         console.log('Last login was not yesterday - Resetting streak');
-        await AsyncStorage.setItem('streak_last_date', todayStr);
-        await AsyncStorage.setItem('streak_count', '0');
+        await AsyncStorage.setItem(lastDateKey, todayStr);
+        await AsyncStorage.setItem(countKey, '0');
         setStreak(0);
       }
       console.log('=== End Streak Check ===\n');

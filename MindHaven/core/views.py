@@ -4,7 +4,17 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
 import json
 from bson import ObjectId
-from .models import BlogPosts, JournalEntries, Users, Comments, Exercises, ChatLogs, ActivityLogs, Challenges, HappyUserTracking
+from .models import (
+    BlogPosts,
+    JournalEntries,
+    Users,
+    Comments,
+    Exercises,
+    ChatLogs,
+    ActivityLogs,
+    Challenges,
+    HappyUserTracking,
+)
 import traceback
 from .models import MoodLogs
 from datetime import datetime
@@ -389,7 +399,9 @@ def add_journal_entry(request):
             content = data.get("content")
             title = data.get("title", "Untitled Entry")
 
-            result = JournalEntries.create_entry(user_id=user_id, content=content, title=title)
+            result = JournalEntries.create_entry(
+                user_id=user_id, content=content, title=title
+            )
 
             return JsonResponse(
                 {
@@ -408,7 +420,11 @@ def get_user_journal_entries(request, user_id):
     if request.method == "GET":
         try:
             # Sort by date descending (most recent first)
-            entries_cursor = JournalEntries.get_collection().find({"user_id": ObjectId(user_id)}).sort("date", -1)
+            entries_cursor = (
+                JournalEntries.get_collection()
+                .find({"user_id": ObjectId(user_id)})
+                .sort("date", -1)
+            )
             entries_list = []
 
             for entry in entries_cursor:
@@ -446,9 +462,9 @@ def update_journal_entry(request, entry_id):
             if not update_fields:
                 return JsonResponse({"error": "No fields to update"}, status=400)
             from .models import JournalEntries
+
             result = JournalEntries.get_collection().update_one(
-                {"_id": ObjectId(entry_id)},
-                {"$set": update_fields}
+                {"_id": ObjectId(entry_id)}, {"$set": update_fields}
             )
             if result.matched_count == 0:
                 return JsonResponse({"error": "Entry not found"}, status=404)
@@ -464,6 +480,7 @@ def delete_journal_entry(request, entry_id):
         try:
             from .models import JournalEntries
             from bson import ObjectId
+
             print(f"Trying to delete entry with _id: {entry_id}")
             try:
                 obj_id = ObjectId(entry_id)
@@ -664,14 +681,21 @@ def exercise_exists(request):
             user_id = data.get("user_id")
             activity_name = data.get("activity_name")
             if not user_id or not activity_name:
-                return JsonResponse({"error": "user_id and activity_name are required"}, status=400)
+                return JsonResponse(
+                    {"error": "user_id and activity_name are required"}, status=400
+                )
             # Check both possible field names: 'activity' and 'activity_name'
             query = {
                 "user_id": ObjectId(user_id),
                 "$or": [
                     {"activity": {"$regex": f"^{activity_name}$", "$options": "i"}},
-                    {"activity_name": {"$regex": f"^{activity_name}$", "$options": "i"}}
-                ]
+                    {
+                        "activity_name": {
+                            "$regex": f"^{activity_name}$",
+                            "$options": "i",
+                        }
+                    },
+                ],
             }
             exists = ActivityLogs.get_collection().find_one(query) is not None
             return JsonResponse({"exists": exists})
@@ -1038,5 +1062,6 @@ def list_apis(request):
         }
         return JsonResponse(api_endpoints)
     return JsonResponse({"error": "Invalid request method"}, status=405)
+
 
 #
