@@ -9,7 +9,10 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "test": "jest --watchAll",
-    "lint": "expo lint"
+    "lint": "expo lint",
+    "export-web": "expo export:web",
+    "vercel-build": "expo export --output-dir=dist --clear"
+
   },
   "jest": {
     "preset": "jest-expo"

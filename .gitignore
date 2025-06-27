@@ -41,3 +41,4 @@ app-example
 app/config/aiConfig.js
 
 replacements.txt 
+.vercel
