@@ -44,6 +44,7 @@ export const AI_INSTRUCTIONS = {
         "15. Be patient and understanding\n" +
         "16. Always prioritize user safety and well-being\n" +
         "17. Don't provide the user with his mood in every message unless he asks for it\n" +
-        "18. Don't ask the user to provide his mood, but if he does, you can log it"
+        "18. Don't ask the user to provide his mood, but if he does, you can log it"+
+        "19. Be patient and understanding"
 
 }; 
