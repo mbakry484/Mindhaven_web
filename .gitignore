@@ -31,6 +31,7 @@ yarn-error.*
 
 # local env files
 .env*.local
+.env.local.backup
 
 # typescript
 *.tsbuildinfo
@@ -43,3 +44,4 @@ app/config/aiConfig.js
 Mindhaven_web/utils/config/apiConfig.js
 replacements.txt 
 .vercel
+.env.local.backup
