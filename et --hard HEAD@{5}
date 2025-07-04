@@ -1,0 +1,8 @@
+[33m0d17149[m[33m ([m[1;36mHEAD[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{0}: rebase (start): checkout 8196b7c~1
+[33m908e105[m[33m ([m[1;32mlast-edits[m[33m)[m HEAD@{1}: commit: everything is working but the bot mood logging needs some work
+[33m8ab4691[m HEAD@{2}: commit: Remove hardcoded API key and use environment variable
+[33m8888301[m HEAD@{3}: commit: Remove utils/config/apiConfig.js from tracking and update .gitignore
+[33m8196b7c[m[33m ([m[1;32mmain[m[33m)[m HEAD@{4}: checkout: moving from main to last-edits
+[33m8196b7c[m[33m ([m[1;32mmain[m[33m)[m HEAD@{5}: commit: everything is working but the bot mood logging needs some work
+[33m0d17149[m[33m ([m[1;36mHEAD[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{6}: reset: moving to origin/main
+[33m0d17149[m[33m ([m[1;36mHEAD[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{7}: clone: from https://github.com/mbakry484/Mindhaven_web

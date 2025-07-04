@@ -1,0 +1,32 @@
+const express = require('express');
+const https = require('https');
+const fs = require('fs');
+const path = require('path');
+
+const app = express();
+const PORT = 8443;
+
+// SSL certificate paths
+const privateKey = fs.readFileSync(path.join(__dirname, 'ssl/private-key.pem'), 'utf8');
+const certificate = fs.readFileSync(path.join(__dirname, 'ssl/certificate.pem'), 'utf8');
+
+const credentials = {
+  key: privateKey,
+  cert: certificate
+};
+
+// Serve static files from the dist directory
+app.use(express.static(path.join(__dirname, 'dist')));
+
+// Handle React Router routes
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+});
+
+// Create HTTPS server
+const httpsServer = https.createServer(credentials, app);
+
+httpsServer.listen(PORT, '0.0.0.0', () => {
+  console.log(`HTTPS Server running on https://localhost:${PORT}`);
+  console.log(`External access: https://108.181.218.68:${PORT}`);
+});

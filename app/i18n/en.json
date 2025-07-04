@@ -1,0 +1,226 @@
+{
+  "profile": {
+    "edit": "Edit",
+    "logout": "Logout",
+    "logoutConfirmTitle": "Confirm Logout",
+    "logoutConfirmMessage": "Are you sure you want to logout?",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "navigation": {
+    "home": "Home",
+    "chat": "Chat",
+    "resources": "Resources",
+    "exercises": "Exercises",
+    "blog": "Blog",
+    "journal": "Journal",
+    "mood": "Mood",
+    "profile": "Profile"
+  },
+  "home": {
+    "welcome": "Welcome back, {{name}}!",
+    "friend": "Friend",
+    "subtitle": "Your mental wellness journey continues",
+    "wellness_quote": "Wellness Quote",
+    "refresh": "Refresh",
+    "could_not_fetch_quote": "Could not fetch quote.",
+    "unknown": "Unknown",
+    "days_streak": "Days Streak",
+    "journal_entries": "Journal Entries",
+    "mood_entries": "Mood Entries",
+    "your_journey": "Your Journey",
+    "your_journal": "Your Journal",
+    "your_moods": "Your Moods",
+    "go_to_journal": "Go to Journal",
+    "track_your_mood": "Track Your Mood",
+    "how_are_you_feeling": "How are you feeling today?",
+    "track_mood_subtitle": "Track your mood to understand your emotional patterns",
+    "need_to_talk": "Need to talk?",
+    "chat_privately": "Chat privately with our AI for support, advice, or just to vent.",
+    "start_your_journey": "Start your journey today!",
+    "just_started": "You've just started your journey! Keep going!",
+    "streak_keep_up": "You're on a {{streak}}-day streak! Keep up the great work!",
+    "amazing_streak": "Amazing! You've maintained a {{streak}}-day streak!",
+    "incredible_dedication": "Incredible dedication! You've been using MindHaven for {{streak}} days!",
+    "start_journaling": "Start your journaling journey today!",
+    "first_journal": "You've written your first journal entry! Keep going!",
+    "journal_entries_count": "You've written {{count}} journal entries. Every entry is a step forward!",
+    "great_progress_journal": "Great progress! You've written {{count}} journal entries.",
+    "amazing_dedication_journal": "Amazing dedication! You've written {{count}} journal entries.",
+    "start_tracking_moods": "Start tracking your moods today!",
+    "first_mood": "You've logged your first mood! Keep going!",
+    "moods_logged": "You've logged {{count}} moods. Every entry helps understand your emotional patterns!",
+    "great_progress_mood": "Great progress! You've logged {{count}} moods.",
+    "amazing_dedication_mood": "Amazing dedication! You've logged {{count}} moods."
+  },
+  "chatbot": {
+    "mindy": "Mindy",
+    "go_back": "Go back",
+    "empty_title": "How can I help you today?",
+    "empty_subtitle": "Ask me anything about mental health, stress management, or meditation techniques.",
+    "thinking": "Thinking...",
+    "input_placeholder": "Type your message..."
+  },
+  "blog": {
+    "share_thoughts": "Share your thoughts with the community...",
+    "create_post": "Create Post",
+    "cancel": "Cancel",
+    "add_title": "Add a title...",
+    "whats_on_mind": "What's on your mind?",
+    "add_photo": "Add Photo",
+    "post": "Post",
+    "title_required": "Please enter both a title and content for your post",
+    "user_not_logged_in": "User not logged in",
+    "user_id_required": "User ID is required",
+    "post_published": "Post published successfully",
+    "failed_create_post": "Failed to create post. Please try again.",
+    "must_login_like": "You must be logged in to like posts",
+    "failed_toggle_like": "Failed to toggle like",
+    "failed_fetch_posts": "Failed to fetch posts",
+    "failed_fetch_comments": "Failed to fetch comments",
+    "comment_empty": "Comment cannot be empty",
+    "must_login_comment": "You must be logged in to comment",
+    "comment_added": "Comment added successfully",
+    "failed_submit_comment": "Failed to submit comment",
+    "failed_toggle_comment_like": "Failed to toggle comment like",
+    "share_coming_soon": "Sharing feature coming soon!",
+    "failed_delete_post": "Failed to delete post",
+    "loading_posts": "Loading posts...",
+    "no_posts_yet": "No posts yet",
+    "be_first_share": "Be the first to share your thoughts with the community",
+    "anonymous": "Anonymous",
+    "unknown_user": "Unknown User",
+    "recent": "Recent",
+    "like": "Like",
+    "comment": "Comment",
+    "comments": "Comments",
+    "hide": "Hide",
+    "write_comment": "Write a comment...",
+    "no_comments_yet": "No comments yet. Be the first to comment!",
+    "scroll_more_comments": "Scroll to see more comments",
+    "delete": "Delete",
+    "permission_needed": "Permission needed",
+    "grant_photo_permission": "Please grant permission to access your photos",
+    "error_picking_image": "Failed to pick image",
+    "likes": "likes",
+    "like_singular": "like",
+    "comments_plural": "comments",
+    "comment_singular": "comment"
+  },
+  "journal": {
+    "journal": "Journal",
+    "title_optional": "Title (optional)",
+    "write_thoughts": "Write your thoughts...",
+    "save_entry": "Save Entry",
+    "edit_entry": "Edit Entry",
+    "update_entry": "Update Entry",
+    "untitled_entry": "Untitled Entry",
+    "please_enter_content": "Please enter some content",
+    "entry_saved": "Journal entry saved successfully!",
+    "entry_updated": "Journal entry updated successfully!",
+    "entry_deleted": "Journal entry deleted successfully!",
+    "failed_load_entries": "Failed to load journal entries",
+    "failed_save_entry": "Failed to save journal entry",
+    "failed_update_entry": "Failed to update journal entry",
+    "failed_delete_entry": "Failed to delete journal entry",
+    "unexpected_format": "Unexpected response format for journal entries",
+    "no_entries": "No journal entries yet",
+    "start_journaling_message": "Start your journaling journey by writing your first entry"
+  },
+  "mood": {
+    "mood_tracker": "Mood Tracker",
+    "new_entry": "New Entry",
+    "history": "History",
+    "how_are_you_feeling": "How are you feeling today?",
+    "how_intense_mood": "How intense is your mood?",
+    "add_note_optional": "Add a note (optional)",
+    "save_mood": "Save Mood",
+    "mood_history": "Your Mood History",
+    "loading_history": "Loading your mood history...",
+    "no_mood_entries": "No mood entries yet",
+    "start_tracking_message": "Start tracking your mood by adding a new entry",
+    "no_notes_added": "No notes added",
+    "mood_saved": "Your mood has been recorded and saved!",
+    "failed_save_mood": "Failed to save mood",
+    "failed_fetch_history": "Failed to fetch mood history",
+    "user_not_logged_in": "User not logged in",
+    "missing_mood": "Please select a mood before saving.",
+    "note_placeholder": "How was your day? What triggered this mood?",
+    "mild": "Mild",
+    "intense": "Intense",
+    "mood_labels": {
+      "happy": "Happy",
+      "calm": "Calm",
+      "neutral": "Neutral",
+      "sad": "Sad",
+      "angry": "Angry",
+      "anxious": "Anxious",
+      "stressed": "Stressed",
+      "tired": "Tired"
+    }
+  },
+  "exercises": {
+    "mental_health_exercises": "Mental Health Exercises",
+    "welcome_message": "Choose from various exercises designed to improve your mental well-being",
+    "available_exercises": "Available Exercises",
+    "start": "Start",
+    "user_added_description": "User-added activities and exercises.",
+    "exercise_types": {
+      "breathing_exercises": "Breathing Exercises",
+      "meditation": "Meditation",
+      "grounding_techniques": "Grounding Techniques",
+      "cognitive_exercises": "Cognitive Exercises"
+    },
+    "exercises": {
+      "box_breathing": {
+        "title": "Box Breathing",
+        "description": "Inhale for 4 counts, hold for 4, exhale for 4, hold for 4. Repeat."
+      },
+      "478_breathing": {
+        "title": "4-7-8 Breathing",
+        "description": "Inhale for 4 counts, hold for 7, exhale for 8. Repeat to reduce anxiety."
+      },
+      "diaphragmatic_breathing": {
+        "title": "Diaphragmatic Breathing",
+        "description": "Deep belly breathing to activate the parasympathetic nervous system."
+      },
+      "body_scan_meditation": {
+        "title": "Body Scan Meditation",
+        "description": "Progressive relaxation by focusing attention throughout the body."
+      },
+      "loving_kindness_meditation": {
+        "title": "Loving-Kindness Meditation",
+        "description": "Develop feelings of goodwill, kindness and warmth towards others."
+      },
+      "mindfulness_meditation": {
+        "title": "Mindfulness Meditation",
+        "description": "Focus on the present moment, observing thoughts without judgment."
+      },
+      "54321_technique": {
+        "title": "5-4-3-2-1 Technique",
+        "description": "Name 5 things you see, 4 you feel, 3 you hear, 2 you smell, and 1 you taste."
+      },
+      "progressive_muscle_relaxation": {
+        "title": "Progressive Muscle Relaxation",
+        "description": "Tense and then release each muscle group from toes to head."
+      },
+      "cold_water_technique": {
+        "title": "Cold Water Technique",
+        "description": "Splash cold water on your face to activate the parasympathetic nervous system."
+      },
+      "thought_record": {
+        "title": "Thought Record",
+        "description": "Identify and challenge negative thoughts with evidence."
+      },
+      "positive_affirmations": {
+        "title": "Positive Affirmations",
+        "description": "Practice repeating positive statements to build self-confidence."
+      },
+      "gratitude_journaling": {
+        "title": "Gratitude Journaling",
+        "description": "Write down things you're grateful for to shift focus to the positive."
+      }
+    },
+    "my_exercises": "My Exercises"
+  }
+}

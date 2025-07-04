@@ -1,0 +1,10 @@
+[33m908e105[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mlast-edits[m[33m)[m everything is working but the bot mood logging needs some work
+[33m8ab4691[m Remove hardcoded API key and use environment variable
+[33m8888301[m Remove utils/config/apiConfig.js from tracking and update .gitignore
+[33m8196b7c[m[33m ([m[1;32mmain[m[33m)[m everything is working but the bot mood logging needs some work
+[33m0d17149[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m removed vercel
+[33m020a85a[m removed vercel
+[33me2ccfb9[m Configure Vercel deployment for web
+[33madbc270[m Ready to deploy
+[33m5d32602[m Streaks mecahanism updated
+[33m60fec68[m Bot adds moods and exercises in all languages - scroll down arrow in the chat - supprtive mood message

@@ -1,0 +1,226 @@
+{
+  "profile": {
+    "edit": "تعديل",
+    "logout": "تسجيل خروج",
+    "logoutConfirmTitle": "تأكيد تسجيل الخروج",
+    "logoutConfirmMessage": "هل أنت متأكد أنك تريد تسجيل الخروج؟",
+    "yes": "نعم",
+    "no": "لا"
+  },
+  "navigation": {
+    "home": "الرئيسية",
+    "chat": "المحادثة",
+    "resources": "الموارد",
+    "exercises": "التمارين",
+    "blog": "المدونة",
+    "journal": "اليوميات",
+    "mood": "المزاج",
+    "profile": "الملف الشخصي"
+  },
+  "home": {
+    "welcome": "مرحبًا بعودتك، {{name}}!",
+    "friend": "صديق",
+    "subtitle": "رحلتك نحو العافية النفسية مستمرة",
+    "wellness_quote": "اقتباسات",
+    "refresh": "تحديث",
+    "could_not_fetch_quote": "تعذر جلب الاقتباس.",
+    "unknown": "غير معروف",
+    "days_streak": "أيام متتالية",
+    "journal_entries": "مداخلات اليوميات",
+    "mood_entries": "مداخلات المزاج",
+    "your_journey": "رحلتك",
+    "your_journal": "يومياتك",
+    "your_moods": "مزاجك",
+    "go_to_journal": "اذهب إلى اليوميات",
+    "track_your_mood": "تتبع مزاجك",
+    "how_are_you_feeling": "كيف تشعر اليوم؟",
+    "track_mood_subtitle": "تتبع مزاجك لفهم أنماطك العاطفية",
+    "need_to_talk": "تحتاج للتحدث؟",
+    "chat_privately": "تحدث مع الذكاء الاصطناعي للدعم أو النصيحة أو الفضفضة.",
+    "start_your_journey": "ابدأ رحلتك اليوم!",
+    "just_started": "لقد بدأت رحلتك للتو! استمر!",
+    "streak_keep_up": "لديك سلسلة من {{streak}} يومًا! واصل العمل الرائع!",
+    "amazing_streak": "رائع! لقد حافظت على سلسلة من {{streak}} يومًا!",
+    "incredible_dedication": "تفانٍ مذهل! لقد استخدمت MindHaven لمدة {{streak}} يومًا!",
+    "start_journaling": "ابدأ رحلتك في كتابة اليوميات اليوم!",
+    "first_journal": "لقد كتبت أول مدخلة في يومياتك! استمر!",
+    "journal_entries_count": "لقد كتبت {{count}} مدخلة في اليوميات. كل مدخلة خطوة للأمام!",
+    "great_progress_journal": "تقدم رائع! لقد كتبت {{count}} مدخلة في اليوميات.",
+    "amazing_dedication_journal": "تفانٍ مذهل! لقد كتبت {{count}} مدخلة في اليوميات.",
+    "start_tracking_moods": "ابدأ تتبع مزاجك اليوم!",
+    "first_mood": "لقد سجلت أول مزاج لك! استمر!",
+    "moods_logged": "لقد سجلت {{count}} مزاجًا. كل مدخلة تساعدك على فهم أنماطك العاطفية!",
+    "great_progress_mood": "تقدم رائع! لقد سجلت {{count}} مزاجًا.",
+    "amazing_dedication_mood": "تفانٍ مذهل! لقد سجلت {{count}} مزاجًا."
+  },
+  "chatbot": {
+    "mindy": "مايندي",
+    "go_back": "عودة",
+    "empty_title": "كيف يمكنني مساعدتك اليوم؟",
+    "empty_subtitle": "اسألني عن أي شيء يخص الصحة النفسية أو إدارة التوتر أو تقنيات التأمل.",
+    "thinking": "يفكر...",
+    "input_placeholder": "اكتب رسالتك..."
+  },
+  "blog": {
+    "share_thoughts": "شارك أفكارك مع المجتمع...",
+    "create_post": "إنشاء منشور",
+    "cancel": "إلغاء",
+    "add_title": "أضف عنوانًا...",
+    "whats_on_mind": "ماذا يدور في ذهنك؟",
+    "add_photo": "إضافة صورة",
+    "post": "نشر",
+    "title_required": "يرجى إدخال عنوان ومحتوى لمنشورك",
+    "user_not_logged_in": "المستخدم غير مسجل الدخول",
+    "user_id_required": "معرف المستخدم مطلوب",
+    "post_published": "تم نشر المنشور بنجاح",
+    "failed_create_post": "فشل في إنشاء المنشور. يرجى المحاولة مرة أخرى.",
+    "must_login_like": "يجب أن تكون مسجل الدخول للإعجاب بالمنشورات",
+    "failed_toggle_like": "فشل في تبديل الإعجاب",
+    "failed_fetch_posts": "فشل في جلب المنشورات",
+    "failed_fetch_comments": "فشل في جلب التعليقات",
+    "comment_empty": "لا يمكن أن يكون التعليق فارغًا",
+    "must_login_comment": "يجب أن تكون مسجل الدخول للتعليق",
+    "comment_added": "تم إضافة التعليق بنجاح",
+    "failed_submit_comment": "فشل في إرسال التعليق",
+    "failed_toggle_comment_like": "فشل في تبديل إعجاب التعليق",
+    "share_coming_soon": "ميزة المشاركة قريبًا!",
+    "failed_delete_post": "فشل في حذف المنشور",
+    "loading_posts": "جاري تحميل المنشورات...",
+    "no_posts_yet": "لا توجد منشورات بعد",
+    "be_first_share": "كن أول من يشارك أفكاره مع المجتمع",
+    "anonymous": "مجهول",
+    "unknown_user": "مستخدم غير معروف",
+    "recent": "حديث",
+    "like": "إعجاب",
+    "comment": "تعليق",
+    "comments": "التعليقات",
+    "hide": "إخفاء",
+    "write_comment": "اكتب تعليقًا...",
+    "no_comments_yet": "لا توجد تعليقات بعد. كن أول من يعلق!",
+    "scroll_more_comments": "مرر لرؤية المزيد من التعليقات",
+    "delete": "حذف",
+    "permission_needed": "الإذن مطلوب",
+    "grant_photo_permission": "يرجى منح الإذن للوصول إلى صورك",
+    "error_picking_image": "فشل في اختيار الصورة",
+    "likes": "إعجابات",
+    "like_singular": "إعجاب",
+    "comments_plural": "تعليقات",
+    "comment_singular": "تعليق"
+  },
+  "journal": {
+    "journal": "اليوميات",
+    "title_optional": "العنوان (اختياري)",
+    "write_thoughts": "اكتب أفكارك...",
+    "save_entry": "حفظ المدخلة",
+    "edit_entry": "تعديل المدخلة",
+    "update_entry": "تحديث المدخلة",
+    "untitled_entry": "مدخلة بدون عنوان",
+    "please_enter_content": "يرجى إدخال بعض المحتوى",
+    "entry_saved": "تم حفظ مدخلة اليوميات بنجاح!",
+    "entry_updated": "تم تحديث مدخلة اليوميات بنجاح!",
+    "entry_deleted": "تم حذف مدخلة اليوميات بنجاح!",
+    "failed_load_entries": "فشل في تحميل مداخلات اليوميات",
+    "failed_save_entry": "فشل في حفظ مدخلة اليوميات",
+    "failed_update_entry": "فشل في تحديث مدخلة اليوميات",
+    "failed_delete_entry": "فشل في حذف مدخلة اليوميات",
+    "unexpected_format": "تنسيق استجابة غير متوقع لمداخلات اليوميات",
+    "no_entries": "لا توجد مداخلات يوميات بعد",
+    "start_journaling_message": "ابدأ رحلتك في كتابة اليوميات بكتابة أول مدخلة لك"
+  },
+  "mood": {
+    "mood_tracker": "متتبع المزاج",
+    "new_entry": "مدخلة جديدة",
+    "history": "السجل",
+    "how_are_you_feeling": "كيف تشعر اليوم؟",
+    "how_intense_mood": "ما مدى شدة مزاجك؟",
+    "add_note_optional": "أضف ملاحظة (اختياري)",
+    "save_mood": "حفظ المزاج",
+    "mood_history": "سجل مزاجك",
+    "loading_history": "جاري تحميل سجل مزاجك...",
+    "no_mood_entries": "لا توجد مداخلات مزاج بعد",
+    "start_tracking_message": "ابدأ تتبع مزاجك بإضافة مدخلة جديدة",
+    "no_notes_added": "لم يتم إضافة ملاحظات",
+    "mood_saved": "تم تسجيل وحفظ مزاجك!",
+    "failed_save_mood": "فشل في حفظ المزاج",
+    "failed_fetch_history": "فشل في جلب سجل المزاج",
+    "user_not_logged_in": "المستخدم غير مسجل الدخول",
+    "missing_mood": "يرجى اختيار مزاج قبل الحفظ.",
+    "note_placeholder": "كيف كان يومك؟ ما الذي أثار هذا المزاج؟",
+    "mild": "خفيف",
+    "intense": "شديد",
+    "mood_labels": {
+      "happy": "سعيد",
+      "calm": "هادئ",
+      "neutral": "محايد",
+      "sad": "حزين",
+      "angry": "غاضب",
+      "anxious": "قلق",
+      "stressed": "متوتر",
+      "tired": "متعب"
+    }
+  },
+  "exercises": {
+    "mental_health_exercises": "تمارين الصحة النفسية",
+    "welcome_message": "اختر من بين تمارين متنوعة مصممة لتحسين صحتك النفسية",
+    "available_exercises": "التمارين المتاحة",
+    "start": "ابدأ",
+    "user_added_description": "الأنشطة والتمارين المضافة من قبل المستخدم.",
+    "exercise_types": {
+      "breathing_exercises": "تمارين التنفس",
+      "meditation": "التأمل",
+      "grounding_techniques": "تقنيات التأريض",
+      "cognitive_exercises": "التمارين المعرفية"
+    },
+    "exercises": {
+      "box_breathing": {
+        "title": "التنفس المربع",
+        "description": "استنشق لمدة 4 عدات، احبس لمدة 4، ازفر لمدة 4، احبس لمدة 4. كرر."
+      },
+      "478_breathing": {
+        "title": "التنفس 4-7-8",
+        "description": "استنشق لمدة 4 عدات، احبس لمدة 7، ازفر لمدة 8. كرر لتقليل القلق."
+      },
+      "diaphragmatic_breathing": {
+        "title": "التنفس الحجابي",
+        "description": "التنفس العميق من البطن لتفعيل الجهاز العصبي الودي."
+      },
+      "body_scan_meditation": {
+        "title": "تأمل مسح الجسم",
+        "description": "الاسترخاء التدريجي من خلال التركيز على الانتباه في جميع أنحاء الجسم."
+      },
+      "loving_kindness_meditation": {
+        "title": "تأمل المحبة واللطف",
+        "description": "تطوير مشاعر الخير واللطف والدفء تجاه الآخرين."
+      },
+      "mindfulness_meditation": {
+        "title": "تأمل اليقظة الذهنية",
+        "description": "التركيز على اللحظة الحالية، مراقبة الأفكار دون حكم."
+      },
+      "54321_technique": {
+        "title": "تقنية 5-4-3-2-1",
+        "description": "اذكر 5 أشياء تراها، 4 تشعر بها، 3 تسمعها، 2 تشمها، و1 تتذوقها."
+      },
+      "progressive_muscle_relaxation": {
+        "title": "الاسترخاء العضلي التدريجي",
+        "description": "شد ثم أرخِ كل مجموعة عضلية من أصابع القدم إلى الرأس."
+      },
+      "cold_water_technique": {
+        "title": "تقنية الماء البارد",
+        "description": "رش الماء البارد على وجهك لتفعيل الجهاز العصبي الودي."
+      },
+      "thought_record": {
+        "title": "سجل الأفكار",
+        "description": "حدد وتحدى الأفكار السلبية بالأدلة."
+      },
+      "positive_affirmations": {
+        "title": "التأكيدات الإيجابية",
+        "description": "مارس تكرار العبارات الإيجابية لبناء الثقة بالنفس."
+      },
+      "gratitude_journaling": {
+        "title": "يوميات الامتنان",
+        "description": "اكتب الأشياء التي تشعر بالامتنان لها لتحويل التركيز إلى الإيجابي."
+      }
+    },
+    "my_exercises": "تماريني"
+  }
+}

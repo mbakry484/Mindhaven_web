@@ -1,0 +1,226 @@
+{
+  "profile": {
+    "edit": "Bearbeiten",
+    "logout": "Abmelden",
+    "logoutConfirmTitle": "Abmeldung bestätigen",
+    "logoutConfirmMessage": "Sind Sie sicher, dass Sie sich abmelden möchten?",
+    "yes": "Ja",
+    "no": "Nein"
+  },
+  "navigation": {
+    "home": "Startseite",
+    "chat": "Chat",
+    "resources": "Ressourcen",
+    "exercises": "Übungen",
+    "blog": "Blog",
+    "journal": "Tagebuch",
+    "mood": "Stimmung",
+    "profile": "Profil"
+  },
+  "home": {
+    "welcome": "Willkommen zurück, {{name}}!",
+    "friend": "Freund",
+    "subtitle": "Deine mentale Wellness-Reise geht weiter",
+    "wellness_quote": "Wellness-Zitat",
+    "refresh": "Aktualisieren",
+    "could_not_fetch_quote": "Zitat konnte nicht abgerufen werden.",
+    "unknown": "Unbekannt",
+    "days_streak": "Tage in Folge",
+    "journal_entries": "Tagebucheinträge",
+    "mood_entries": "Stimmungseinträge",
+    "your_journey": "Deine Reise",
+    "your_journal": "Dein Tagebuch",
+    "your_moods": "Deine Stimmungen",
+    "go_to_journal": "Zum Tagebuch",
+    "track_your_mood": "Verfolge deine Stimmung",
+    "how_are_you_feeling": "Wie fühlst du dich heute?",
+    "track_mood_subtitle": "Verfolge deine Stimmung, um deine emotionalen Muster zu verstehen",
+    "need_to_talk": "Möchtest du reden?",
+    "chat_privately": "Chatte privat mit unserer KI für Unterstützung, Rat oder einfach zum Auslassen.",
+    "start_your_journey": "Starte deine Reise heute!",
+    "just_started": "Du hast gerade erst mit deiner Reise begonnen! Mach weiter so!",
+    "streak_keep_up": "Du bist auf einer {{streak}}-Tage-Serie! Mach weiter so!",
+    "amazing_streak": "Fantastisch! Du hast eine {{streak}}-Tage-Serie aufrechterhalten!",
+    "incredible_dedication": "Unglaubliche Hingabe! Du nutzt MindHaven seit {{streak}} Tagen!",
+    "start_journaling": "Starte deine Tagebuch-Reise heute!",
+    "first_journal": "Du hast deinen ersten Tagebucheintrag geschrieben! Mach weiter so!",
+    "journal_entries_count": "Du hast {{count}} Tagebucheinträge geschrieben. Jeder Eintrag ist ein Schritt nach vorne!",
+    "great_progress_journal": "Großer Fortschritt! Du hast {{count}} Tagebucheinträge geschrieben.",
+    "amazing_dedication_journal": "Unglaubliche Hingabe! Du hast {{count}} Tagebucheinträge geschrieben.",
+    "start_tracking_moods": "Beginne heute mit der Stimmungsverfolgung!",
+    "first_mood": "Du hast deine erste Stimmung protokolliert! Mach weiter so!",
+    "moods_logged": "Du hast {{count}} Stimmungen protokolliert. Jeder Eintrag hilft, deine emotionalen Muster zu verstehen!",
+    "great_progress_mood": "Großer Fortschritt! Du hast {{count}} Stimmungen protokolliert.",
+    "amazing_dedication_mood": "Unglaubliche Hingabe! Du hast {{count}} Stimmungen protokolliert."
+  },
+  "chatbot": {
+    "mindy": "Mindy",
+    "go_back": "Zurück",
+    "empty_title": "Wie kann ich dir heute helfen?",
+    "empty_subtitle": "Frag mich alles über psychische Gesundheit, Stressmanagement oder Meditationstechniken.",
+    "thinking": "Denke...",
+    "input_placeholder": "Tippe deine Nachricht..."
+  },
+  "blog": {
+    "share_thoughts": "Teile deine Gedanken mit der Community...",
+    "create_post": "Beitrag erstellen",
+    "cancel": "Abbrechen",
+    "add_title": "Titel hinzufügen...",
+    "whats_on_mind": "Was beschäftigt dich?",
+    "add_photo": "Foto hinzufügen",
+    "post": "Veröffentlichen",
+    "title_required": "Bitte gib sowohl einen Titel als auch Inhalt für deinen Beitrag ein",
+    "user_not_logged_in": "Benutzer nicht angemeldet",
+    "user_id_required": "Benutzer-ID erforderlich",
+    "post_published": "Beitrag erfolgreich veröffentlicht",
+    "failed_create_post": "Beitrag konnte nicht erstellt werden. Bitte versuche es erneut.",
+    "must_login_like": "Du musst angemeldet sein, um Beiträge zu liken",
+    "failed_toggle_like": "Like konnte nicht umgeschaltet werden",
+    "failed_fetch_posts": "Beiträge konnten nicht abgerufen werden",
+    "failed_fetch_comments": "Kommentare konnten nicht abgerufen werden",
+    "comment_empty": "Kommentar darf nicht leer sein",
+    "must_login_comment": "Du musst angemeldet sein, um zu kommentieren",
+    "comment_added": "Kommentar erfolgreich hinzugefügt",
+    "failed_submit_comment": "Kommentar konnte nicht übermittelt werden",
+    "failed_toggle_comment_like": "Kommentar-Like konnte nicht umgeschaltet werden",
+    "share_coming_soon": "Teilen-Funktion kommt bald!",
+    "failed_delete_post": "Beitrag konnte nicht gelöscht werden",
+    "loading_posts": "Beiträge werden geladen...",
+    "no_posts_yet": "Noch keine Beiträge",
+    "be_first_share": "Sei der Erste, der seine Gedanken mit der Community teilt",
+    "anonymous": "Anonym",
+    "unknown_user": "Unbekannter Benutzer",
+    "recent": "Aktuell",
+    "like": "Gefällt mir",
+    "comment": "Kommentar",
+    "comments": "Kommentare",
+    "hide": "Verstecken",
+    "write_comment": "Schreibe einen Kommentar...",
+    "no_comments_yet": "Noch keine Kommentare. Sei der Erste, der kommentiert!",
+    "scroll_more_comments": "Scrolle, um mehr Kommentare zu sehen",
+    "delete": "Löschen",
+    "permission_needed": "Berechtigung erforderlich",
+    "grant_photo_permission": "Bitte gewähre die Berechtigung, auf deine Fotos zuzugreifen",
+    "error_picking_image": "Bild konnte nicht ausgewählt werden",
+    "likes": "Gefällt mir",
+    "like_singular": "Gefällt mir",
+    "comments_plural": "Kommentare",
+    "comment_singular": "Kommentar"
+  },
+  "journal": {
+    "journal": "Tagebuch",
+    "title_optional": "Titel (optional)",
+    "write_thoughts": "Schreibe deine Gedanken...",
+    "save_entry": "Eintrag speichern",
+    "edit_entry": "Eintrag bearbeiten",
+    "update_entry": "Eintrag aktualisieren",
+    "untitled_entry": "Eintrag ohne Titel",
+    "please_enter_content": "Bitte gib etwas Inhalt ein",
+    "entry_saved": "Tagebucheintrag erfolgreich gespeichert!",
+    "entry_updated": "Tagebucheintrag erfolgreich aktualisiert!",
+    "entry_deleted": "Tagebucheintrag erfolgreich gelöscht!",
+    "failed_load_entries": "Tagebucheinträge konnten nicht geladen werden",
+    "failed_save_entry": "Tagebucheintrag konnte nicht gespeichert werden",
+    "failed_update_entry": "Tagebucheintrag konnte nicht aktualisiert werden",
+    "failed_delete_entry": "Tagebucheintrag konnte nicht gelöscht werden",
+    "unexpected_format": "Unerwartetes Antwortformat für Tagebucheinträge",
+    "no_entries": "Noch keine Tagebucheinträge",
+    "start_journaling_message": "Starte deine Tagebuch-Reise, indem du deinen ersten Eintrag schreibst"
+  },
+  "mood": {
+    "mood_tracker": "Stimmungsverfolgung",
+    "new_entry": "Neuer Eintrag",
+    "history": "Verlauf",
+    "how_are_you_feeling": "Wie fühlst du dich heute?",
+    "how_intense_mood": "Wie intensiv ist deine Stimmung?",
+    "add_note_optional": "Notiz hinzufügen (optional)",
+    "save_mood": "Stimmung speichern",
+    "mood_history": "Dein Stimmungsverlauf",
+    "loading_history": "Stimmungsverlauf wird geladen...",
+    "no_mood_entries": "Noch keine Stimmungseinträge",
+    "start_tracking_message": "Beginne mit der Stimmungsverfolgung, indem du einen neuen Eintrag hinzufügst",
+    "no_notes_added": "Keine Notizen hinzugefügt",
+    "mood_saved": "Deine Stimmung wurde protokolliert und gespeichert!",
+    "failed_save_mood": "Stimmung konnte nicht gespeichert werden",
+    "failed_fetch_history": "Stimmungsverlauf konnte nicht abgerufen werden",
+    "user_not_logged_in": "Benutzer nicht angemeldet",
+    "missing_mood": "Bitte wähle eine Stimmung vor dem Speichern aus.",
+    "note_placeholder": "Wie war dein Tag? Was hat diese Stimmung ausgelöst?",
+    "mild": "Mild",
+    "intense": "Intensiv",
+    "mood_labels": {
+      "happy": "Glücklich",
+      "calm": "Ruhig",
+      "neutral": "Neutral",
+      "sad": "Traurig",
+      "angry": "Wütend",
+      "anxious": "Ängstlich",
+      "stressed": "Gestresst",
+      "tired": "Müde"
+    }
+  },
+  "exercises": {
+    "mental_health_exercises": "Psychische Gesundheitsübungen",
+    "welcome_message": "Wähle aus verschiedenen Übungen, die entwickelt wurden, um dein psychisches Wohlbefinden zu verbessern",
+    "available_exercises": "Verfügbare Übungen",
+    "start": "Starten",
+    "user_added_description": "Vom Benutzer hinzugefügte Aktivitäten und Übungen.",
+    "exercise_types": {
+      "breathing_exercises": "Atemübungen",
+      "meditation": "Meditation",
+      "grounding_techniques": "Grounding-Techniken",
+      "cognitive_exercises": "Kognitive Übungen"
+    },
+    "exercises": {
+      "box_breathing": {
+        "title": "Box-Atmung",
+        "description": "4 Zählungen einatmen, 4 halten, 4 ausatmen, 4 halten. Wiederholen."
+      },
+      "478_breathing": {
+        "title": "4-7-8 Atmung",
+        "description": "4 Zählungen einatmen, 7 halten, 8 ausatmen. Wiederholen, um Angst zu reduzieren."
+      },
+      "diaphragmatic_breathing": {
+        "title": "Zwerchfellatmung",
+        "description": "Tiefe Bauchatmung, um das parasympathische Nervensystem zu aktivieren."
+      },
+      "body_scan_meditation": {
+        "title": "Body-Scan-Meditation",
+        "description": "Progressive Entspannung durch Fokussierung der Aufmerksamkeit im ganzen Körper."
+      },
+      "loving_kindness_meditation": {
+        "title": "Loving-Kindness-Meditation",
+        "description": "Entwickle Gefühle des Wohlwollens, der Güte und Wärme gegenüber anderen."
+      },
+      "mindfulness_meditation": {
+        "title": "Achtsamkeitsmeditation",
+        "description": "Fokussiere dich auf den gegenwärtigen Moment, beobachte Gedanken ohne Urteil."
+      },
+      "54321_technique": {
+        "title": "5-4-3-2-1 Technik",
+        "description": "Nenne 5 Dinge, die du siehst, 4 die du fühlst, 3 die du hörst, 2 die du riechst und 1 die du schmeckst."
+      },
+      "progressive_muscle_relaxation": {
+        "title": "Progressive Muskelentspannung",
+        "description": "Spanne und entspanne dann jede Muskelgruppe von den Zehen bis zum Kopf."
+      },
+      "cold_water_technique": {
+        "title": "Kaltwasser-Technik",
+        "description": "Spritze kaltes Wasser ins Gesicht, um das parasympathische Nervensystem zu aktivieren."
+      },
+      "thought_record": {
+        "title": "Gedankenprotokoll",
+        "description": "Identifiziere und hinterfrage negative Gedanken mit Beweisen."
+      },
+      "positive_affirmations": {
+        "title": "Positive Affirmationen",
+        "description": "Übe das Wiederholen positiver Aussagen, um das Selbstvertrauen aufzubauen."
+      },
+      "gratitude_journaling": {
+        "title": "Dankbarkeits-Tagebuch",
+        "description": "Schreibe Dinge auf, für die du dankbar bist, um den Fokus auf das Positive zu lenken."
+      }
+    },
+    "my_exercises": "Meine Übungen"
+  }
+}
