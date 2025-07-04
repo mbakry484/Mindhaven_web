@@ -21,7 +21,7 @@ const Home = () => {
   const handleProfilePress = () => {
     router.push("/profile");
   };
-
+//hi
   const handleMoodTrackerPress = () => {
     router.push("/mood-tracker");
   };
